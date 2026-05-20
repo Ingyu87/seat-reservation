@@ -7,7 +7,7 @@ import crypto from "node:crypto";
 initializeApp();
 
 const db = getFirestore();
-const callableOptions = { region: "asia-northeast3", cors: true } as const;
+const callableOptions = { region: "asia-northeast3", cors: true, invoker: "public" } as const;
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 

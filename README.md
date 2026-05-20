@@ -55,9 +55,9 @@ cd functions && npm install && npm run build && cd ..
 npx firebase-tools deploy --only functions
 ```
 
-## 좌석 seed
+## 좌석 데이터
 
-관리자 사이트 로그인 → **좌석 데이터 생성** (50×50, 2500석, 기존 예약 유지)
+예약 사이트 첫 접속 시 **2,500석이 자동 생성**됩니다(없는 좌석만 추가, 기존 예약 유지). 별도 버튼 없음.
 
 ## 관리자 계정
 

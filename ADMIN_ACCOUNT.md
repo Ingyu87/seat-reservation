@@ -21,8 +21,15 @@ Firebase Console UI에서는 custom claim을 넣을 수 없어, 아래 스크립
 2. PowerShell:
 
 ```powershell
+cd C:\Users\ingyu\Desktop\seat\seat-reservation
 $env:GOOGLE_APPLICATION_CREDENTIALS="C:\경로\serviceAccountKey.json"
-node scripts/grant-admin.mjs admin@re.kr
+node scripts/grant-admin.mjs admin@todxo.kr
+```
+
+UID로 부여할 때 (콘솔에 보이는 UID 그대로):
+
+```powershell
+node scripts/grant-admin.mjs --uid q7bX0fR3nVYaPj1SP94iDaJn6jA3
 ```
 
 성공 메시지가 나오면 완료입니다.
@@ -45,3 +52,5 @@ node scripts/grant-admin.mjs admin@re.kr
 ## 5. 행사 종료 후
 
 개인정보는 **행사 종료 후** 관리자 사이트에서 **「예약 전체 초기화」**로 예약·좌석 예약 상태를 정리합니다. (개인정보 처리방침 참고)
+
+좌석 2,500개는 예약 사이트 첫 접속 시 자동으로 준비됩니다. 관리자에서 별도 「좌석 생성」 버튼은 없습니다.

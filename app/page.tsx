@@ -1,17 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { SeatMap } from "@/app/components/SeatMap";
-import {
-  assessSeatMapCoverage,
-  fetchSeatMap,
-  getAdminSiteUrl,
-  hasFirebaseConfig,
-  reserveSeat,
-  TOTAL_SEATS,
-  validatePhoneLast4
-} from "@seat/shared";
+import { fetchSeatMap, hasFirebaseConfig, reserveSeat, validatePhoneLast4 } from "@seat/shared";
 import type { ReservationInput, Seat, SeatMapResponse } from "@seat/shared";
 
 const initialForm = {
@@ -28,10 +20,12 @@ export default function HomePage() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   async function load() {
     const next = await fetchSeatMap();
     setData(next);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -69,12 +63,6 @@ export default function HomePage() {
 
   const reserved = data?.reserved ?? 0;
   const total = data?.total ?? 0;
-  const coverage = useMemo(
-    () => (data?.seats?.length ? assessSeatMapCoverage(data.seats) : null),
-    [data?.seats]
-  );
-  const adminSiteUrl = getAdminSiteUrl();
-
   async function submitReservation() {
     setError("");
     setMessage("");
@@ -138,40 +126,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {total === 0 && (
-        <div className="notice">
-          좌석 데이터가 아직 없습니다.
-          {adminSiteUrl ? (
-            <>
-              {" "}
-              <a href={adminSiteUrl} rel="noopener noreferrer">
-                관리자 사이트
-              </a>
-              에서 좌석 데이터 생성을 먼저 실행해 주세요.
-            </>
-          ) : (
-            " 관리자에게 좌석 데이터 생성을 요청해 주세요."
-          )}
-        </div>
+      {loading && (
+        <div className="notice">좌석 2,500석을 준비하고 있습니다. 첫 접속 시 최대 1분 정도 걸릴 수 있습니다.</div>
       )}
-      {total > 0 && coverage?.needsReseed && (
-        <div className="notice">
-          좌석 배치가 불완전합니다 ({coverage.present.toLocaleString()} / {TOTAL_SEATS.toLocaleString()}석).
-          {coverage.missingSections.length > 0 && (
-            <> 빠진 구역: {coverage.missingSections.join(", ")}.</>
-          )}
-          {adminSiteUrl ? (
-            <>
-              {" "}
-              <a href={adminSiteUrl} rel="noopener noreferrer">
-                관리자 사이트
-              </a>
-              에서 「좌석 데이터 생성」을 실행하면 빠진 좌석만 추가되고, 기존 예약은 유지됩니다.
-            </>
-          ) : (
-            " 관리자에게 좌석 데이터 생성을 요청해 주세요."
-          )}
-        </div>
+      {!loading && total === 0 && !error && (
+        <div className="notice">좌석 정보를 불러오지 못했습니다. 잠시 후 새로고침해 주세요.</div>
       )}
       {message && <div className="notice">{message}</div>}
       {error && <div className="error">{error}</div>}

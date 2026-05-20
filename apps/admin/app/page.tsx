@@ -9,8 +9,7 @@ import {
   adminSearchReservations,
   adminUpdateReservation,
   auth,
-  getCallableErrorMessage,
-  seedSeats
+  getCallableErrorMessage
 } from "@seat/shared";
 import { downloadReservationsExcel } from "@seat/shared";
 import type { AdminReservation, AdminUpdateReservationInput } from "@seat/shared";
@@ -22,7 +21,6 @@ export default function AdminPage() {
   const [items, setItems] = useState<AdminReservation[]>([]);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [seeding, setSeeding] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [editing, setEditing] = useState<AdminReservation | null>(null);
@@ -75,34 +73,6 @@ export default function AdminPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
-
-  async function runSeedSeats() {
-    if (
-      !window.confirm(
-        "50행 x 50열(2,500석) 기준으로 없는 좌석만 추가합니다.\n기존 예약은 유지됩니다.\n\n계속할까요?"
-      )
-    ) {
-      return;
-    }
-
-    setError("");
-    setMessage("");
-    setSeeding(true);
-
-    try {
-      if (auth?.currentUser) {
-        await auth.currentUser.getIdToken(true);
-      }
-      const result = await seedSeats();
-      setMessage(
-        `좌석 ${result.total.toLocaleString()}개 확인 · 신규 ${result.created.toLocaleString()}개 · 기존 예약 유지 ${result.updated.toLocaleString()}개`
-      );
-    } catch {
-      setError("좌석 데이터 생성에 실패했습니다. 관리자 권한을 확인해 주세요.");
-    } finally {
-      setSeeding(false);
-    }
-  }
 
   async function runResetAll() {
     if (!window.confirm("모든 예약을 취소하고 좌석을 전부 비울까요? 이 작업은 되돌릴 수 없습니다.")) return;
@@ -214,18 +184,6 @@ export default function AdminPage() {
             로그아웃
           </button>
         </div>
-      </section>
-
-      <section className="panel admin-actions">
-        <div>
-          <h1>좌석 데이터</h1>
-          <p className="hint">
-            50행 x 50열(2,500석) 기준으로 없는 좌석만 추가합니다. 이미 예약된 좌석은 초기화되지 않습니다.
-          </p>
-        </div>
-        <button className="btn btn-primary" disabled={seeding} type="button" onClick={runSeedSeats}>
-          {seeding ? "생성 중" : "좌석 데이터 생성"}
-        </button>
       </section>
 
       <section className="panel" style={{ marginBottom: 16 }}>

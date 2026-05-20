@@ -10,6 +10,7 @@ const callableOptions = { region: "asia-northeast3", cors: "*", invoker: "public
 // Grid dimensions — must match ROWS/COLS in packages/shared/src/seat-utils.ts
 const GRID_ROWS = 50;
 const GRID_COLS = 50;
+const EXPECTED_SEAT_COUNT = GRID_ROWS * GRID_COLS;
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 
@@ -138,8 +139,72 @@ async function findReservationForOwner(data: Record<string, unknown>) {
   return { id: match.id, data: match.data() as Reservation, ref: match.ref };
 }
 
+async function ensureSeatsReady() {
+  const existingIds = new Set(
+    (await db.collection("seats").select().get()).docs.map((doc) => doc.id)
+  );
+
+  if (existingIds.size >= EXPECTED_SEAT_COUNT) {
+    return { total: EXPECTED_SEAT_COUNT, created: 0, updated: 0 };
+  }
+
+  let batch = db.batch();
+  let inBatch = 0;
+  let total = 0;
+  let created = 0;
+  let updated = 0;
+
+  async function commitIfNeeded(force = false) {
+    if (inBatch === 0 || (!force && inBatch < 450)) return;
+    await batch.commit();
+    batch = db.batch();
+    inBatch = 0;
+  }
+
+  for (let row = 1; row <= GRID_ROWS; row += 1) {
+    const label = rowLabel(row);
+    for (let col = 1; col <= GRID_COLS; col += 1) {
+      const id = `MAIN_${label}_${col}`;
+      const ref = db.collection("seats").doc(id);
+      const metadata = {
+        section: "MAIN",
+        rowLabel: label,
+        seatNumber: col,
+        displayName: `${label}-${col}`,
+        sortOrder: row * 1000 + col,
+        updatedAt: FieldValue.serverTimestamp()
+      };
+
+      if (existingIds.has(id)) {
+        batch.set(ref, metadata, { merge: true });
+        updated += 1;
+      } else {
+        batch.set(ref, {
+          ...metadata,
+          status: "AVAILABLE",
+          reservationId: null
+        });
+        created += 1;
+      }
+
+      inBatch += 1;
+      total += 1;
+      await commitIfNeeded();
+    }
+  }
+
+  await commitIfNeeded(true);
+  return { total, created, updated };
+}
+
 export const getSeatMap = onCall(callableOptions, async () => {
-  const snap = await db.collection("seats").orderBy("sortOrder", "asc").get();
+  let snap = await db.collection("seats").orderBy("sortOrder", "asc").get();
+
+  if (snap.size < EXPECTED_SEAT_COUNT) {
+    await ensureSeatsReady();
+    snap = await db.collection("seats").orderBy("sortOrder", "asc").get();
+  }
+
   const seats = snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as { status?: string }) }));
   const reserved = seats.filter((seat) => seat.status === "RESERVED").length;
   return { total: seats.length, reserved, seats };
@@ -465,60 +530,8 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
   return { canceled, released };
 });
 
+/** @deprecated UI removed; seats auto-provision via getSeatMap. Kept for manual/admin tooling. */
 export const seedSeats = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
-
-  const rows = GRID_ROWS;
-  const cols = GRID_COLS;
-  const existingIds = new Set(
-    (await db.collection("seats").select().get()).docs.map((doc) => doc.id)
-  );
-
-  let batch = db.batch();
-  let inBatch = 0;
-  let total = 0;
-  let created = 0;
-  let updated = 0;
-
-  async function commitIfNeeded(force = false) {
-    if (inBatch === 0 || (!force && inBatch < 450)) return;
-    await batch.commit();
-    batch = db.batch();
-    inBatch = 0;
-  }
-
-  for (let row = 1; row <= rows; row += 1) {
-    const label = rowLabel(row);
-    for (let col = 1; col <= cols; col += 1) {
-      const id = `MAIN_${label}_${col}`;
-      const ref = db.collection("seats").doc(id);
-      const metadata = {
-        section: "MAIN",
-        rowLabel: label,
-        seatNumber: col,
-        displayName: `${label}-${col}`,
-        sortOrder: row * 1000 + col,
-        updatedAt: FieldValue.serverTimestamp()
-      };
-
-      if (existingIds.has(id)) {
-        batch.set(ref, metadata, { merge: true });
-        updated += 1;
-      } else {
-        batch.set(ref, {
-          ...metadata,
-          status: "AVAILABLE",
-          reservationId: null
-        });
-        created += 1;
-      }
-
-      inBatch += 1;
-      total += 1;
-      await commitIfNeeded();
-    }
-  }
-
-  await commitIfNeeded(true);
-  return { total, created, updated };
+  return ensureSeatsReady();
 });

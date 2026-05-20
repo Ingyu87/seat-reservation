@@ -345,11 +345,7 @@ export const adminDeleteReservation = onCall(callableOptions, async (request) =>
       await releaseSeatInTransaction(tx, reservation.seatId);
     }
 
-    tx.update(reservationRef, {
-      status: "CANCELED",
-      canceledAt: FieldValue.serverTimestamp(),
-      updatedAt: FieldValue.serverTimestamp()
-    });
+    tx.delete(reservationRef);
   });
 
   return { ok: true };

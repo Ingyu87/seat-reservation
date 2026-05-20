@@ -126,7 +126,7 @@ export default function AdminPage() {
   }
 
   async function removeReservation(item: AdminReservation) {
-    if (!window.confirm(`${item.name} (${item.seatDisplayName}) 예약을 삭제할까요?`)) return;
+    if (!window.confirm(`${item.name} (${item.seatDisplayName}) 예약을 완전히 삭제할까요? 복구할 수 없습니다.`)) return;
 
     setError("");
     setMessage("");
@@ -283,7 +283,6 @@ export default function AdminPage() {
                     </button>
                     <button
                       className="btn btn-danger btn-small"
-                      disabled={item.status !== "CONFIRMED"}
                       type="button"
                       onClick={() => removeReservation(item)}
                     >

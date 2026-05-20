@@ -2,7 +2,7 @@
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   adminDeleteReservation,
   adminResetAllReservations,
@@ -31,6 +31,16 @@ export default function AdminPage() {
     seatDisplayName: ""
   });
   const [saving, setSaving] = useState(false);
+  const [pageSize, setPageSize] = useState<20 | 50>(20);
+  const [page, setPage] = useState(1);
+
+  const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+  const pageItems = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return items.slice(start, start + pageSize);
+  }, [items, page, pageSize]);
+  const rangeStart = items.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const rangeEnd = Math.min(page * pageSize, items.length);
 
   async function loadReservations(searchQuery = query) {
     setError("");
@@ -43,6 +53,7 @@ export default function AdminPage() {
       }
       const result = await adminSearchReservations(searchQuery);
       setItems(result.items);
+      setPage(1);
     } catch {
       setError("예약 정보를 불러오지 못했습니다. 관리자 권한을 확인해 주세요.");
     } finally {
@@ -73,6 +84,12 @@ export default function AdminPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
+  }, [page, totalPages]);
 
   async function runResetAll() {
     if (!window.confirm("모든 예약을 취소하고 좌석을 전부 비울까요? 이 작업은 되돌릴 수 없습니다.")) return;
@@ -212,6 +229,53 @@ export default function AdminPage() {
         {message && <div className="notice">{message}</div>}
       </section>
 
+      <section className="panel pagination-panel">
+        <div className="pagination-bar">
+          <div className="pagination-meta">
+            <span>
+              {items.length === 0
+                ? "표시할 예약이 없습니다."
+                : `${rangeStart.toLocaleString()}–${rangeEnd.toLocaleString()} / 전체 ${items.length.toLocaleString()}건`}
+            </span>
+            <span className="hint">
+              페이지 {page.toLocaleString()} / {totalPages.toLocaleString()}
+            </span>
+          </div>
+          <div className="pagination-controls">
+            <label className="page-size-label" htmlFor="page-size">
+              페이지당
+            </label>
+            <select
+              id="page-size"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value) as 20 | 50);
+                setPage(1);
+              }}
+            >
+              <option value={20}>20명</option>
+              <option value={50}>50명</option>
+            </select>
+            <button
+              className="btn btn-secondary btn-small"
+              disabled={page <= 1 || items.length === 0}
+              type="button"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
+              이전
+            </button>
+            <button
+              className="btn btn-secondary btn-small"
+              disabled={page >= totalPages || items.length === 0}
+              type="button"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            >
+              다음
+            </button>
+          </div>
+        </div>
+      </section>
+
       <div className="table-wrap">
         <table>
           <thead>
@@ -226,7 +290,7 @@ export default function AdminPage() {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {pageItems.map((item) => (
               <tr key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.phoneLast4}</td>

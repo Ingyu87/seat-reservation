@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   cancelReservation,
   changeReservationSeat,
+  downloadReservationInfoPng,
   fetchSeatMap,
   lookupReservation
 } from "@seat/shared";
@@ -19,9 +20,9 @@ export default function LookupPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [changing, setChanging] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [seats, setSeats] = useState<Seat[]>([]);
   const [selected, setSelected] = useState<Seat | null>(null);
-
   async function submitLookup() {
     setError("");
     setMessage("");
@@ -37,6 +38,20 @@ export default function LookupPage() {
       setFound(result);
     } catch {
       setError("예약 정보를 찾을 수 없습니다. 입력 정보를 다시 확인해 주세요.");
+    }
+  }
+
+  async function downloadPng() {
+    if (!found) return;
+    setError("");
+    setDownloading(true);
+    try {
+      await downloadReservationInfoPng(found);
+      setMessage("예약 정보 PNG 파일을 다운로드했습니다.");
+    } catch {
+      setError("PNG 다운로드에 실패했습니다.");
+    } finally {
+      setDownloading(false);
     }
   }
 
@@ -113,16 +128,36 @@ export default function LookupPage() {
         </section>
 
         {found && (
-          <section className="panel" style={{ marginTop: 16 }}>
+          <section className="panel lookup-ticket" style={{ marginTop: 16 }}>
             <h2>예약 정보</h2>
-            <p>예약자: {found.name}</p>
-            <p>좌석: {found.seat.displayName}</p>
-            <p>전화번호 뒤 4자리: {found.phoneLast4}</p>
-            <p>이메일: {found.emailMasked}</p>
-            {found.createdAt && (
-              <p>예약 일시: {new Date(found.createdAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}</p>
-            )}
+            <dl className="lookup-details">
+              <div>
+                <dt>예약자</dt>
+                <dd>{found.name}</dd>
+              </div>
+              <div>
+                <dt>좌석</dt>
+                <dd>{found.seat.displayName}</dd>
+              </div>
+              <div>
+                <dt>전화번호 뒤 4자리</dt>
+                <dd>{found.phoneLast4}</dd>
+              </div>
+              <div>
+                <dt>이메일</dt>
+                <dd>{found.emailMasked}</dd>
+              </div>
+              {found.createdAt && (
+                <div>
+                  <dt>예약 일시</dt>
+                  <dd>{new Date(found.createdAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}</dd>
+                </div>
+              )}
+            </dl>
             <div className="button-row">
+              <button className="btn btn-secondary" disabled={downloading} type="button" onClick={downloadPng}>
+                {downloading ? "저장 중" : "PNG 저장"}
+              </button>
               <button className="btn btn-primary" type="button" onClick={openChangeSeat}>
                 좌석 변경
               </button>

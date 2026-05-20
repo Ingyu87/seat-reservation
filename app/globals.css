@@ -425,6 +425,73 @@ input {
   margin: 24px auto;
 }
 
+.lookup-details {
+  margin: 12px 0 16px;
+}
+
+.lookup-details div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.lookup-details dt {
+  margin: 0;
+  color: var(--gray-500);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.lookup-details dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pagination-panel {
+  margin-bottom: 12px;
+  padding: 14px 16px;
+}
+
+.pagination-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pagination-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-size-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-500);
+}
+
+.pagination-controls select {
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  background: white;
+}
+
 .table-wrap {
   overflow-x: auto;
   background: white;

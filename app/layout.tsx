@@ -1,11 +1,37 @@
 import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { getBookingSiteUrl } from "@seat/shared/site-url";
 import "./globals.css";
 
+const bookingSiteUrl = getBookingSiteUrl() || "https://seat-reservation-bice.vercel.app";
+const bookingTitle = "생태전환교육 행사 좌석 예약";
+const bookingDescription = "서울특별시교육청 생태전환교육 행사 2,500석 좌석 예약";
+
 export const metadata: Metadata = {
-  title: "생태전환교육 행사 좌석 예약",
-  description: "서울특별시교육청 생태전환교육 행사 좌석 예약"
+  title: bookingTitle,
+  description: bookingDescription,
+  metadataBase: new URL(bookingSiteUrl),
+  openGraph: {
+    title: bookingTitle,
+    description: bookingDescription,
+    url: bookingSiteUrl,
+    siteName: bookingTitle,
+    locale: "ko_KR",
+    type: "website",
+    images: [
+      {
+        url: "/og.png",
+        alt: bookingTitle
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: bookingTitle,
+    description: bookingDescription,
+    images: ["/og.png"]
+  }
 };
 
 export const viewport: Viewport = {

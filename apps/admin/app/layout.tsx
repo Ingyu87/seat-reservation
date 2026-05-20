@@ -1,11 +1,36 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import { getBookingSiteUrl } from "@seat/shared/site-url";
+import { getAdminSiteUrl, getBookingSiteUrl } from "@seat/shared/site-url";
 import "./globals.css";
 
+const adminSiteUrl = getAdminSiteUrl() || "https://seat-reservation-admin.vercel.app";
+const adminTitle = "생태전환교육 행사 좌석 관리자";
+const adminDescription = "서울특별시교육청 생태전환교육 행사 좌석 예약 관리";
+
 export const metadata: Metadata = {
-  title: "생태전환교육 행사 좌석 관리자",
-  description: "서울특별시교육청 생태전환교육 행사 좌석 예약 관리자"
+  title: adminTitle,
+  description: adminDescription,
+  metadataBase: new URL(adminSiteUrl),
+  openGraph: {
+    title: adminTitle,
+    description: adminDescription,
+    url: adminSiteUrl,
+    siteName: adminTitle,
+    locale: "ko_KR",
+    type: "website",
+    images: [
+      {
+        url: "/og.png",
+        alt: adminTitle
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: adminTitle,
+    description: adminDescription,
+    images: ["/og.png"]
+  }
 };
 
 export const viewport: Viewport = {

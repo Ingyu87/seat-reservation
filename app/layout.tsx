@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
-          <p>© 2026 서울가동초 백인규. All rights reserved.</p>
+          <p>© 2026 서울가동초 백인규/ 창의미래교육과 최정엽. All rights reserved.</p>
           <p>
             개인정보책임자: 서울가동초 백인규{" "}
             <a href="mailto:ingyu87@sen.go.kr">ingyu87@sen.go.kr</a>

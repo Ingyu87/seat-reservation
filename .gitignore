@@ -9,3 +9,4 @@ firestore-debug.log
 functions/lib
 functions/node_modules
 *.local
+*.tsbuildinfo

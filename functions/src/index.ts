@@ -1,16 +1,12 @@
 import { initializeApp } from "firebase-admin/app";
-import { FieldValue, getFirestore, Timestamp } from "firebase-admin/firestore";
 import { getAuth } from "firebase-admin/auth";
+import { FieldValue, getFirestore, Timestamp } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
-import { defineSecret } from "firebase-functions/params";
 import crypto from "node:crypto";
 
 initializeApp();
 
 const db = getFirestore();
-const resendApiKey = defineSecret("RESEND_API_KEY");
-const emailFrom = defineSecret("EMAIL_FROM");
-const emailReplyTo = defineSecret("EMAIL_REPLY_TO");
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 
@@ -30,15 +26,12 @@ type Reservation = {
 function rowLabel(row: number) {
   if (row <= 26) return String.fromCharCode(64 + row);
   const zeroBased = row - 27;
-  return (
-    String.fromCharCode(65 + Math.floor(zeroBased / 26)) +
-    String.fromCharCode(65 + (zeroBased % 26))
-  );
+  return String.fromCharCode(65 + Math.floor(zeroBased / 26)) + String.fromCharCode(65 + (zeroBased % 26));
 }
 
 function assertString(value: unknown, field: string) {
   if (typeof value !== "string" || !value.trim()) {
-    throw new HttpsError("invalid-argument", `${field} 값을 확인해주세요.`);
+    throw new HttpsError("invalid-argument", `${field} is required.`);
   }
   return value.trim();
 }
@@ -46,7 +39,7 @@ function assertString(value: unknown, field: string) {
 function normalizePhoneLast4(value: unknown) {
   const text = assertString(value, "phoneLast4").replace(/\D/g, "");
   if (!/^\d{4}$/.test(text)) {
-    throw new HttpsError("invalid-argument", "전화번호 뒤 4자리를 입력해주세요.");
+    throw new HttpsError("invalid-argument", "phoneLast4 must be exactly 4 digits.");
   }
   return text;
 }
@@ -54,7 +47,7 @@ function normalizePhoneLast4(value: unknown) {
 function normalizeEmail(value: unknown) {
   const email = assertString(value, "email").toLowerCase();
   if (!email.includes("@")) {
-    throw new HttpsError("invalid-argument", "이메일을 확인해주세요.");
+    throw new HttpsError("invalid-argument", "A valid email is required.");
   }
   return email;
 }
@@ -78,7 +71,7 @@ function toDateString(value: unknown) {
 
 async function assertAdmin(uid?: string, tokenAdmin?: boolean) {
   if (!uid || tokenAdmin !== true) {
-    throw new HttpsError("permission-denied", "관리자 권한이 필요합니다.");
+    throw new HttpsError("permission-denied", "Admin permission is required.");
   }
   await getAuth().getUser(uid);
 }
@@ -103,14 +96,14 @@ async function findReservationForOwner(data: Record<string, unknown>) {
 
   const match = snap.docs.find((doc) => (doc.data() as Reservation).editPasswordHash === passwordHash);
   if (!match) {
-    throw new HttpsError("not-found", "예약 정보를 찾을 수 없습니다.");
+    throw new HttpsError("not-found", "Reservation was not found.");
   }
   return { id: match.id, data: match.data() as Reservation, ref: match.ref };
 }
 
 export const getSeatMap = onCall({ region: "asia-northeast3" }, async () => {
   const snap = await db.collection("seats").orderBy("sortOrder", "asc").get();
-  const seats = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const seats = snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as { status?: string }) }));
   const reserved = seats.filter((seat) => seat.status === "RESERVED").length;
   return { total: seats.length, reserved, seats };
 });
@@ -125,10 +118,10 @@ export const reserveSeat = onCall({ region: "asia-northeast3" }, async (request)
   const privacyConsent = data.privacyConsent === true;
 
   if (!privacyConsent) {
-    throw new HttpsError("invalid-argument", "개인정보 수집 및 이용 동의가 필요합니다.");
+    throw new HttpsError("invalid-argument", "Privacy consent is required.");
   }
   if (editPassword.length < 4 || editPassword === phoneLast4) {
-    throw new HttpsError("invalid-argument", "수정 비밀번호를 확인해주세요.");
+    throw new HttpsError("invalid-argument", "Edit password must be at least 4 characters and different from phoneLast4.");
   }
 
   return db.runTransaction(async (tx) => {
@@ -136,12 +129,12 @@ export const reserveSeat = onCall({ region: "asia-northeast3" }, async (request)
     const seatSnap = await tx.get(seatRef);
 
     if (!seatSnap.exists) {
-      throw new HttpsError("not-found", "존재하지 않는 좌석입니다.");
+      throw new HttpsError("not-found", "Seat was not found.");
     }
 
     const seat = seatSnap.data() as { displayName: string; status: string };
     if (seat.status !== "AVAILABLE") {
-      throw new HttpsError("already-exists", "방금 다른 사용자가 예약한 좌석입니다.");
+      throw new HttpsError("already-exists", "Seat is already reserved.");
     }
 
     const reservationRef = db.collection("reservations").doc();
@@ -215,12 +208,12 @@ export const changeSeat = onCall({ region: "asia-northeast3" }, async (request) 
     const newSeatSnap = await tx.get(newSeatRef);
 
     if (!newSeatSnap.exists) {
-      throw new HttpsError("not-found", "존재하지 않는 좌석입니다.");
+      throw new HttpsError("not-found", "Seat was not found.");
     }
 
     const newSeat = newSeatSnap.data() as { displayName: string; status: string };
     if (newSeat.status !== "AVAILABLE") {
-      throw new HttpsError("already-exists", "이미 예약된 좌석입니다.");
+      throw new HttpsError("already-exists", "Seat is already reserved.");
     }
 
     tx.update(oldSeatRef, {
@@ -324,54 +317,6 @@ export const adminSearchReservations = onCall({ region: "asia-northeast3" }, asy
   return { items };
 });
 
-export const processNotificationJobs = onCall(
-  { region: "asia-northeast3", secrets: [resendApiKey, emailFrom, emailReplyTo] },
-  async (request) => {
-    await assertAdmin(request.auth?.uid, adminFlag(request));
-    const snap = await db
-      .collection("notificationJobs")
-      .where("status", "==", "PENDING")
-      .limit(20)
-      .get();
-
-    const apiKey = resendApiKey.value();
-    const from = emailFrom.value();
-    const replyTo = emailReplyTo.value();
-
-    for (const doc of snap.docs) {
-      const job = doc.data() as {
-        recipient: string;
-        event: string;
-        payload: { name: string; seatDisplayName: string };
-      };
-      try {
-        const response = await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            from,
-            to: job.recipient,
-            reply_to: replyTo,
-            subject: `[행사 좌석 예약] ${job.payload.seatDisplayName}`,
-            html: `<p>${job.payload.name}님, 좌석 안내입니다.</p><p>좌석: <strong>${job.payload.seatDisplayName}</strong></p><p>예약 조회, 변경, 취소 시 이름, 전화번호 뒤 4자리, 수정 비밀번호가 필요합니다.</p>`
-          })
-        });
-        if (!response.ok) {
-          throw new Error(`Resend error: ${response.status}`);
-        }
-        await doc.ref.update({ status: "SENT", sentAt: FieldValue.serverTimestamp() });
-      } catch (error) {
-        await doc.ref.update({ status: "FAILED", errorMessage: String(error) });
-      }
-    }
-
-    return { processed: snap.size };
-  }
-);
-
 export const seedSeats = onCall({ region: "asia-northeast3" }, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
 
@@ -398,7 +343,7 @@ export const seedSeats = onCall({ region: "asia-northeast3" }, async (request) =
           section: "MAIN",
           rowLabel: label,
           seatNumber: col,
-          displayName: `${label}열 ${col}번`,
+          displayName: `${label}-${col}`,
           sortOrder: row * 1000 + col,
           status: "AVAILABLE",
           reservationId: null,

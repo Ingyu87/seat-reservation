@@ -35,10 +35,35 @@ export default function HomePage() {
 
   useEffect(() => {
     load().catch(() => setError("좌석 정보를 불러오지 못했습니다."));
-    const timer = window.setInterval(() => {
-      load().catch(() => undefined);
-    }, 15000);
-    return () => window.clearInterval(timer);
+
+    let timer: number | null = null;
+
+    function startTimer() {
+      timer = window.setInterval(() => {
+        load().catch(() => undefined);
+      }, 15000);
+    }
+
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        if (timer !== null) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      } else {
+        // 탭이 다시 활성화되면 즉시 갱신 후 타이머 재시작
+        load().catch(() => undefined);
+        startTimer();
+      }
+    }
+
+    startTimer();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      if (timer !== null) window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   const reserved = data?.reserved ?? 0;

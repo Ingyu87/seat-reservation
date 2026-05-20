@@ -1,4 +1,4 @@
-export type SeatStatus = "AVAILABLE" | "RESERVED" | "LOCKED";
+export type SeatStatus = "AVAILABLE" | "RESERVED";
 
 export type Seat = {
   id: string;

@@ -7,6 +7,10 @@ initializeApp();
 const db = getFirestore();
 const callableOptions = { region: "asia-northeast3", cors: "*", invoker: "public" } as const;
 
+// Grid dimensions — must match ROWS/COLS in packages/shared/src/seat-utils.ts
+const GRID_ROWS = 50;
+const GRID_COLS = 50;
+
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 
 type Reservation = {
@@ -74,6 +78,8 @@ function adminFlag(request: { auth?: { token: unknown } }) {
   return (request.auth?.token as { admin?: boolean } | undefined)?.admin === true;
 }
 
+// NOTE: displayNameToSeatId is also defined in packages/shared/src/seat-utils.ts.
+// Functions cannot import from @seat/shared (client SDK), so it is intentionally duplicated.
 function displayNameToSeatId(displayName: string) {
   const [row, col] = displayName.trim().split("-");
   if (!row || !col) return null;
@@ -466,8 +472,8 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
 export const seedSeats = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
 
-  const rows = 50;
-  const cols = 50;
+  const rows = GRID_ROWS;
+  const cols = GRID_COLS;
   const existingIds = new Set(
     (await db.collection("seats").select().get()).docs.map((doc) => doc.id)
   );

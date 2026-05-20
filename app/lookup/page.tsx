@@ -119,6 +119,9 @@ export default function LookupPage() {
             <p>좌석: {found.seat.displayName}</p>
             <p>전화번호 뒤 4자리: {found.phoneLast4}</p>
             <p>이메일: {found.emailMasked}</p>
+            {found.createdAt && (
+              <p>예약 일시: {new Date(found.createdAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}</p>
+            )}
             <div className="button-row">
               <button className="btn btn-primary" type="button" onClick={openChangeSeat}>
                 좌석 변경

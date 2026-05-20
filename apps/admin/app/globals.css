@@ -13,6 +13,10 @@
   --gray-200: #e5e7eb;
   --gray-100: #f3f4f6;
   --white: #ffffff;
+  --seat-size: 13px;
+  --seat-gap: 2px;
+  --row-label-w: 28px;
+  --aisle-w: 10px;
 }
 
 * {
@@ -192,6 +196,10 @@ input {
   border-radius: 8px 8px 0 0;
 }
 
+.seat-map-scroll-hint {
+  display: none;
+}
+
 .seat-panel {
   display: flex;
   justify-content: center;
@@ -202,6 +210,9 @@ input {
   border: 1px solid #c8e6c9;
   border-top: 0;
   border-radius: 0 0 8px 8px;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
 }
 
 .seat-map {
@@ -223,17 +234,17 @@ input {
 .seat-row {
   display: flex;
   align-items: center;
-  gap: 2px;
-  margin-bottom: 2px;
+  gap: var(--seat-gap);
+  margin-bottom: var(--seat-gap);
 }
 
 .seat-block {
   display: flex;
-  gap: 2px;
+  gap: var(--seat-gap);
 }
 
 .seat-aisle {
-  width: 10px;
+  width: var(--aisle-w);
   flex-shrink: 0;
 }
 
@@ -250,8 +261,8 @@ input {
 }
 
 .row-label {
-  width: 28px;
-  flex: 0 0 28px;
+  width: var(--row-label-w);
+  flex: 0 0 var(--row-label-w);
   color: var(--gray-500);
   font-size: 10px;
   font-weight: 700;
@@ -260,12 +271,13 @@ input {
 }
 
 .seat-cell {
-  width: 13px;
-  height: 13px;
-  flex: 0 0 13px;
+  width: var(--seat-size);
+  height: var(--seat-size);
+  flex: 0 0 var(--seat-size);
   padding: 0;
   border: 0;
   border-radius: 2px;
+  touch-action: manipulation;
 }
 
 .seat-cell.available {
@@ -498,15 +510,73 @@ th {
   font-weight: 800;
 }
 
+.admin-table-desktop {
+  display: table;
+}
+
+.admin-cards-mobile {
+  display: none;
+}
+
+.reservation-card {
+  padding: 14px 16px;
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+}
+
+.reservation-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.reservation-card-head strong {
+  font-size: 16px;
+}
+
+.reservation-card-seat {
+  color: var(--green-800);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.reservation-card dl {
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  gap: 6px 10px;
+  margin: 0 0 12px;
+  font-size: 13px;
+}
+
+.reservation-card dt {
+  margin: 0;
+  color: var(--gray-500);
+  font-weight: 700;
+}
+
+.reservation-card dd {
+  margin: 0;
+  font-weight: 700;
+}
+
 @media (max-width: 720px) {
   .site-header {
     align-items: flex-start;
     flex-direction: column;
+    gap: 10px;
+    padding: 12px 16px;
+    padding-top: max(12px, env(safe-area-inset-top));
   }
 
   .brand {
     align-items: flex-start;
     flex-direction: column;
+    gap: 6px;
+    font-size: 16px;
   }
 
   .admin-actions {
@@ -518,15 +588,91 @@ th {
     width: 100%;
     overflow-x: auto;
     padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .top-nav a {
+    flex-shrink: 0;
+  }
+
+  .page {
+    width: min(1120px, calc(100vw - 20px));
+    padding: 16px 0 32px;
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
+  }
+
+  .site-footer {
+    padding: 16px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    font-size: 11px;
   }
 
   .summary {
     grid-template-columns: 1fr;
   }
 
-  .seat-cell {
-    width: 16px;
-    height: 16px;
-    flex-basis: 16px;
+  .summary-card strong {
+    font-size: 20px;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .button-row .btn {
+    width: 100%;
+  }
+
+  .modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal-card {
+    width: 100%;
+    max-height: 90dvh;
+    padding: 18px 16px 24px;
+    border-radius: 16px 16px 0 0;
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+
+  .pagination-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pagination-controls {
+    justify-content: space-between;
+  }
+
+  .pagination-controls select {
+    flex: 1;
+    max-width: 120px;
+  }
+
+  .admin-table-desktop {
+    display: none;
+  }
+
+  .admin-cards-mobile {
+    display: grid;
+    gap: 10px;
+  }
+
+  .table-wrap:has(.admin-table-desktop) {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  :root {
+    --seat-size: 9px;
+    --row-label-w: 20px;
+    --aisle-w: 6px;
+  }
+
+  .reservation-card dl {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 }

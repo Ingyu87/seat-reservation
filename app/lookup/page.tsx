@@ -174,6 +174,9 @@ export default function LookupPage() {
           <div className="modal-card" style={{ width: "min(960px, 100%)" }}>
             <h2>새 좌석 선택</h2>
             <p className="hint">예약 가능한 좌석을 선택한 뒤 변경을 확정해 주세요.</p>
+            <p className="seat-map-scroll-hint" role="note">
+              좌석도는 가로·세로로 스크롤해 탐색할 수 있습니다.
+            </p>
             <div className="seat-panel" style={{ maxHeight: 420 }}>
               <SeatMap seats={seats} selectedId={selected?.id} onSelect={setSelected} />
             </div>

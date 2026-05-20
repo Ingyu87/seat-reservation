@@ -276,8 +276,41 @@ export default function AdminPage() {
         </div>
       </section>
 
+      <div className="admin-cards-mobile" aria-label="예약 목록">
+        {pageItems.length === 0 ? (
+          <div className="reservation-card">검색 결과가 없습니다.</div>
+        ) : (
+          pageItems.map((item) => (
+            <article className="reservation-card" key={item.id}>
+              <div className="reservation-card-head">
+                <strong>{item.name}</strong>
+                <span className="reservation-card-seat">{item.seatDisplayName}</span>
+              </div>
+              <dl>
+                <dt>전화번호 뒤 4자리</dt>
+                <dd>{item.phoneLast4}</dd>
+                <dt>이메일</dt>
+                <dd>{item.email}</dd>
+                <dt>상태</dt>
+                <dd>{item.status === "CONFIRMED" ? "예약 완료" : "취소"}</dd>
+                <dt>예약 일시</dt>
+                <dd>{item.createdAt ? new Date(item.createdAt).toLocaleString("ko-KR") : "-"}</dd>
+              </dl>
+              <div className="table-actions">
+                <button className="btn btn-secondary btn-small" type="button" onClick={() => openEdit(item)}>
+                  수정
+                </button>
+                <button className="btn btn-danger btn-small" type="button" onClick={() => removeReservation(item)}>
+                  삭제
+                </button>
+              </div>
+            </article>
+          ))
+        )}
+      </div>
+
       <div className="table-wrap">
-        <table>
+        <table className="admin-table-desktop">
           <thead>
             <tr>
               <th>이름</th>

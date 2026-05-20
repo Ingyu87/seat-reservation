@@ -151,6 +151,9 @@ export default function HomePage() {
       </div>
 
       <div className="stage">★ 무 대 ★</div>
+      <p className="seat-map-scroll-hint" role="note">
+        2,500석 배치도는 가로·세로로 스크롤해 탐색하세요. 좌석을 눌러 예약할 수 있습니다.
+      </p>
       <section className="seat-panel" aria-label="좌석 배치도">
         <SeatMap
           seats={data?.seats ?? []}

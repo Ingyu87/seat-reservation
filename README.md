@@ -34,12 +34,19 @@ npm run dev:admin
 | 예약자 (기존) | `.` (루트) | 3000 |
 | 관리자 (신규) | `apps/admin` | 3001 |
 
-환경 변수 (두 프로젝트 모두 Firebase 설정 + 사이트 URL):
+상세 절차·환경 변수 목록: **[DEPLOYMENT.md](DEPLOYMENT.md)**
+
+환경 변수 요약:
 
 ```txt
+# 예약 Vercel
 NEXT_PUBLIC_ADMIN_SITE_URL=https://관리자-도메인
+
+# 관리자 Vercel
 NEXT_PUBLIC_BOOKING_SITE_URL=https://예약-도메인
 ```
+
+(두 프로젝트 모두 Firebase `NEXT_PUBLIC_FIREBASE_*` 6개 동일)
 
 ## Firebase
 

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm list -g firebase-tools 2>&1)",
+      "PowerShell(npx --yes firebase-tools --version 2>&1)"
+    ]
+  }
+}

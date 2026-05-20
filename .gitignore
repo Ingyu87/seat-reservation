@@ -13,3 +13,4 @@ functions/lib
 functions/node_modules
 *.local
 *.tsbuildinfo
+.claude/settings.local.json

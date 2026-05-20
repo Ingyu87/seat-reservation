@@ -5,7 +5,7 @@ import { HttpsError, onCall } from "firebase-functions/v2/https";
 initializeApp();
 
 const db = getFirestore();
-const callableOptions = { region: "asia-northeast3", cors: true, invoker: "public" } as const;
+const callableOptions = { region: "asia-northeast3", cors: "*", invoker: "public" } as const;
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 

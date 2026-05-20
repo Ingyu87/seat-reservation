@@ -13,15 +13,18 @@ export default function AdminLoginPage() {
 
   async function login() {
     setError("");
+
     if (!auth) {
-      setError("Firebase 환경 변수가 설정되지 않았습니다.");
+      setError("Firebase 설정이 없습니다.");
       return;
     }
+
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const credential = await signInWithEmailAndPassword(auth, email, password);
+      await credential.user.getIdToken(true);
       router.push("/admin");
     } catch {
-      setError("로그인 정보를 확인해주세요.");
+      setError("로그인 정보를 확인해 주세요.");
     }
   }
 
@@ -35,7 +38,13 @@ export default function AdminLoginPage() {
         </div>
         <div className="field">
           <label htmlFor="admin-password">비밀번호</label>
-          <input id="admin-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input
+            id="admin-password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && login()}
+          />
         </div>
         {error && <div className="error">{error}</div>}
         <button className="btn btn-primary" type="button" onClick={login}>

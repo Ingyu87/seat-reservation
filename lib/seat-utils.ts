@@ -7,10 +7,7 @@ export const TOTAL_SEATS = ROWS * COLS;
 export function rowLabel(row: number) {
   if (row <= 26) return String.fromCharCode(64 + row);
   const zeroBased = row - 27;
-  return (
-    String.fromCharCode(65 + Math.floor(zeroBased / 26)) +
-    String.fromCharCode(65 + (zeroBased % 26))
-  );
+  return String.fromCharCode(65 + Math.floor(zeroBased / 26)) + String.fromCharCode(65 + (zeroBased % 26));
 }
 
 export function makeSeatId(row: number, col: number) {
@@ -28,7 +25,7 @@ export function generateDemoSeats(): Seat[] {
       section: "MAIN",
       rowLabel: label,
       seatNumber: col,
-      displayName: `${label}열 ${col}번`,
+      displayName: `${label}-${col}`,
       sortOrder: row * 1000 + col,
       status: "AVAILABLE"
     };

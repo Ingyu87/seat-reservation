@@ -27,7 +27,7 @@ export default function LookupPage() {
     setFound(null);
 
     if (!form.name.trim() || !validatePhoneLast4(form.phoneLast4) || form.editPassword.length < 4) {
-      setError("이름, 전화번호 뒤 4자리, 수정 비밀번호를 확인해주세요.");
+      setError("이름, 전화번호 뒤 4자리, 수정 비밀번호를 다시 확인해 주세요.");
       return;
     }
 
@@ -35,7 +35,7 @@ export default function LookupPage() {
       const result = await lookupReservation(form);
       setFound(result);
     } catch {
-      setError("예약 정보를 찾을 수 없습니다. 입력 정보를 다시 확인해주세요.");
+      setError("예약 정보를 찾을 수 없습니다. 입력 정보를 다시 확인해 주세요.");
     }
   }
 
@@ -49,8 +49,10 @@ export default function LookupPage() {
 
   async function submitChangeSeat() {
     if (!selected) return;
+
     setError("");
     setMessage("");
+
     try {
       const result = await changeReservationSeat({ ...form, newSeatId: selected.id });
       setMessage(`${result.seatDisplayName}으로 좌석이 변경되었습니다.`);
@@ -58,14 +60,16 @@ export default function LookupPage() {
       setSelected(null);
       await submitLookup();
     } catch {
-      setError("좌석 변경 중 문제가 발생했습니다. 다른 좌석을 선택해주세요.");
+      setError("좌석 변경 중 문제가 발생했습니다. 다른 좌석을 선택해 주세요.");
     }
   }
 
   async function submitCancel() {
     if (!window.confirm("예약을 취소하시겠습니까?")) return;
+
     setError("");
     setMessage("");
+
     try {
       await cancelReservation(form);
       setFound(null);
@@ -142,7 +146,7 @@ export default function LookupPage() {
         <div className="modal-backdrop" onClick={(event) => event.target === event.currentTarget && setChanging(false)}>
           <div className="modal-card" style={{ width: "min(960px, 100%)" }}>
             <h2>새 좌석 선택</h2>
-            <p className="hint">예약 가능한 좌석을 선택한 뒤 변경을 확정해주세요.</p>
+            <p className="hint">예약 가능한 좌석을 선택한 뒤 변경을 확정해 주세요.</p>
             <div className="seat-panel" style={{ maxHeight: 420 }}>
               {Object.entries(rows).map(([label, rowSeats]) => (
                 <div className="seat-row" key={label}>

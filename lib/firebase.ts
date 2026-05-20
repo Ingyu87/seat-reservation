@@ -3,6 +3,7 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { generateDemoSeats } from "@/lib/seat-utils";
 import type {
   AdminReservation,
   LookupInput,
@@ -10,7 +11,6 @@ import type {
   ReservationSummary,
   SeatMapResponse
 } from "@/lib/types";
-import { generateDemoSeats } from "@/lib/seat-utils";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -33,8 +33,9 @@ const functions = hasFirebaseConfig && app ? getFunctions(app, "asia-northeast3"
 
 async function callFunction<TInput, TOutput>(name: string, input?: TInput): Promise<TOutput> {
   if (!functions) {
-    throw new Error("Firebase 환경 변수가 설정되지 않았습니다.");
+    throw new Error("Firebase 설정이 없습니다.");
   }
+
   const callable = httpsCallable<TInput | undefined, TOutput>(functions, name);
   const result = await callable(input);
   return result.data;
@@ -45,6 +46,7 @@ export async function fetchSeatMap(): Promise<SeatMapResponse> {
     const seats = generateDemoSeats();
     return { total: seats.length, reserved: 0, seats };
   }
+
   return callFunction<undefined, SeatMapResponse>("getSeatMap");
 }
 
@@ -55,6 +57,7 @@ export async function reserveSeat(input: ReservationInput) {
       seatDisplayName: "데모 좌석"
     };
   }
+
   return callFunction<ReservationInput, { reservationId: string; seatDisplayName: string }>("reserveSeat", input);
 }
 
@@ -72,4 +75,8 @@ export async function cancelReservation(input: LookupInput) {
 
 export async function adminSearchReservations(query: string) {
   return callFunction<{ query: string }, { items: AdminReservation[] }>("adminSearchReservations", { query });
+}
+
+export async function seedSeats() {
+  return callFunction<undefined, { total: number }>("seedSeats");
 }

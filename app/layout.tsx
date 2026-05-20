@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "행사 좌석 예약",
-  description: "행사 좌석을 직접 선택해 예약하는 시스템"
+  title: "서울특별시교육청 행사 좌석 예약",
+  description: "서울특별시교육청 행사 좌석 예약 시스템"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,9 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="site-header">
           <Link className="brand" href="/">
-            행사 좌석 예약
+            <Image alt="서울특별시교육청" height={34} priority src="/seoul-education-logo.svg" width={168} />
+            <span>행사 좌석 예약</span>
           </Link>
-          <nav className="top-nav">
+          <nav className="top-nav" aria-label="주요 메뉴">
             <Link href="/lookup">예약 조회</Link>
             <Link href="/privacy">개인정보 처리방침</Link>
             <Link href="/admin">관리자</Link>

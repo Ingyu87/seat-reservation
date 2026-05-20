@@ -51,9 +51,24 @@ input {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 18px;
   font-weight: 800;
   white-space: nowrap;
+}
+
+.brand img {
+  width: auto;
+  height: 34px;
+  padding: 3px 8px;
+  background: white;
+  border-radius: 6px;
+}
+
+.brand span {
+  color: white;
 }
 
 .top-nav {
@@ -250,6 +265,21 @@ input {
   gap: 8px;
 }
 
+.admin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.consent-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -341,6 +371,16 @@ th {
 @media (max-width: 720px) {
   .site-header {
     align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .brand {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-actions {
+    align-items: stretch;
     flex-direction: column;
   }
 

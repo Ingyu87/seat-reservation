@@ -36,7 +36,7 @@ export default function HomePage() {
 
   const rows = useMemo(() => groupSeatsByRow(data?.seats ?? []), [data]);
   const reserved = data?.reserved ?? 0;
-  const total = data?.total ?? 2500;
+  const total = data?.total ?? 0;
 
   async function submitReservation() {
     setError("");
@@ -44,27 +44,27 @@ export default function HomePage() {
 
     if (!selected) return;
     if (!form.name.trim()) {
-      setError("이름을 입력해주세요.");
+      setError("이름을 입력해 주세요.");
       return;
     }
     if (!validatePhoneLast4(form.phoneLast4)) {
-      setError("전화번호 뒤 4자리를 숫자로 입력해주세요.");
+      setError("전화번호 뒤 4자리를 숫자로 입력해 주세요.");
       return;
     }
     if (!form.email.includes("@")) {
-      setError("이메일을 정확히 입력해주세요.");
+      setError("이메일 주소를 확인해 주세요.");
       return;
     }
     if (form.editPassword.length < 4) {
-      setError("수정 비밀번호는 4자리 이상 입력해주세요.");
+      setError("수정 비밀번호는 4자 이상 입력해 주세요.");
       return;
     }
     if (form.editPassword === form.phoneLast4) {
-      setError("수정 비밀번호는 전화번호 뒤 4자리와 다르게 입력해주세요.");
+      setError("수정 비밀번호는 전화번호 뒤 4자리와 다르게 입력해 주세요.");
       return;
     }
     if (!form.privacyConsent) {
-      setError("개인정보 수집 및 이용에 동의해주세요.");
+      setError("개인정보 수집 및 이용에 동의해 주세요.");
       return;
     }
 
@@ -79,12 +79,12 @@ export default function HomePage() {
         privacyConsent: form.privacyConsent
       };
       const result = await reserveSeat(input);
-      setMessage(`${result.seatDisplayName || selected.displayName} 예약이 완료되었습니다.`);
+      setMessage(`${result.seatDisplayName || selected.displayName} 좌석 예약이 완료되었습니다.`);
       setSelected(null);
       setForm(initialForm);
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "예약 중 문제가 발생했습니다.");
+      setError(err instanceof Error ? err.message : "예약 처리 중 오류가 발생했습니다.");
       await load();
     } finally {
       setSubmitting(false);
@@ -93,11 +93,7 @@ export default function HomePage() {
 
   return (
     <main className="page">
-      {!hasFirebaseConfig && (
-        <div className="notice">
-          Firebase 환경 변수가 없어 데모 좌석으로 표시 중입니다. 실제 예약 저장은 Firebase 연결 후 동작합니다.
-        </div>
-      )}
+      {!hasFirebaseConfig && <div className="notice">Firebase 설정이 없어 데모 좌석으로 표시됩니다.</div>}
 
       <section className="summary" aria-label="좌석 현황">
         <div className="summary-card">
@@ -114,6 +110,11 @@ export default function HomePage() {
         </div>
       </section>
 
+      {total === 0 && (
+        <div className="notice">
+          좌석 데이터가 아직 없습니다. 관리자 페이지에서 좌석 데이터 생성을 먼저 실행해 주세요.
+        </div>
+      )}
       {message && <div className="notice">{message}</div>}
       {error && <div className="error">{error}</div>}
 
@@ -140,11 +141,7 @@ export default function HomePage() {
             {seats.map((seat, index) => (
               <button
                 aria-label={`${seat.displayName}, ${seat.status === "AVAILABLE" ? "예약 가능" : "예약 완료"}`}
-                className={[
-                  "seat-cell",
-                  seat.status.toLowerCase(),
-                  selected?.id === seat.id ? "selected" : ""
-                ].join(" ")}
+                className={["seat-cell", seat.status.toLowerCase(), selected?.id === seat.id ? "selected" : ""].join(" ")}
                 disabled={seat.status !== "AVAILABLE"}
                 key={seat.id}
                 style={index === 24 ? { marginRight: 10 } : undefined}
@@ -185,12 +182,7 @@ export default function HomePage() {
 
             <div className="field">
               <label htmlFor="email">이메일 *</label>
-              <input
-                id="email"
-                type="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
+              <input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
             </div>
 
             <div className="field">
@@ -201,10 +193,10 @@ export default function HomePage() {
                 value={form.editPassword}
                 onChange={(e) => setForm({ ...form, editPassword: e.target.value })}
               />
-              <span className="hint">예약 조회, 좌석 변경, 예약 취소에 사용됩니다. 전화번호 뒤 4자리와 다르게 입력해주세요.</span>
+              <span className="hint">예약 조회, 좌석 변경, 예약 취소 때 사용합니다.</span>
             </div>
 
-            <label className="hint" style={{ display: "flex", gap: 8, margin: "12px 0" }}>
+            <label className="hint consent-row">
               <input
                 checked={form.privacyConsent}
                 type="checkbox"
@@ -217,7 +209,7 @@ export default function HomePage() {
 
             <div className="button-row">
               <button className="btn btn-secondary" type="button" onClick={() => setSelected(null)}>
-                취소
+                닫기
               </button>
               <button className="btn btn-primary" disabled={submitting} type="button" onClick={submitReservation}>
                 {submitting ? "예약 중" : "예약하기"}

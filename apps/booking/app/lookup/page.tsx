@@ -6,10 +6,10 @@ import {
   changeReservationSeat,
   fetchSeatMap,
   lookupReservation
-} from "@/lib/firebase";
+} from "@seat/shared";
 import { SeatMap } from "@/app/components/SeatMap";
-import { validatePhoneLast4 } from "@/lib/seat-utils";
-import type { LookupInput, ReservationSummary, Seat } from "@/lib/types";
+import { validatePhoneLast4 } from "@seat/shared";
+import type { LookupInput, ReservationSummary, Seat } from "@seat/shared";
 
 const emptyLookup = { name: "", phoneLast4: "" };
 

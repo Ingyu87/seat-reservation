@@ -3,7 +3,7 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { generateDemoSeats } from "@/lib/seat-utils";
+import { generateDemoSeats } from "./seat-utils";
 import type {
   AdminReservation,
   AdminUpdateReservationInput,
@@ -11,7 +11,7 @@ import type {
   ReservationInput,
   ReservationSummary,
   SeatMapResponse
-} from "@/lib/types";
+} from "./types";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

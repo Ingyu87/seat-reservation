@@ -3,7 +3,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { auth } from "@/lib/firebase";
+import { auth } from "@seat/shared";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function AdminLoginPage() {
     try {
       const credential = await signInWithEmailAndPassword(auth, email, password);
       await credential.user.getIdToken(true);
-      router.push("/admin");
+      router.push("/");
     } catch {
       setError("로그인 정보를 확인해 주세요.");
     }

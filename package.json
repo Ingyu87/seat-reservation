@@ -2,23 +2,17 @@
   "name": "seat-reservation",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "firebase": "12.12.0",
-    "next": "15.5.16",
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
-  },
-  "devDependencies": {
-    "@types/node": "24.12.2",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
-    "tsx": "4.21.0",
-    "typescript": "5.9.3"
+    "dev": "npm run dev:booking",
+    "dev:booking": "npm run dev --workspace @seat/booking",
+    "dev:admin": "npm run dev --workspace @seat/admin",
+    "build": "npm run build --workspace @seat/booking && npm run build --workspace @seat/admin",
+    "build:booking": "npm run build --workspace @seat/booking",
+    "build:admin": "npm run build --workspace @seat/admin",
+    "typecheck": "npm run typecheck --workspace @seat/booking && npm run typecheck --workspace @seat/admin"
   }
 }

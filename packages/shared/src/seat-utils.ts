@@ -1,4 +1,4 @@
-import type { Seat } from "@/lib/types";
+import type { Seat } from "./types";
 
 export const ROWS = 50;
 export const COLS = 50;

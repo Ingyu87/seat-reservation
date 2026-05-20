@@ -1,4 +1,4 @@
-import type { AdminReservation } from "@/lib/types";
+import type { AdminReservation } from "./types";
 
 function escapeCsv(value: string) {
   if (/[",\n]/.test(value)) {

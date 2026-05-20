@@ -6,8 +6,8 @@ import {
   indexSeatsByPosition,
   rowLabel,
   SEAT_SECTIONS
-} from "@/lib/seat-utils";
-import type { Seat } from "@/lib/types";
+} from "@seat/shared";
+import type { Seat } from "@seat/shared";
 
 type SeatMapProps = {
   seats: Seat[];

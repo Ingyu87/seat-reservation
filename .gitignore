@@ -1,5 +1,8 @@
 node_modules
 .next
+apps/*/.next
+apps/*/.env.local
+packages/*/node_modules
 out
 .env
 .env.local

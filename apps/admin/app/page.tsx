@@ -11,9 +11,9 @@ import {
   auth,
   getCallableErrorMessage,
   seedSeats
-} from "@/lib/firebase";
-import { downloadReservationsExcel } from "@/lib/export-utils";
-import type { AdminReservation, AdminUpdateReservationInput } from "@/lib/types";
+} from "@seat/shared";
+import { downloadReservationsExcel } from "@seat/shared";
+import type { AdminReservation, AdminUpdateReservationInput } from "@seat/shared";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -61,7 +61,7 @@ export default function AdminPage() {
 
     return onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.push("/admin/login");
+        router.push("/login");
       } else {
         await user.getIdToken(true);
         setReady(true);
@@ -190,7 +190,7 @@ export default function AdminPage() {
 
   async function logout() {
     if (auth) await signOut(auth);
-    router.push("/admin/login");
+    router.push("/login");
   }
 
   if (!ready) {

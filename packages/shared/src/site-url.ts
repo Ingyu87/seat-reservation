@@ -11,7 +11,9 @@ export function getAdminSiteUrl() {
 }
 
 export function getBookingSiteUrl() {
-  const configured = normalizeSiteUrl(process.env.NEXT_PUBLIC_BOOKING_SITE_URL);
+  const configured =
+    normalizeSiteUrl(process.env.NEXT_PUBLIC_BOOKING_SITE_URL) ||
+    normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
   if (configured) return configured;
   if (process.env.NODE_ENV === "development") return "http://localhost:3000";
   return "";

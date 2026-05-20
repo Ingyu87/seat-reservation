@@ -61,4 +61,6 @@ npx firebase-tools deploy --only functions
 
 ## 관리자 계정
 
-Firebase **이메일/비밀번호** + custom claim `admin: true` (구글 로그인 필수 아님)
+Firebase **이메일/비밀번호** + custom claim `admin: true` (예: `admin@re.kr`)
+
+설정 방법: **[ADMIN_ACCOUNT.md](ADMIN_ACCOUNT.md)**

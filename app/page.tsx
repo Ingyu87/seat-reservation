@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { SeatMap } from "@/app/components/SeatMap";
 import {
@@ -254,8 +255,14 @@ export default function HomePage() {
                 type="checkbox"
                 onChange={(e) => setForm({ ...form, privacyConsent: e.target.checked })}
               />
-              개인정보 수집 및 이용에 동의합니다.
+              [필수] 개인정보 수집 및 이용에 동의합니다.{" "}
+              <Link href="/privacy" target="_blank">
+                처리방침
+              </Link>
             </label>
+            <p className="hint" style={{ marginTop: 0 }}>
+              수집: 이름, 전화번호 뒤 4자리, 이메일 · 생태전환교육 행사 종료 후 전체 삭제
+            </p>
 
             {error && <div className="error">{error}</div>}
 

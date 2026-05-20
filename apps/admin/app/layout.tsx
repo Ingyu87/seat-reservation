@@ -27,6 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           ) : null}
         </header>
         {children}
+        <footer className="site-footer">
+          <p>© 2026 서울가동초 백인규. All rights reserved.</p>
+        </footer>
       </body>
     </html>
   );

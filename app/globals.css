@@ -156,6 +156,8 @@ input {
 }
 
 .seat-panel {
+  display: flex;
+  justify-content: center;
   overflow: auto;
   max-height: 68vh;
   padding: 12px;
@@ -166,6 +168,8 @@ input {
 }
 
 .seat-map {
+  width: fit-content;
+  margin: 0 auto;
   user-select: none;
 }
 

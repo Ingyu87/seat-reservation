@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
-import { FieldValue, getFirestore, Timestamp } from "firebase-admin/firestore";
+import { FieldValue, getFirestore, Timestamp, type Transaction } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 initializeApp();
 
@@ -92,6 +92,20 @@ function mapAdminReservation(id: string, item: Reservation) {
     createdAt: toDateString(item.createdAt),
     updatedAt: toDateString(item.updatedAt)
   };
+}
+
+async function releaseSeatInTransaction(tx: Transaction, seatId: string) {
+  if (!seatId) return;
+
+  const seatRef = db.collection("seats").doc(seatId);
+  const seatSnap = await tx.get(seatRef);
+  if (!seatSnap.exists) return;
+
+  tx.update(seatRef, {
+    status: "AVAILABLE",
+    reservationId: null,
+    updatedAt: FieldValue.serverTimestamp()
+  });
 }
 
 async function findReservationForOwner(data: Record<string, unknown>) {
@@ -215,7 +229,6 @@ export const changeSeat = onCall(callableOptions, async (request) => {
   const found = await findReservationForOwner(data);
 
   return db.runTransaction(async (tx) => {
-    const oldSeatRef = db.collection("seats").doc(found.data.seatId);
     const newSeatRef = db.collection("seats").doc(newSeatId);
     const newSeatSnap = await tx.get(newSeatRef);
 
@@ -228,11 +241,7 @@ export const changeSeat = onCall(callableOptions, async (request) => {
       throw new HttpsError("already-exists", "Seat is already reserved.");
     }
 
-    tx.update(oldSeatRef, {
-      status: "AVAILABLE",
-      reservationId: null,
-      updatedAt: FieldValue.serverTimestamp()
-    });
+    await releaseSeatInTransaction(tx, found.data.seatId);
     tx.update(newSeatRef, {
       status: "RESERVED",
       reservationId: found.id,
@@ -268,12 +277,7 @@ export const cancelReservation = onCall(callableOptions, async (request) => {
   const found = await findReservationForOwner(request.data as Record<string, unknown>);
 
   await db.runTransaction(async (tx) => {
-    const seatRef = db.collection("seats").doc(found.data.seatId);
-    tx.update(seatRef, {
-      status: "AVAILABLE",
-      reservationId: null,
-      updatedAt: FieldValue.serverTimestamp()
-    });
+    await releaseSeatInTransaction(tx, found.data.seatId);
     tx.update(found.ref, {
       status: "CANCELED",
       canceledAt: FieldValue.serverTimestamp(),
@@ -332,12 +336,7 @@ export const adminDeleteReservation = onCall(callableOptions, async (request) =>
 
     const reservation = reservationSnap.data() as Reservation;
     if (reservation.status === "CONFIRMED") {
-      const seatRef = db.collection("seats").doc(reservation.seatId);
-      tx.update(seatRef, {
-        status: "AVAILABLE",
-        reservationId: null,
-        updatedAt: FieldValue.serverTimestamp()
-      });
+      await releaseSeatInTransaction(tx, reservation.seatId);
     }
 
     tx.update(reservationRef, {
@@ -384,7 +383,6 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
         throw new HttpsError("invalid-argument", "Seat display name must look like A-1.");
       }
       if (newSeatId !== reservation.seatId) {
-        const oldSeatRef = db.collection("seats").doc(reservation.seatId);
         const newSeatRef = db.collection("seats").doc(newSeatId);
         const newSeatSnap = await tx.get(newSeatRef);
 
@@ -397,11 +395,7 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
           throw new HttpsError("already-exists", "Seat is already reserved.");
         }
 
-        tx.update(oldSeatRef, {
-          status: "AVAILABLE",
-          reservationId: null,
-          updatedAt: FieldValue.serverTimestamp()
-        });
+        await releaseSeatInTransaction(tx, reservation.seatId);
         tx.update(newSeatRef, {
           status: "RESERVED",
           reservationId,
@@ -472,11 +466,17 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
 export const seedSeats = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
 
-  const rows = 60;
-  const cols = 40;
+  const rows = 50;
+  const cols = 50;
+  const existingIds = new Set(
+    (await db.collection("seats").select().get()).docs.map((doc) => doc.id)
+  );
+
   let batch = db.batch();
   let inBatch = 0;
   let total = 0;
+  let created = 0;
+  let updated = 0;
 
   async function commitIfNeeded(force = false) {
     if (inBatch === 0 || (!force && inBatch < 450)) return;
@@ -489,20 +489,28 @@ export const seedSeats = onCall(callableOptions, async (request) => {
     const label = rowLabel(row);
     for (let col = 1; col <= cols; col += 1) {
       const id = `MAIN_${label}_${col}`;
-      batch.set(
-        db.collection("seats").doc(id),
-        {
-          section: "MAIN",
-          rowLabel: label,
-          seatNumber: col,
-          displayName: `${label}-${col}`,
-          sortOrder: row * 1000 + col,
+      const ref = db.collection("seats").doc(id);
+      const metadata = {
+        section: "MAIN",
+        rowLabel: label,
+        seatNumber: col,
+        displayName: `${label}-${col}`,
+        sortOrder: row * 1000 + col,
+        updatedAt: FieldValue.serverTimestamp()
+      };
+
+      if (existingIds.has(id)) {
+        batch.set(ref, metadata, { merge: true });
+        updated += 1;
+      } else {
+        batch.set(ref, {
+          ...metadata,
           status: "AVAILABLE",
-          reservationId: null,
-          updatedAt: FieldValue.serverTimestamp()
-        },
-        { merge: true }
-      );
+          reservationId: null
+        });
+        created += 1;
+      }
+
       inBatch += 1;
       total += 1;
       await commitIfNeeded();
@@ -510,5 +518,5 @@ export const seedSeats = onCall(callableOptions, async (request) => {
   }
 
   await commitIfNeeded(true);
-  return { total };
+  return { total, created, updated };
 });

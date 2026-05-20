@@ -9,6 +9,7 @@ import {
   adminSearchReservations,
   adminUpdateReservation,
   auth,
+  getCallableErrorMessage,
   seedSeats
 } from "@/lib/firebase";
 import { downloadReservationsExcel } from "@/lib/export-utils";
@@ -76,7 +77,13 @@ export default function AdminPage() {
   }, [ready]);
 
   async function runSeedSeats() {
-    if (!window.confirm("좌석 데이터 2,400개를 생성하거나 갱신할까요?")) return;
+    if (
+      !window.confirm(
+        "50행 x 50열(2,500석) 기준으로 없는 좌석만 추가합니다.\n기존 예약은 유지됩니다.\n\n계속할까요?"
+      )
+    ) {
+      return;
+    }
 
     setError("");
     setMessage("");
@@ -87,7 +94,9 @@ export default function AdminPage() {
         await auth.currentUser.getIdToken(true);
       }
       const result = await seedSeats();
-      setMessage(`좌석 데이터 ${result.total.toLocaleString()}개가 준비되었습니다.`);
+      setMessage(
+        `좌석 ${result.total.toLocaleString()}개 확인 · 신규 ${result.created.toLocaleString()}개 · 기존 예약 유지 ${result.updated.toLocaleString()}개`
+      );
     } catch {
       setError("좌석 데이터 생성에 실패했습니다. 관리자 권한을 확인해 주세요.");
     } finally {
@@ -129,8 +138,8 @@ export default function AdminPage() {
       await adminDeleteReservation(item.id);
       setMessage(`${item.name} 예약을 삭제했습니다.`);
       await loadReservations();
-    } catch {
-      setError("예약 삭제에 실패했습니다.");
+    } catch (err) {
+      setError(getCallableErrorMessage(err, "예약 삭제에 실패했습니다."));
     }
   }
 
@@ -210,7 +219,9 @@ export default function AdminPage() {
       <section className="panel admin-actions">
         <div>
           <h1>좌석 데이터</h1>
-          <p className="hint">처음 배포한 뒤 한 번 실행하면 60행 x 40열, 총 2,400개 좌석이 생성됩니다.</p>
+          <p className="hint">
+            50행 x 50열(2,500석) 기준으로 없는 좌석만 추가합니다. 이미 예약된 좌석은 초기화되지 않습니다.
+          </p>
         </div>
         <button className="btn btn-primary" disabled={seeding} type="button" onClick={runSeedSeats}>
           {seeding ? "생성 중" : "좌석 데이터 생성"}

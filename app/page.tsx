@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { SeatMap } from "@/app/components/SeatMap";
 import { fetchSeatMap, hasFirebaseConfig, reserveSeat } from "@/lib/firebase";
-import { validatePhoneLast4 } from "@/lib/seat-utils";
+import { assessSeatMapCoverage, TOTAL_SEATS, validatePhoneLast4 } from "@/lib/seat-utils";
 import type { ReservationInput, Seat, SeatMapResponse } from "@/lib/types";
 
 const initialForm = {
@@ -36,6 +37,10 @@ export default function HomePage() {
 
   const reserved = data?.reserved ?? 0;
   const total = data?.total ?? 0;
+  const coverage = useMemo(
+    () => (data?.seats?.length ? assessSeatMapCoverage(data.seats) : null),
+    [data?.seats]
+  );
 
   async function submitReservation() {
     setError("");
@@ -102,7 +107,18 @@ export default function HomePage() {
 
       {total === 0 && (
         <div className="notice">
-          좌석 데이터가 아직 없습니다. 관리자 페이지에서 좌석 데이터 생성을 먼저 실행해 주세요.
+          좌석 데이터가 아직 없습니다.{" "}
+          <Link href="/admin">관리자 페이지</Link>에서 좌석 데이터 생성을 먼저 실행해 주세요.
+        </div>
+      )}
+      {total > 0 && coverage?.needsReseed && (
+        <div className="notice">
+          좌석 배치가 불완전합니다 ({coverage.present.toLocaleString()} / {TOTAL_SEATS.toLocaleString()}석).
+          {coverage.missingSections.length > 0 && (
+            <> 빠진 구역: {coverage.missingSections.join(", ")}.</>
+          )}{" "}
+          <Link href="/admin">관리자 페이지</Link>에서 「좌석 데이터 생성」을 실행하면 빠진 좌석만 추가되고, 기존 예약은
+          유지됩니다.
         </div>
       )}
       {message && <div className="notice">{message}</div>}

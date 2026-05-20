@@ -32,6 +32,15 @@ const app = hasFirebaseConfig && getApps().length === 0 ? initializeApp(firebase
 export const auth = hasFirebaseConfig && app ? getAuth(app) : null;
 const functions = hasFirebaseConfig && app ? getFunctions(app, "asia-northeast3") : null;
 
+export function getCallableErrorMessage(error: unknown, fallback: string) {
+  if (error && typeof error === "object" && "message" in error) {
+    const message = String((error as { message?: string }).message ?? "").trim();
+    if (message) return message;
+  }
+
+  return fallback;
+}
+
 async function callFunction<TInput, TOutput>(name: string, input?: TInput): Promise<TOutput> {
   if (!functions) {
     throw new Error("Firebase 설정이 없습니다.");
@@ -91,5 +100,5 @@ export async function adminResetAllReservations() {
 }
 
 export async function seedSeats() {
-  return callFunction<undefined, { total: number }>("seedSeats");
+  return callFunction<undefined, { total: number; created: number; updated: number }>("seedSeats");
 }

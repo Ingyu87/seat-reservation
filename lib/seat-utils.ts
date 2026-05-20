@@ -1,8 +1,8 @@
 import type { Seat } from "@/lib/types";
 
-export const ROWS = 60;
-export const COLS = 40;
-export const COLS_PER_BLOCK = 20;
+export const ROWS = 50;
+export const COLS = 50;
+export const COLS_PER_BLOCK = 25;
 export const TOTAL_SEATS = ROWS * COLS;
 
 export type SeatSection = {
@@ -15,7 +15,7 @@ export type SeatSection = {
 export const SEAT_SECTIONS: SeatSection[] = [
   { id: "FRONT", label: "앞좌석 (A~T열)", fromRow: 1, toRow: 20 },
   { id: "MIDDLE", label: "중간좌석 (U~AN열)", fromRow: 21, toRow: 40 },
-  { id: "BACK", label: "뒷좌석 (AO~BH열)", fromRow: 41, toRow: 60 }
+  { id: "BACK", label: "뒷좌석 (AO~AX열)", fromRow: 41, toRow: 50 }
 ];
 
 export function rowLabel(row: number) {
@@ -44,6 +44,44 @@ export function generateDemoSeats(): Seat[] {
       status: "AVAILABLE"
     };
   });
+}
+
+export type SeatMapCoverage = {
+  expected: number;
+  present: number;
+  needsReseed: boolean;
+  missingSections: string[];
+};
+
+export function assessSeatMapCoverage(seats: Seat[]): SeatMapCoverage {
+  const seatIds = new Set(seats.map((seat) => seat.id));
+  let present = 0;
+  const missingSections: string[] = [];
+
+  for (const section of SEAT_SECTIONS) {
+    let sectionPresent = 0;
+    const sectionTotal = (section.toRow - section.fromRow + 1) * COLS;
+
+    for (let row = section.fromRow; row <= section.toRow; row += 1) {
+      for (let col = 1; col <= COLS; col += 1) {
+        if (seatIds.has(makeSeatId(row, col))) {
+          sectionPresent += 1;
+        }
+      }
+    }
+
+    present += sectionPresent;
+    if (sectionPresent < sectionTotal) {
+      missingSections.push(section.label);
+    }
+  }
+
+  return {
+    expected: TOTAL_SEATS,
+    present,
+    needsReseed: present < TOTAL_SEATS,
+    missingSections
+  };
 }
 
 export function indexSeatsByPosition(seats: Seat[]) {

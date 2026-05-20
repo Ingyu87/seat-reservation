@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { SeatMap } from "@/app/components/SeatMap";
 import { fetchSeatMap, hasFirebaseConfig, reserveSeat } from "@/lib/firebase";
-import { groupSeatsByRow, validatePhoneLast4 } from "@/lib/seat-utils";
+import { validatePhoneLast4 } from "@/lib/seat-utils";
 import type { ReservationInput, Seat, SeatMapResponse } from "@/lib/types";
 
 const initialForm = {
   name: "",
   phoneLast4: "",
   email: "",
-  editPassword: "",
   privacyConsent: false
 };
 
@@ -34,7 +34,6 @@ export default function HomePage() {
     return () => window.clearInterval(timer);
   }, []);
 
-  const rows = useMemo(() => groupSeatsByRow(data?.seats ?? []), [data]);
   const reserved = data?.reserved ?? 0;
   const total = data?.total ?? 0;
 
@@ -55,14 +54,6 @@ export default function HomePage() {
       setError("이메일 주소를 확인해 주세요.");
       return;
     }
-    if (form.editPassword.length < 4) {
-      setError("수정 비밀번호는 4자 이상 입력해 주세요.");
-      return;
-    }
-    if (form.editPassword === form.phoneLast4) {
-      setError("수정 비밀번호는 전화번호 뒤 4자리와 다르게 입력해 주세요.");
-      return;
-    }
     if (!form.privacyConsent) {
       setError("개인정보 수집 및 이용에 동의해 주세요.");
       return;
@@ -75,7 +66,6 @@ export default function HomePage() {
         name: form.name.trim(),
         phoneLast4: form.phoneLast4,
         email: form.email.trim(),
-        editPassword: form.editPassword,
         privacyConsent: form.privacyConsent
       };
       const result = await reserveSeat(input);
@@ -133,30 +123,20 @@ export default function HomePage() {
         </span>
       </div>
 
-      <div className="stage">무대</div>
+      <div className="stage">★ 무 대 ★</div>
       <section className="seat-panel" aria-label="좌석 배치도">
-        {Object.entries(rows).map(([label, seats]) => (
-          <div className="seat-row" key={label}>
-            <div className="row-label">{label}</div>
-            {seats.map((seat, index) => (
-              <button
-                aria-label={`${seat.displayName}, ${seat.status === "AVAILABLE" ? "예약 가능" : "예약 완료"}`}
-                className={["seat-cell", seat.status.toLowerCase(), selected?.id === seat.id ? "selected" : ""].join(" ")}
-                disabled={seat.status !== "AVAILABLE"}
-                key={seat.id}
-                style={index === 24 ? { marginRight: 10 } : undefined}
-                title={seat.displayName}
-                type="button"
-                onClick={() => {
-                  setSelected(seat);
-                  setError("");
-                  setMessage("");
-                }}
-              />
-            ))}
-          </div>
-        ))}
+        <SeatMap
+          seats={data?.seats ?? []}
+          selectedId={selected?.id}
+          onSelect={(seat) => {
+            setSelected(seat);
+            setForm(initialForm);
+            setError("");
+            setMessage("");
+          }}
+        />
       </section>
+      <p className="seat-map-hint">좌석을 클릭하여 예약하세요 · 예약 조회는 이름과 전화번호 뒤 4자리로 할 수 있습니다</p>
 
       {selected && (
         <div className="modal-backdrop" onClick={(event) => event.target === event.currentTarget && setSelected(null)}>
@@ -164,36 +144,41 @@ export default function HomePage() {
             <h2>좌석 예약</h2>
             <div className="notice">선택 좌석: {selected.displayName}</div>
 
+            <form autoComplete="off" onSubmit={(event) => event.preventDefault()}>
             <div className="field">
-              <label htmlFor="name">이름 *</label>
-              <input id="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <label htmlFor="reservation-name">이름 *</label>
+              <input
+                autoComplete="off"
+                id="reservation-name"
+                name="reservation-name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
             </div>
 
             <div className="field">
-              <label htmlFor="phoneLast4">전화번호 뒤 4자리 *</label>
+              <label htmlFor="reservation-phone">전화번호 뒤 4자리 *</label>
               <input
-                id="phoneLast4"
+                autoComplete="off"
+                id="reservation-phone"
                 inputMode="numeric"
                 maxLength={4}
+                name="reservation-phone"
                 value={form.phoneLast4}
                 onChange={(e) => setForm({ ...form, phoneLast4: e.target.value.replace(/\D/g, "").slice(0, 4) })}
               />
             </div>
 
             <div className="field">
-              <label htmlFor="email">이메일 *</label>
-              <input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-            </div>
-
-            <div className="field">
-              <label htmlFor="editPassword">수정 비밀번호 *</label>
+              <label htmlFor="reservation-email">이메일 *</label>
               <input
-                id="editPassword"
-                type="password"
-                value={form.editPassword}
-                onChange={(e) => setForm({ ...form, editPassword: e.target.value })}
+                autoComplete="off"
+                id="reservation-email"
+                name="reservation-email"
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
-              <span className="hint">예약 조회, 좌석 변경, 예약 취소 때 사용합니다.</span>
             </div>
 
             <label className="hint consent-row">
@@ -215,6 +200,7 @@ export default function HomePage() {
                 {submitting ? "예약 중" : "예약하기"}
               </button>
             </div>
+            </form>
           </div>
         </div>
       )}

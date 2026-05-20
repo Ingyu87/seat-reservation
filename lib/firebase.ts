@@ -6,6 +6,7 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import { generateDemoSeats } from "@/lib/seat-utils";
 import type {
   AdminReservation,
+  AdminUpdateReservationInput,
   LookupInput,
   ReservationInput,
   ReservationSummary,
@@ -75,6 +76,18 @@ export async function cancelReservation(input: LookupInput) {
 
 export async function adminSearchReservations(query: string) {
   return callFunction<{ query: string }, { items: AdminReservation[] }>("adminSearchReservations", { query });
+}
+
+export async function adminDeleteReservation(reservationId: string) {
+  return callFunction<{ reservationId: string }, { ok: boolean }>("adminDeleteReservation", { reservationId });
+}
+
+export async function adminUpdateReservation(input: AdminUpdateReservationInput) {
+  return callFunction<AdminUpdateReservationInput, AdminReservation>("adminUpdateReservation", input);
+}
+
+export async function adminResetAllReservations() {
+  return callFunction<undefined, { canceled: number; released: number }>("adminResetAllReservations");
 }
 
 export async function seedSeats() {

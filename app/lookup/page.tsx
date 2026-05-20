@@ -7,10 +7,11 @@ import {
   fetchSeatMap,
   lookupReservation
 } from "@/lib/firebase";
-import { groupSeatsByRow, validatePhoneLast4 } from "@/lib/seat-utils";
+import { SeatMap } from "@/app/components/SeatMap";
+import { validatePhoneLast4 } from "@/lib/seat-utils";
 import type { LookupInput, ReservationSummary, Seat } from "@/lib/types";
 
-const emptyLookup = { name: "", phoneLast4: "", editPassword: "" };
+const emptyLookup = { name: "", phoneLast4: "" };
 
 export default function LookupPage() {
   const [form, setForm] = useState<LookupInput>(emptyLookup);
@@ -26,8 +27,8 @@ export default function LookupPage() {
     setMessage("");
     setFound(null);
 
-    if (!form.name.trim() || !validatePhoneLast4(form.phoneLast4) || form.editPassword.length < 4) {
-      setError("이름, 전화번호 뒤 4자리, 수정 비밀번호를 다시 확인해 주세요.");
+    if (!form.name.trim() || !validatePhoneLast4(form.phoneLast4)) {
+      setError("이름과 전화번호 뒤 4자리를 다시 확인해 주세요.");
       return;
     }
 
@@ -80,14 +81,12 @@ export default function LookupPage() {
     }
   }
 
-  const rows = groupSeatsByRow(seats);
-
   return (
     <main className="page">
       <div className="lookup-wrap">
         <section className="panel">
           <h1>예약 조회</h1>
-          <p className="hint">이름, 전화번호 뒤 4자리, 수정 비밀번호로 예약을 조회합니다.</p>
+          <p className="hint">이름과 전화번호 뒤 4자리로 예약을 조회합니다.</p>
 
           <div className="field">
             <label htmlFor="lookup-name">이름</label>
@@ -102,16 +101,6 @@ export default function LookupPage() {
               maxLength={4}
               value={form.phoneLast4}
               onChange={(e) => setForm({ ...form, phoneLast4: e.target.value.replace(/\D/g, "").slice(0, 4) })}
-            />
-          </div>
-
-          <div className="field">
-            <label htmlFor="lookup-password">수정 비밀번호</label>
-            <input
-              id="lookup-password"
-              type="password"
-              value={form.editPassword}
-              onChange={(e) => setForm({ ...form, editPassword: e.target.value })}
             />
           </div>
 
@@ -148,26 +137,7 @@ export default function LookupPage() {
             <h2>새 좌석 선택</h2>
             <p className="hint">예약 가능한 좌석을 선택한 뒤 변경을 확정해 주세요.</p>
             <div className="seat-panel" style={{ maxHeight: 420 }}>
-              {Object.entries(rows).map(([label, rowSeats]) => (
-                <div className="seat-row" key={label}>
-                  <div className="row-label">{label}</div>
-                  {rowSeats.map((seat) => (
-                    <button
-                      aria-label={`${seat.displayName}, ${seat.status === "AVAILABLE" ? "예약 가능" : "예약 완료"}`}
-                      className={[
-                        "seat-cell",
-                        seat.status.toLowerCase(),
-                        selected?.id === seat.id ? "selected" : ""
-                      ].join(" ")}
-                      disabled={seat.status !== "AVAILABLE"}
-                      key={seat.id}
-                      title={seat.displayName}
-                      type="button"
-                      onClick={() => setSelected(seat)}
-                    />
-                  ))}
-                </div>
-              ))}
+              <SeatMap seats={seats} selectedId={selected?.id} onSelect={setSelected} />
             </div>
             <div className="button-row" style={{ marginTop: 14 }}>
               <button className="btn btn-secondary" type="button" onClick={() => setChanging(false)}>

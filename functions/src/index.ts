@@ -2,8 +2,6 @@ import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { FieldValue, getFirestore, Timestamp } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
-import crypto from "node:crypto";
-
 initializeApp();
 
 const db = getFirestore();
@@ -17,7 +15,6 @@ type Reservation = {
   name: string;
   phoneLast4: string;
   email: string;
-  editPasswordHash: string;
   status: ReservationStatus;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
@@ -53,10 +50,6 @@ function normalizeEmail(value: unknown) {
   return email;
 }
 
-function hashPassword(password: string) {
-  return crypto.createHash("sha256").update(password).digest("hex");
-}
-
 function maskEmail(email: string) {
   const [name, domain] = email.split("@");
   if (!domain) return email;
@@ -81,11 +74,29 @@ function adminFlag(request: { auth?: { token: unknown } }) {
   return (request.auth?.token as { admin?: boolean } | undefined)?.admin === true;
 }
 
+function displayNameToSeatId(displayName: string) {
+  const [row, col] = displayName.trim().split("-");
+  if (!row || !col) return null;
+  return `MAIN_${row}_${col}`;
+}
+
+function mapAdminReservation(id: string, item: Reservation) {
+  return {
+    id,
+    name: item.name,
+    phoneLast4: item.phoneLast4,
+    email: item.email,
+    seatId: item.seatId,
+    seatDisplayName: item.seatDisplayName,
+    status: item.status,
+    createdAt: toDateString(item.createdAt),
+    updatedAt: toDateString(item.updatedAt)
+  };
+}
+
 async function findReservationForOwner(data: Record<string, unknown>) {
   const name = assertString(data.name, "name");
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
-  const editPassword = assertString(data.editPassword, "editPassword");
-  const passwordHash = hashPassword(editPassword);
 
   const snap = await db
     .collection("reservations")
@@ -95,10 +106,15 @@ async function findReservationForOwner(data: Record<string, unknown>) {
     .limit(20)
     .get();
 
-  const match = snap.docs.find((doc) => (doc.data() as Reservation).editPasswordHash === passwordHash);
-  if (!match) {
+  if (snap.empty) {
     throw new HttpsError("not-found", "Reservation was not found.");
   }
+
+  const match = snap.docs.sort((a, b) => {
+    const aTime = (a.data().createdAt as Timestamp | undefined)?.toMillis() ?? 0;
+    const bTime = (b.data().createdAt as Timestamp | undefined)?.toMillis() ?? 0;
+    return bTime - aTime;
+  })[0];
   return { id: match.id, data: match.data() as Reservation, ref: match.ref };
 }
 
@@ -115,14 +131,10 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
   const name = assertString(data.name, "name");
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
   const email = normalizeEmail(data.email);
-  const editPassword = assertString(data.editPassword, "editPassword");
   const privacyConsent = data.privacyConsent === true;
 
   if (!privacyConsent) {
     throw new HttpsError("invalid-argument", "Privacy consent is required.");
-  }
-  if (editPassword.length < 4 || editPassword === phoneLast4) {
-    throw new HttpsError("invalid-argument", "Edit password must be at least 4 characters and different from phoneLast4.");
   }
 
   return db.runTransaction(async (tx) => {
@@ -151,7 +163,6 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
       name,
       phoneLast4,
       email,
-      editPasswordHash: hashPassword(editPassword),
       status: "CONFIRMED",
       privacyConsent: true,
       privacyConsentAt: FieldValue.serverTimestamp(),
@@ -291,7 +302,7 @@ export const cancelReservation = onCall(callableOptions, async (request) => {
 export const adminSearchReservations = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
   const query = String((request.data as { query?: string }).query ?? "").trim().toLowerCase();
-  const snap = await db.collection("reservations").orderBy("createdAt", "desc").limit(200).get();
+  const snap = await db.collection("reservations").orderBy("createdAt", "desc").limit(5000).get();
   const items = snap.docs
     .map((doc) => ({ id: doc.id, ...(doc.data() as Reservation) }))
     .filter((item) => {
@@ -303,26 +314,166 @@ export const adminSearchReservations = onCall(callableOptions, async (request) =
         item.seatDisplayName.toLowerCase().includes(query)
       );
     })
-    .slice(0, 50)
-    .map((item) => ({
-      id: item.id,
-      name: item.name,
-      phoneLast4: item.phoneLast4,
-      email: item.email,
-      seatDisplayName: item.seatDisplayName,
-      status: item.status,
-      createdAt: toDateString(item.createdAt),
-      updatedAt: toDateString(item.updatedAt)
-    }));
+    .map((item) => mapAdminReservation(item.id, item));
 
   return { items };
+});
+
+export const adminDeleteReservation = onCall(callableOptions, async (request) => {
+  await assertAdmin(request.auth?.uid, adminFlag(request));
+  const reservationId = assertString((request.data as { reservationId?: string }).reservationId, "reservationId");
+  const reservationRef = db.collection("reservations").doc(reservationId);
+
+  await db.runTransaction(async (tx) => {
+    const reservationSnap = await tx.get(reservationRef);
+    if (!reservationSnap.exists) {
+      throw new HttpsError("not-found", "Reservation was not found.");
+    }
+
+    const reservation = reservationSnap.data() as Reservation;
+    if (reservation.status === "CONFIRMED") {
+      const seatRef = db.collection("seats").doc(reservation.seatId);
+      tx.update(seatRef, {
+        status: "AVAILABLE",
+        reservationId: null,
+        updatedAt: FieldValue.serverTimestamp()
+      });
+    }
+
+    tx.update(reservationRef, {
+      status: "CANCELED",
+      canceledAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp()
+    });
+  });
+
+  return { ok: true };
+});
+
+export const adminUpdateReservation = onCall(callableOptions, async (request) => {
+  await assertAdmin(request.auth?.uid, adminFlag(request));
+  const data = request.data as Record<string, unknown>;
+  const reservationId = assertString(data.reservationId, "reservationId");
+  const name = assertString(data.name, "name");
+  const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
+  const email = normalizeEmail(data.email);
+  const seatDisplayName =
+    typeof data.seatDisplayName === "string" && data.seatDisplayName.trim()
+      ? data.seatDisplayName.trim()
+      : undefined;
+
+  const reservationRef = db.collection("reservations").doc(reservationId);
+
+  return db.runTransaction(async (tx) => {
+    const reservationSnap = await tx.get(reservationRef);
+    if (!reservationSnap.exists) {
+      throw new HttpsError("not-found", "Reservation was not found.");
+    }
+
+    const reservation = reservationSnap.data() as Reservation;
+    const updates: Record<string, unknown> = {
+      name,
+      phoneLast4,
+      email,
+      updatedAt: FieldValue.serverTimestamp()
+    };
+
+    if (seatDisplayName && reservation.status === "CONFIRMED") {
+      const newSeatId = displayNameToSeatId(seatDisplayName);
+      if (!newSeatId) {
+        throw new HttpsError("invalid-argument", "Seat display name must look like A-1.");
+      }
+      if (newSeatId !== reservation.seatId) {
+        const oldSeatRef = db.collection("seats").doc(reservation.seatId);
+        const newSeatRef = db.collection("seats").doc(newSeatId);
+        const newSeatSnap = await tx.get(newSeatRef);
+
+        if (!newSeatSnap.exists) {
+          throw new HttpsError("not-found", "Seat was not found.");
+        }
+
+        const newSeat = newSeatSnap.data() as { displayName: string; status: string };
+        if (newSeat.status !== "AVAILABLE") {
+          throw new HttpsError("already-exists", "Seat is already reserved.");
+        }
+
+        tx.update(oldSeatRef, {
+          status: "AVAILABLE",
+          reservationId: null,
+          updatedAt: FieldValue.serverTimestamp()
+        });
+        tx.update(newSeatRef, {
+          status: "RESERVED",
+          reservationId,
+          updatedAt: FieldValue.serverTimestamp()
+        });
+        updates.seatId = newSeatId;
+        updates.seatDisplayName = newSeat.displayName;
+      }
+    }
+
+    tx.update(reservationRef, updates);
+    return mapAdminReservation(reservationId, {
+      ...reservation,
+      ...updates,
+      name,
+      phoneLast4,
+      email,
+      seatId: (updates.seatId as string | undefined) ?? reservation.seatId,
+      seatDisplayName: (updates.seatDisplayName as string | undefined) ?? reservation.seatDisplayName
+    } as Reservation);
+  });
+});
+
+export const adminResetAllReservations = onCall(callableOptions, async (request) => {
+  await assertAdmin(request.auth?.uid, adminFlag(request));
+
+  const reservationsSnap = await db.collection("reservations").where("status", "==", "CONFIRMED").get();
+  const seatsSnap = await db.collection("seats").where("status", "==", "RESERVED").get();
+
+  let batch = db.batch();
+  let inBatch = 0;
+  let canceled = 0;
+  let released = 0;
+
+  async function commitIfNeeded(force = false) {
+    if (inBatch === 0 || (!force && inBatch < 450)) return;
+    await batch.commit();
+    batch = db.batch();
+    inBatch = 0;
+  }
+
+  for (const doc of reservationsSnap.docs) {
+    batch.update(doc.ref, {
+      status: "CANCELED",
+      canceledAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp()
+    });
+    inBatch += 1;
+    canceled += 1;
+    await commitIfNeeded();
+  }
+
+  for (const doc of seatsSnap.docs) {
+    batch.update(doc.ref, {
+      status: "AVAILABLE",
+      reservationId: null,
+      updatedAt: FieldValue.serverTimestamp()
+    });
+    inBatch += 1;
+    released += 1;
+    await commitIfNeeded();
+  }
+
+  await commitIfNeeded(true);
+  return { canceled, released };
 });
 
 export const seedSeats = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
 
-  const rows = 50;
-  const cols = 50;
+  const rows = 60;
+  const cols = 40;
   let batch = db.batch();
   let inBatch = 0;
   let total = 0;

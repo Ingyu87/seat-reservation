@@ -21,14 +21,12 @@ export type ReservationInput = {
   name: string;
   phoneLast4: string;
   email: string;
-  editPassword: string;
   privacyConsent: boolean;
 };
 
 export type LookupInput = {
   name: string;
   phoneLast4: string;
-  editPassword: string;
 };
 
 export type ReservationSummary = {
@@ -49,8 +47,17 @@ export type AdminReservation = {
   name: string;
   phoneLast4: string;
   email: string;
+  seatId: string;
   seatDisplayName: string;
   status: "CONFIRMED" | "CANCELED";
   createdAt?: string;
   updatedAt?: string;
+};
+
+export type AdminUpdateReservationInput = {
+  reservationId: string;
+  name: string;
+  phoneLast4: string;
+  email: string;
+  seatDisplayName?: string;
 };

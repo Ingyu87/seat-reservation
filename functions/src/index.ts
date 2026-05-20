@@ -7,6 +7,7 @@ import crypto from "node:crypto";
 initializeApp();
 
 const db = getFirestore();
+const callableOptions = { region: "asia-northeast3", cors: true } as const;
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 
@@ -101,14 +102,14 @@ async function findReservationForOwner(data: Record<string, unknown>) {
   return { id: match.id, data: match.data() as Reservation, ref: match.ref };
 }
 
-export const getSeatMap = onCall({ region: "asia-northeast3" }, async () => {
+export const getSeatMap = onCall(callableOptions, async () => {
   const snap = await db.collection("seats").orderBy("sortOrder", "asc").get();
   const seats = snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as { status?: string }) }));
   const reserved = seats.filter((seat) => seat.status === "RESERVED").length;
   return { total: seats.length, reserved, seats };
 });
 
-export const reserveSeat = onCall({ region: "asia-northeast3" }, async (request) => {
+export const reserveSeat = onCall(callableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const seatId = assertString(data.seatId, "seatId");
   const name = assertString(data.name, "name");
@@ -181,7 +182,7 @@ export const reserveSeat = onCall({ region: "asia-northeast3" }, async (request)
   });
 });
 
-export const lookupReservation = onCall({ region: "asia-northeast3" }, async (request) => {
+export const lookupReservation = onCall(callableOptions, async (request) => {
   const found = await findReservationForOwner(request.data as Record<string, unknown>);
   return {
     reservationId: found.id,
@@ -197,7 +198,7 @@ export const lookupReservation = onCall({ region: "asia-northeast3" }, async (re
   };
 });
 
-export const changeSeat = onCall({ region: "asia-northeast3" }, async (request) => {
+export const changeSeat = onCall(callableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const newSeatId = assertString(data.newSeatId, "newSeatId");
   const found = await findReservationForOwner(data);
@@ -252,7 +253,7 @@ export const changeSeat = onCall({ region: "asia-northeast3" }, async (request) 
   });
 });
 
-export const cancelReservation = onCall({ region: "asia-northeast3" }, async (request) => {
+export const cancelReservation = onCall(callableOptions, async (request) => {
   const found = await findReservationForOwner(request.data as Record<string, unknown>);
 
   await db.runTransaction(async (tx) => {
@@ -287,7 +288,7 @@ export const cancelReservation = onCall({ region: "asia-northeast3" }, async (re
   return { ok: true };
 });
 
-export const adminSearchReservations = onCall({ region: "asia-northeast3" }, async (request) => {
+export const adminSearchReservations = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
   const query = String((request.data as { query?: string }).query ?? "").trim().toLowerCase();
   const snap = await db.collection("reservations").orderBy("createdAt", "desc").limit(200).get();
@@ -317,7 +318,7 @@ export const adminSearchReservations = onCall({ region: "asia-northeast3" }, asy
   return { items };
 });
 
-export const seedSeats = onCall({ region: "asia-northeast3" }, async (request) => {
+export const seedSeats = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
 
   const rows = 50;

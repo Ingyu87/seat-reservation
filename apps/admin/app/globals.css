@@ -20,10 +20,18 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0;
   background: #f7faf7;
   color: #1f2933;
   font-family: Arial, "Noto Sans KR", sans-serif;
+}
+
+.site-main {
+  flex: 1 0 auto;
+  width: 100%;
 }
 
 a {
@@ -95,16 +103,28 @@ input {
 }
 
 .site-footer {
-  margin-top: 32px;
-  padding: 20px 24px 32px;
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: 20px 24px 28px;
   color: var(--gray-500);
   font-size: 12px;
+  line-height: 1.7;
   text-align: center;
+  background: #fff;
   border-top: 1px solid var(--gray-200);
 }
 
 .site-footer p {
   margin: 0;
+}
+
+.site-footer p + p {
+  margin-top: 4px;
+}
+
+.site-footer a {
+  color: #283593;
+  text-decoration: underline;
 }
 
 .summary {

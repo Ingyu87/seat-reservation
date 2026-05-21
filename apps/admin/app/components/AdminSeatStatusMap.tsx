@@ -4,9 +4,12 @@ type AdminSeatStatusMapProps = {
   seats: Seat[];
 };
 
-const VIEWBOX_WIDTH = 760;
-const FLOOR_HEIGHT = 300;
-const MARGIN = 24;
+const VIEWBOX_WIDTH = 1040;
+const MARGIN = 30;
+const MAP_TOP = 92;
+const MAP_BOTTOM = 34;
+const MAX_SEAT_SIZE = 8;
+const MIN_SEAT_SIZE = 4;
 
 export function AdminSeatStatusMap({ seats }: AdminSeatStatusMapProps) {
   const floors = Array.from(new Set(seats.map((seat) => seat.floor))).sort();
@@ -26,10 +29,12 @@ export function AdminSeatStatusMap({ seats }: AdminSeatStatusMapProps) {
         const maxRow = Math.max(...rows);
         const minColumn = Math.min(...columns);
         const maxColumn = Math.max(...columns);
-        const cell = Math.min(
-          (VIEWBOX_WIDTH - MARGIN * 2) / (maxColumn - minColumn + 1),
-          (FLOOR_HEIGHT - 76) / (maxRow - minRow + 1)
-        );
+        const rowCount = maxRow - minRow + 1;
+        const columnCount = maxColumn - minColumn + 1;
+        const cell = Math.max(MIN_SEAT_SIZE, Math.min(MAX_SEAT_SIZE, (VIEWBOX_WIDTH - MARGIN * 2) / columnCount));
+        const usedWidth = columnCount * cell;
+        const mapLeft = Math.max(MARGIN, (VIEWBOX_WIDTH - usedWidth) / 2);
+        const floorHeight = MAP_TOP + rowCount * cell + MAP_BOTTOM;
 
         return (
           <section className="admin-seat-floor" key={floor}>
@@ -43,15 +48,15 @@ export function AdminSeatStatusMap({ seats }: AdminSeatStatusMapProps) {
                 <span>잔여 {(floorSeats.length - reservedCount).toLocaleString()}석</span>
               </div>
             </div>
-            <svg role="img" viewBox={`0 0 ${VIEWBOX_WIDTH} ${FLOOR_HEIGHT}`} aria-label={`${floorSeats[0]?.floorLabel ?? floor} 좌석 현황`}>
-              <rect className="admin-seat-map-bg" x="1" y="1" width={VIEWBOX_WIDTH - 2} height={FLOOR_HEIGHT - 2} rx="12" />
+            <svg role="img" viewBox={`0 0 ${VIEWBOX_WIDTH} ${floorHeight}`} aria-label={`${floorSeats[0]?.floorLabel ?? floor} 좌석 현황`}>
+              <rect className="admin-seat-map-bg" x="1" y="1" width={VIEWBOX_WIDTH - 2} height={floorHeight - 2} rx="12" />
               <path className="admin-seat-stage" d={`M ${MARGIN} 34 Q ${VIEWBOX_WIDTH / 2} 8 ${VIEWBOX_WIDTH - MARGIN} 34`} />
               <text className="admin-seat-stage-label" x={VIEWBOX_WIDTH / 2} y="56" textAnchor="middle">
                 STAGE
               </text>
               {floorSeats.map((seat) => {
-                const x = MARGIN + (seat.gridColumn - minColumn) * cell;
-                const y = 82 + (seat.gridRow - minRow) * cell;
+                const x = mapLeft + (seat.gridColumn - minColumn) * cell;
+                const y = MAP_TOP + (seat.gridRow - minRow) * cell;
                 const reserved = seat.status === "RESERVED";
 
                 return (

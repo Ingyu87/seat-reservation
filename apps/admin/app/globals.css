@@ -190,7 +190,7 @@ input {
 }
 
 .reserved-swatch {
-  background: #bdbdbd;
+  background: #ef4444;
 }
 
 .admin-tabs {
@@ -247,10 +247,13 @@ input {
 .admin-seat-status-map {
   display: grid;
   gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .admin-seat-floor {
-  min-width: 760px;
+  min-width: 1040px;
   padding: 14px;
   background: #f8faf8;
   border: 1px solid var(--gray-200);
@@ -312,9 +315,9 @@ input {
 }
 
 .admin-seat-dot.reserved {
-  fill: #bdbdbd;
-  stroke: #9e9e9e;
-  stroke-width: 0.8;
+  fill: #ef4444;
+  stroke: #991b1b;
+  stroke-width: 1.1;
 }
 
 .stage {

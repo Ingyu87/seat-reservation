@@ -9,9 +9,9 @@ import {
   adminSearchReservations,
   adminUpdateReservation,
   auth,
+  downloadReservationsExcel,
   getCallableErrorMessage
 } from "@seat/shared";
-import { downloadReservationsExcel } from "@seat/shared";
 import type { AdminReservation, AdminUpdateReservationInput } from "@seat/shared";
 
 export default function AdminPage() {
@@ -24,11 +24,12 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [editing, setEditing] = useState<AdminReservation | null>(null);
-  const [editForm, setEditForm] = useState<Omit<AdminUpdateReservationInput, "reservationId">>({
+  const [editForm, setEditForm] = useState<Omit<AdminUpdateReservationInput, "reservationId"> & { seatText: string }>({
     name: "",
     phoneLast4: "",
     email: "",
-    seatDisplayName: ""
+    seatDisplayNames: [],
+    seatText: ""
   });
   const [saving, setSaving] = useState(false);
   const [pageSize, setPageSize] = useState<20 | 50>(20);
@@ -92,7 +93,7 @@ export default function AdminPage() {
   }, [page, totalPages]);
 
   async function runResetAll() {
-    if (!window.confirm("모든 예약을 취소하고 좌석을 전부 비울까요? 이 작업은 되돌릴 수 없습니다.")) return;
+    if (!window.confirm("모든 예약을 취소하고 좌석을 비울까요? 이 작업은 되돌릴 수 없습니다.")) return;
 
     setError("");
     setMessage("");
@@ -113,7 +114,7 @@ export default function AdminPage() {
   }
 
   async function removeReservation(item: AdminReservation) {
-    if (!window.confirm(`${item.name} (${item.seatDisplayName}) 예약을 완전히 삭제할까요? 복구할 수 없습니다.`)) return;
+    if (!window.confirm(`${item.name} (${item.seatDisplayNames.join(", ")}) 예약을 완전히 삭제할까요?`)) return;
 
     setError("");
     setMessage("");
@@ -136,7 +137,8 @@ export default function AdminPage() {
       name: item.name,
       phoneLast4: item.phoneLast4,
       email: item.email,
-      seatDisplayName: item.seatDisplayName
+      seatDisplayNames: item.seatDisplayNames,
+      seatText: item.seatDisplayNames.join(", ")
     });
     setError("");
   }
@@ -148,19 +150,27 @@ export default function AdminPage() {
     setMessage("");
     setSaving(true);
 
+    const seatDisplayNames = editForm.seatText
+      .split(",")
+      .map((seat) => seat.trim())
+      .filter(Boolean);
+
     try {
       if (auth?.currentUser) {
         await auth.currentUser.getIdToken(true);
       }
       await adminUpdateReservation({
         reservationId: editing.id,
-        ...editForm
+        name: editForm.name,
+        phoneLast4: editForm.phoneLast4,
+        email: editForm.email,
+        seatDisplayNames
       });
       setMessage(`${editForm.name} 예약 정보를 수정했습니다.`);
       setEditing(null);
       await loadReservations();
     } catch {
-      setError("예약 수정에 실패했습니다. 입력값과 좌석 번호를 확인해 주세요.");
+      setError("예약 수정에 실패했습니다. 입력값과 좌석 개수를 확인해 주세요.");
     } finally {
       setSaving(false);
     }
@@ -172,7 +182,7 @@ export default function AdminPage() {
       return;
     }
     downloadReservationsExcel(items);
-    setMessage(`예약 ${items.length.toLocaleString()}건을 엑셀(CSV) 파일로 다운로드했습니다.`);
+    setMessage(`예약 ${items.length.toLocaleString()}건을 CSV 파일로 다운로드했습니다.`);
   }
 
   async function logout() {
@@ -206,7 +216,7 @@ export default function AdminPage() {
       <section className="panel" style={{ marginBottom: 16 }}>
         <h1>예약 관리</h1>
         <div className="field">
-          <label htmlFor="admin-query">이름, 전화번호 뒤 4자리, 이메일, 좌석</label>
+          <label htmlFor="admin-query">이름, 전화번호 뒷자리, 이메일, 좌석</label>
           <input
             id="admin-query"
             value={query}
@@ -235,7 +245,7 @@ export default function AdminPage() {
             <span>
               {items.length === 0
                 ? "표시할 예약이 없습니다."
-                : `${rangeStart.toLocaleString()}–${rangeEnd.toLocaleString()} / 전체 ${items.length.toLocaleString()}건`}
+                : `${rangeStart.toLocaleString()}~${rangeEnd.toLocaleString()} / 전체 ${items.length.toLocaleString()}건`}
             </span>
             <span className="hint">
               페이지 {page.toLocaleString()} / {totalPages.toLocaleString()}
@@ -256,20 +266,10 @@ export default function AdminPage() {
               <option value={20}>20명</option>
               <option value={50}>50명</option>
             </select>
-            <button
-              className="btn btn-secondary btn-small"
-              disabled={page <= 1 || items.length === 0}
-              type="button"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-            >
+            <button className="btn btn-secondary btn-small" disabled={page <= 1 || items.length === 0} type="button" onClick={() => setPage((p) => Math.max(1, p - 1))}>
               이전
             </button>
-            <button
-              className="btn btn-secondary btn-small"
-              disabled={page >= totalPages || items.length === 0}
-              type="button"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            >
+            <button className="btn btn-secondary btn-small" disabled={page >= totalPages || items.length === 0} type="button" onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
               다음
             </button>
           </div>
@@ -284,10 +284,12 @@ export default function AdminPage() {
             <article className="reservation-card" key={item.id}>
               <div className="reservation-card-head">
                 <strong>{item.name}</strong>
-                <span className="reservation-card-seat">{item.seatDisplayName}</span>
+                <span className="reservation-card-seat">{item.seatCount}석</span>
               </div>
               <dl>
-                <dt>전화번호 뒤 4자리</dt>
+                <dt>좌석</dt>
+                <dd>{item.seatDisplayNames.join(", ")}</dd>
+                <dt>전화번호</dt>
                 <dd>{item.phoneLast4}</dd>
                 <dt>이메일</dt>
                 <dd>{item.email}</dd>
@@ -314,9 +316,10 @@ export default function AdminPage() {
           <thead>
             <tr>
               <th>이름</th>
-              <th>전화번호 뒤 4자리</th>
+              <th>좌석 수</th>
+              <th>좌석 위치</th>
+              <th>전화번호</th>
               <th>이메일</th>
-              <th>좌석</th>
               <th>상태</th>
               <th>예약 일시</th>
               <th>관리</th>
@@ -326,9 +329,10 @@ export default function AdminPage() {
             {pageItems.map((item) => (
               <tr key={item.id}>
                 <td>{item.name}</td>
+                <td>{item.seatCount}</td>
+                <td>{item.seatDisplayNames.join(", ")}</td>
                 <td>{item.phoneLast4}</td>
                 <td>{item.email}</td>
-                <td>{item.seatDisplayName}</td>
                 <td>{item.status === "CONFIRMED" ? "예약 완료" : "취소"}</td>
                 <td>{item.createdAt ? new Date(item.createdAt).toLocaleString("ko-KR") : "-"}</td>
                 <td>
@@ -336,11 +340,7 @@ export default function AdminPage() {
                     <button className="btn btn-secondary btn-small" type="button" onClick={() => openEdit(item)}>
                       수정
                     </button>
-                    <button
-                      className="btn btn-danger btn-small"
-                      type="button"
-                      onClick={() => removeReservation(item)}
-                    >
+                    <button className="btn btn-danger btn-small" type="button" onClick={() => removeReservation(item)}>
                       삭제
                     </button>
                   </div>
@@ -349,7 +349,7 @@ export default function AdminPage() {
             ))}
             {items.length === 0 && (
               <tr>
-                <td colSpan={7}>검색 결과가 없습니다.</td>
+                <td colSpan={8}>검색 결과가 없습니다.</td>
               </tr>
             )}
           </tbody>
@@ -360,48 +360,33 @@ export default function AdminPage() {
         <div className="modal-backdrop" onClick={(event) => event.target === event.currentTarget && setEditing(null)}>
           <div className="modal-card">
             <h2>예약 수정</h2>
-            <div className="notice">현재 좌석: {editing.seatDisplayName}</div>
+            <div className="notice">현재 좌석: {editing.seatDisplayNames.join(", ")}</div>
 
             <div className="field">
               <label htmlFor="edit-name">이름</label>
-              <input
-                id="edit-name"
-                value={editForm.name}
-                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-              />
+              <input id="edit-name" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} />
             </div>
 
             <div className="field">
-              <label htmlFor="edit-phone">전화번호 뒤 4자리</label>
+              <label htmlFor="edit-phone">전화번호 뒷자리</label>
               <input
                 id="edit-phone"
                 inputMode="numeric"
                 maxLength={4}
                 value={editForm.phoneLast4}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, phoneLast4: e.target.value.replace(/\D/g, "").slice(0, 4) })
-                }
+                onChange={(e) => setEditForm({ ...editForm, phoneLast4: e.target.value.replace(/\D/g, "").slice(0, 4) })}
               />
             </div>
 
             <div className="field">
               <label htmlFor="edit-email">이메일</label>
-              <input
-                id="edit-email"
-                type="email"
-                value={editForm.email}
-                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-              />
+              <input id="edit-email" type="email" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} />
             </div>
 
             <div className="field">
-              <label htmlFor="edit-seat">좌석 (예: A-1)</label>
-              <input
-                id="edit-seat"
-                value={editForm.seatDisplayName ?? ""}
-                onChange={(e) => setEditForm({ ...editForm, seatDisplayName: e.target.value })}
-              />
-              <span className="hint">좌석을 바꿀 때만 다른 좌석 번호를 입력하세요.</span>
+              <label htmlFor="edit-seat">좌석 위치</label>
+              <input id="edit-seat" value={editForm.seatText} onChange={(e) => setEditForm({ ...editForm, seatText: e.target.value })} />
+              <span className="hint">예: 1층 가0208, 2층 바0625. 기존 예약과 같은 좌석 수만 저장됩니다.</span>
             </div>
 
             {error && <div className="error">{error}</div>}

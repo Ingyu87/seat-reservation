@@ -1,49 +1,27 @@
+import { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL, SEAT_LAYOUT_TOTAL_BY_FLOOR } from "./seat-layout.generated";
 import type { Seat } from "./types";
 
-export const ROWS = 50;
-export const COLS = 50;
-export const COLS_PER_BLOCK = 25;
-export const TOTAL_SEATS = ROWS * COLS;
+export { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL, SEAT_LAYOUT_TOTAL_BY_FLOOR };
 
-export type SeatSection = {
-  id: string;
-  label: string;
-  fromRow: number;
-  toRow: number;
-};
+export const MAX_SEATS_PER_RESERVATION = 6;
 
-export const SEAT_SECTIONS: SeatSection[] = [
-  { id: "FRONT", label: "앞좌석 (A~T열)", fromRow: 1, toRow: 20 },
-  { id: "MIDDLE", label: "중간좌석 (U~AN열)", fromRow: 21, toRow: 40 },
-  { id: "BACK", label: "뒷좌석 (AO~AX열)", fromRow: 41, toRow: 50 }
-];
+export const FLOORS = [
+  { id: "F1", label: "1층" },
+  { id: "F2", label: "2층" }
+] as const;
 
-export function rowLabel(row: number) {
-  if (row <= 26) return String.fromCharCode(64 + row);
-  const zeroBased = row - 27;
-  return String.fromCharCode(65 + Math.floor(zeroBased / 26)) + String.fromCharCode(65 + (zeroBased % 26));
-}
+export type FloorId = (typeof FLOORS)[number]["id"];
 
-export function makeSeatId(row: number, col: number) {
-  return `MAIN_${rowLabel(row)}_${col}`;
+export function makeSeatId(floor: FloorId, label: string) {
+  return `${floor}_${label}`;
 }
 
 export function generateDemoSeats(): Seat[] {
-  return Array.from({ length: ROWS * COLS }, (_, index) => {
-    const row = Math.floor(index / COLS) + 1;
-    const col = (index % COLS) + 1;
-    const label = rowLabel(row);
-
-    return {
-      id: makeSeatId(row, col),
-      section: "MAIN",
-      rowLabel: label,
-      seatNumber: col,
-      displayName: `${label}-${col}`,
-      sortOrder: row * 1000 + col,
-      status: "AVAILABLE"
-    };
-  });
+  return SEAT_LAYOUT.map((seat, index) => ({
+    ...seat,
+    sortOrder: index + 1,
+    status: "AVAILABLE"
+  }));
 }
 
 export type SeatMapCoverage = {
@@ -54,59 +32,62 @@ export type SeatMapCoverage = {
 };
 
 export function assessSeatMapCoverage(seats: Seat[]): SeatMapCoverage {
-  const seatIds = new Set(seats.map((seat) => seat.id));
+  const expectedIds = new Set(SEAT_LAYOUT.map((seat) => seat.id));
+  const presentIds = new Set(seats.map((seat) => seat.id));
+  const missingFloors = FLOORS.filter((floor) =>
+    SEAT_LAYOUT.some((seat) => seat.floor === floor.id && !presentIds.has(seat.id))
+  ).map((floor) => floor.label);
+
   let present = 0;
-  const missingSections: string[] = [];
-
-  for (const section of SEAT_SECTIONS) {
-    let sectionPresent = 0;
-    const sectionTotal = (section.toRow - section.fromRow + 1) * COLS;
-
-    for (let row = section.fromRow; row <= section.toRow; row += 1) {
-      for (let col = 1; col <= COLS; col += 1) {
-        if (seatIds.has(makeSeatId(row, col))) {
-          sectionPresent += 1;
-        }
-      }
-    }
-
-    present += sectionPresent;
-    if (sectionPresent < sectionTotal) {
-      missingSections.push(section.label);
-    }
+  for (const id of expectedIds) {
+    if (presentIds.has(id)) present += 1;
   }
 
   return {
-    expected: TOTAL_SEATS,
+    expected: SEAT_LAYOUT_TOTAL,
     present,
-    needsReseed: present < TOTAL_SEATS,
-    missingSections
+    needsReseed: present < SEAT_LAYOUT_TOTAL,
+    missingSections: missingFloors
   };
 }
 
 export function indexSeatsByPosition(seats: Seat[]) {
   const map = new Map<string, Seat>();
   for (const seat of seats) {
-    map.set(`${seat.rowLabel}:${seat.seatNumber}`, seat);
+    map.set(`${seat.floor}:${seat.gridRow}:${seat.gridColumn}`, seat);
   }
   return map;
 }
 
-export function groupSeatsByRow(seats: Seat[]) {
+export function groupSeatsByFloor(seats: Seat[]) {
   return seats
     .slice()
     .sort((a, b) => a.sortOrder - b.sortOrder)
-    .reduce<Record<string, Seat[]>>((acc, seat) => {
-      acc[seat.rowLabel] ??= [];
-      acc[seat.rowLabel].push(seat);
-      return acc;
-    }, {});
+    .reduce<Record<FloorId, Seat[]>>(
+      (acc, seat) => {
+        acc[seat.floor].push(seat);
+        return acc;
+      },
+      { F1: [], F2: [] }
+    );
 }
 
 export function displayNameToSeatId(displayName: string) {
-  const [row, col] = displayName.trim().split("-");
-  if (!row || !col) return null;
-  return `MAIN_${row}_${col}`;
+  const normalized = displayName.trim().replace(/\s+/g, " ");
+  const match = normalized.match(/^(?:(1층|2층)\s*)?([가-힣]\d{4})$/);
+  if (!match) return null;
+
+  const floor = match[1] === "2층" ? "F2" : match[1] === "1층" ? "F1" : null;
+  const label = match[2];
+  if (floor) return makeSeatId(floor, label);
+
+  const matches = SEAT_LAYOUT.filter((seat) => seat.label === label);
+  return matches.length === 1 ? matches[0].id : null;
+}
+
+export function seatIdsToDisplayNames(seatIds: string[]) {
+  const byId = new Map(SEAT_LAYOUT.map((seat) => [seat.id, seat.displayName]));
+  return seatIds.map((id) => byId.get(id) ?? id);
 }
 
 export function validatePhoneLast4(value: string) {

@@ -64,19 +64,19 @@ export async function reserveSeat(input: ReservationInput) {
   if (!functions) {
     return {
       reservationId: "demo",
-      seatDisplayName: "데모 좌석"
+      seatDisplayNames: input.seatIds
     };
   }
 
-  return callFunction<ReservationInput, { reservationId: string; seatDisplayName: string }>("reserveSeat", input);
+  return callFunction<ReservationInput, { reservationId: string; seatDisplayNames: string[] }>("reserveSeat", input);
 }
 
 export async function lookupReservation(input: LookupInput) {
   return callFunction<LookupInput, ReservationSummary>("lookupReservation", input);
 }
 
-export async function changeReservationSeat(input: LookupInput & { newSeatId: string }) {
-  return callFunction<typeof input, { seatDisplayName: string }>("changeSeat", input);
+export async function changeReservationSeat(input: LookupInput & { newSeatIds: string[] }) {
+  return callFunction<typeof input, { seatDisplayNames: string[] }>("changeSeat", input);
 }
 
 export async function cancelReservation(input: LookupInput) {

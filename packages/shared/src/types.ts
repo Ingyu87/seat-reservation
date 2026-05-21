@@ -2,9 +2,14 @@ export type SeatStatus = "AVAILABLE" | "RESERVED";
 
 export type Seat = {
   id: string;
-  section: string;
-  rowLabel: string;
+  floor: "F1" | "F2";
+  floorLabel: string;
+  label: string;
+  area: string;
+  seatRow: number;
   seatNumber: number;
+  gridRow: number;
+  gridColumn: number;
   displayName: string;
   sortOrder: number;
   status: SeatStatus;
@@ -17,7 +22,7 @@ export type SeatMapResponse = {
 };
 
 export type ReservationInput = {
-  seatId: string;
+  seatIds: string[];
   name: string;
   phoneLast4: string;
   email: string;
@@ -34,6 +39,11 @@ export type ReservationSummary = {
   name: string;
   phoneLast4: string;
   emailMasked: string;
+  seatCount: number;
+  seats: Array<{
+    displayName: string;
+    id?: string;
+  }>;
   seat: {
     displayName: string;
     id?: string;
@@ -47,7 +57,10 @@ export type AdminReservation = {
   name: string;
   phoneLast4: string;
   email: string;
-  seatId: string;
+  seatIds: string[];
+  seatDisplayNames: string[];
+  seatCount: number;
+  seatId?: string;
   seatDisplayName: string;
   status: "CONFIRMED" | "CANCELED";
   createdAt?: string;
@@ -59,5 +72,5 @@ export type AdminUpdateReservationInput = {
   name: string;
   phoneLast4: string;
   email: string;
-  seatDisplayName?: string;
+  seatDisplayNames?: string[];
 };

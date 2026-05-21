@@ -6,15 +6,17 @@ function formatReservedAt(value?: string) {
 }
 
 export async function downloadReservationInfoPng(found: ReservationSummary) {
-  const width = 520;
+  const width = 560;
   const padding = 28;
   const lineHeight = 32;
+  const seatLine = found.seats.map((seat) => seat.displayName).join(", ");
   const lines = [
-    "생태전환교육 행사 · 예약 확인",
+    "예약 확인",
     "",
     `예약자: ${found.name}`,
-    `좌석: ${found.seat.displayName}`,
-    `전화번호 뒤 4자리: ${found.phoneLast4}`,
+    `좌석 수: ${found.seatCount}`,
+    `좌석: ${seatLine}`,
+    `전화번호 뒷자리: ${found.phoneLast4}`,
     `이메일: ${found.emailMasked}`,
     `예약 일시: ${formatReservedAt(found.createdAt)}`,
     `상태: ${found.status === "CONFIRMED" ? "예약 완료" : "취소"}`
@@ -52,8 +54,8 @@ export async function downloadReservationInfoPng(found: ReservationSummary) {
 
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  const safeName = found.name.replace(/[^\w가-힣.-]+/g, "_");
-  link.download = `예약확인_${safeName}_${found.seat.displayName}.png`;
+  const safeName = found.name.replace(/[^\w가-힣-]+/g, "_");
+  link.download = `예약확인_${safeName}.png`;
   link.href = url;
   link.click();
   URL.revokeObjectURL(url);

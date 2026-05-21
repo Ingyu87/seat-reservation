@@ -65,14 +65,6 @@ export function ReservationMiniMap({ reservation, seats }: ReservationMiniMapPro
                         height={Math.max(1.8, cell * 0.72)}
                         rx={Math.min(2, cell * 0.18)}
                       />
-                      {reserved && (
-                        <>
-                          <circle className="reservation-minimap-seat-ring" cx={x + cell * 0.36} cy={y + cell * 0.36} r={Math.max(4, cell * 1.25)} />
-                          <text className="reservation-minimap-label" x={x + cell * 0.8} y={Math.max(14, y - 4)}>
-                            {seat.label}
-                          </text>
-                        </>
-                      )}
                     </g>
                   );
                 })}

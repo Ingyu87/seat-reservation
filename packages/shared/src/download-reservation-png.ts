@@ -182,18 +182,6 @@ function drawReservationMiniMap(
       roundedRectPath(ctx, seatX, seatY, size, size, Math.min(2, size * 0.25));
       ctx.fill();
       ctx.stroke();
-
-      if (reserved) {
-        ctx.strokeStyle = "#3f35a6";
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.arc(seatX + size / 2, seatY + size / 2, Math.max(4, cell * 1.2), 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.fillStyle = "#2d257f";
-        ctx.font = "bold 10px Arial, 'Malgun Gothic', 'Noto Sans KR', sans-serif";
-        ctx.fillText(seat.label, seatX + size + 4, Math.max(floorY + 64, seatY - 3));
-      }
     }
 
     floorY += floorHeight + floorGap;

@@ -82,6 +82,7 @@ export default function HomePage() {
   );
   const reserved = data?.reserved ?? 0;
   const total = data?.total ?? 0;
+  const available = Math.max(0, total - reserved);
 
   function validateForm() {
     if (!form.name.trim()) return "이름을 입력해 주세요.";
@@ -190,7 +191,7 @@ export default function HomePage() {
         </div>
         <div className="summary-card">
           <span>잔여 좌석</span>
-          <strong>{(total - reserved).toLocaleString()}</strong>
+          <strong>{available.toLocaleString()}</strong>
         </div>
       </section>
 
@@ -284,26 +285,58 @@ export default function HomePage() {
       )}
 
       {step === "seats" && (
-        <>
-          <div className="legend">
-            <span className="legend-item">
-              <span className="swatch" style={{ background: "#66BB6A" }} />
-              예약 가능
-            </span>
-            <span className="legend-item">
-              <span className="swatch" style={{ background: "#1565C0" }} />
-              선택 좌석
-            </span>
-            <span className="legend-item">
-              <span className="swatch" style={{ background: "#BDBDBD" }} />
-              예약 완료
-            </span>
+        <section className="seat-selection-layout" aria-label="좌석 선택">
+          <div className="seat-selection-main">
+            <p className="seat-map-scroll-hint" role="note">
+              좌석도는 가로와 세로로 스크롤할 수 있습니다. 확대 버튼으로 좌석을 크게 보고 선택해 주세요.
+            </p>
+            <section className="seat-panel auditorium-panel" aria-label="좌석 배치도">
+              <SeatMap seats={seats} selectedIds={selectedIds} onSelect={toggleSeat} />
+            </section>
           </div>
-          <section className="selection-toolbar panel">
-            <strong>
-              {selectedIds.length} / {form.seatCount}석 선택
-            </strong>
-            <span>{selectedSeats.map((seat) => seat.displayName).join(", ") || "좌석을 선택해 주세요."}</span>
+
+          <aside className="seat-selection-sidebar" aria-label="선택 좌석 정보">
+            <div className="mini-stage-card">
+              <div className="mini-stage">STAGE</div>
+              <div className="mini-map-dot">1F / 2F</div>
+            </div>
+            <div className="legend sidebar-legend">
+              <span className="legend-item">
+                <span className="swatch available-swatch" />
+                예약 가능
+              </span>
+              <span className="legend-item">
+                <span className="swatch selected-swatch" />
+                선택 좌석
+              </span>
+              <span className="legend-item">
+                <span className="swatch reserved-swatch" />
+                예약 완료
+              </span>
+            </div>
+            <dl className="seat-count-list">
+              <div>
+                <dt>전체 좌석</dt>
+                <dd>{total.toLocaleString()}</dd>
+              </div>
+              <div>
+                <dt>잔여 좌석</dt>
+                <dd>{available.toLocaleString()}</dd>
+              </div>
+              <div>
+                <dt>선택 좌석</dt>
+                <dd>
+                  {selectedIds.length} / {form.seatCount}
+                </dd>
+              </div>
+            </dl>
+            <div className="selected-seat-list" aria-live="polite">
+              {selectedSeats.length === 0 ? (
+                <span className="empty-selected">좌석을 선택해 주세요.</span>
+              ) : (
+                selectedSeats.map((seat) => <span key={seat.id}>{seat.displayName}</span>)
+              )}
+            </div>
             <div className="button-row">
               <button className="btn btn-secondary" type="button" onClick={() => setStep("form")}>
                 이전
@@ -312,14 +345,8 @@ export default function HomePage() {
                 선택 완료
               </button>
             </div>
-          </section>
-          <p className="seat-map-scroll-hint" role="note">
-            좌석도는 원본 엑셀 배치처럼 넓게 표시됩니다. 가로와 세로로 스크롤해 좌석을 선택해 주세요.
-          </p>
-          <section className="seat-panel" aria-label="좌석 배치도">
-            <SeatMap seats={seats} selectedIds={selectedIds} onSelect={toggleSeat} />
-          </section>
-        </>
+          </aside>
+        </section>
       )}
 
       {confirming && (

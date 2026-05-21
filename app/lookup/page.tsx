@@ -202,26 +202,59 @@ export default function LookupPage() {
         <div className="modal-backdrop" onClick={(event) => event.target === event.currentTarget && setChanging(false)}>
           <div className="modal-card modal-wide">
             <h2>새 좌석 선택</h2>
-            <p className="hint">
-              기존 예약과 같은 {found.seatCount}석을 선택해 주세요. 현재 선택: {selectedIds.length}석
-            </p>
             <p className="seat-map-scroll-hint" role="note">
-              좌석도는 가로와 세로로 스크롤할 수 있습니다.
+              좌석도는 가로와 세로로 스크롤할 수 있습니다. 확대 버튼으로 좌석을 크게 보고 선택해 주세요.
             </p>
-            <div className="seat-panel change-seat-panel">
-              <SeatMap seats={seats} selectedIds={selectedIds} onSelect={toggleSeat} />
-            </div>
-            <div className="selection-toolbar">
-              <span>{selectedSeats.map((seat) => seat.displayName).join(", ") || "좌석을 선택해 주세요."}</span>
-            </div>
-            <div className="button-row" style={{ marginTop: 14 }}>
-              <button className="btn btn-secondary" type="button" onClick={() => setChanging(false)}>
-                닫기
-              </button>
-              <button className="btn btn-primary" disabled={selectedIds.length !== found.seatCount} type="button" onClick={submitChangeSeat}>
-                변경 확정
-              </button>
-            </div>
+            <section className="seat-selection-layout seat-selection-layout-compact" aria-label="좌석 변경">
+              <div className="seat-selection-main">
+                <div className="seat-panel auditorium-panel change-seat-panel">
+                  <SeatMap seats={seats} selectedIds={selectedIds} onSelect={toggleSeat} />
+                </div>
+              </div>
+              <aside className="seat-selection-sidebar" aria-label="선택 좌석 정보">
+                <div className="legend sidebar-legend">
+                  <span className="legend-item">
+                    <span className="swatch available-swatch" />
+                    예약 가능
+                  </span>
+                  <span className="legend-item">
+                    <span className="swatch selected-swatch" />
+                    선택 좌석
+                  </span>
+                  <span className="legend-item">
+                    <span className="swatch reserved-swatch" />
+                    예약 완료
+                  </span>
+                </div>
+                <dl className="seat-count-list">
+                  <div>
+                    <dt>필요 좌석</dt>
+                    <dd>{found.seatCount}</dd>
+                  </div>
+                  <div>
+                    <dt>선택 좌석</dt>
+                    <dd>
+                      {selectedIds.length} / {found.seatCount}
+                    </dd>
+                  </div>
+                </dl>
+                <div className="selected-seat-list" aria-live="polite">
+                  {selectedSeats.length === 0 ? (
+                    <span className="empty-selected">좌석을 선택해 주세요.</span>
+                  ) : (
+                    selectedSeats.map((seat) => <span key={seat.id}>{seat.displayName}</span>)
+                  )}
+                </div>
+                <div className="button-row">
+                  <button className="btn btn-secondary" type="button" onClick={() => setChanging(false)}>
+                    닫기
+                  </button>
+                  <button className="btn btn-primary" disabled={selectedIds.length !== found.seatCount} type="button" onClick={submitChangeSeat}>
+                    변경 확정
+                  </button>
+                </div>
+              </aside>
+            </section>
           </div>
         </div>
       )}

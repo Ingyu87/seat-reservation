@@ -54,17 +54,19 @@ export const SeatMap = memo(function SeatMap({ seats, selectedIds = [], disabled
 
   return (
     <div className="seat-map" style={{ "--seat-zoom": zoom } as CSSProperties}>
-      <div className="seat-zoom-controls" aria-label="좌석도 확대 조절">
-        <button className="btn btn-secondary btn-small" disabled={zoom <= 1} type="button" onClick={() => changeZoom(zoom - 0.25)}>
-          축소
-        </button>
-        <span>{zoomPercent}%</span>
-        <button className="btn btn-secondary btn-small" disabled={zoom >= 2} type="button" onClick={() => changeZoom(zoom + 0.25)}>
-          확대
-        </button>
-        <button className="btn btn-secondary btn-small" disabled={zoom === 1} type="button" onClick={() => changeZoom(1)}>
-          초기화
-        </button>
+      <div className="seat-map-toolbar">
+        <div className="seat-zoom-controls" aria-label="좌석도 확대 조절">
+          <button className="btn btn-secondary btn-small" disabled={zoom <= 1} type="button" onClick={() => changeZoom(zoom - 0.25)}>
+            축소
+          </button>
+          <span>{zoomPercent}%</span>
+          <button className="btn btn-secondary btn-small" disabled={zoom >= 2} type="button" onClick={() => changeZoom(zoom + 0.25)}>
+            확대
+          </button>
+          <button className="btn btn-secondary btn-small" disabled={zoom === 1} type="button" onClick={() => changeZoom(1)}>
+            초기화
+          </button>
+        </div>
       </div>
 
       {FLOORS.map((floor) => {
@@ -80,23 +82,27 @@ export const SeatMap = memo(function SeatMap({ seats, selectedIds = [], disabled
               <strong>{floor.label}</strong>
               <span>{floorSeats.length.toLocaleString()}석</span>
             </div>
-            <div className="stage">무대</div>
-            <div
-              className="floor-grid"
-              style={{
-                gridTemplateColumns: `repeat(${maxColumn}, calc(var(--seat-size) * var(--seat-zoom)))`,
-                gridTemplateRows: `repeat(${maxRow}, calc(var(--seat-size) * var(--seat-zoom)))`
-              }}
-            >
-              {floorSeats.map((seat) => (
-                <SeatCell
-                  disabled={disabled.has(seat.id)}
-                  key={seat.id}
-                  seat={seat}
-                  selected={selected.has(seat.id)}
-                  onSelect={onSelect}
-                />
-              ))}
+            <div className="auditorium-stage">
+              <span>STAGE</span>
+            </div>
+            <div className="auditorium-shell">
+              <div
+                className="floor-grid"
+                style={{
+                  gridTemplateColumns: `repeat(${maxColumn}, calc(var(--seat-size) * var(--seat-zoom)))`,
+                  gridTemplateRows: `repeat(${maxRow}, calc(var(--seat-size) * var(--seat-zoom)))`
+                }}
+              >
+                {floorSeats.map((seat) => (
+                  <SeatCell
+                    disabled={disabled.has(seat.id)}
+                    key={seat.id}
+                    seat={seat}
+                    selected={selected.has(seat.id)}
+                    onSelect={onSelect}
+                  />
+                ))}
+              </div>
             </div>
           </section>
         );

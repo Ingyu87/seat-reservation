@@ -253,19 +253,21 @@ export default function HomePage() {
             />
           </div>
           <div className="field">
-            <label htmlFor="reservation-count">예약 좌석 수 *</label>
-            <input
-              id="reservation-count"
-              inputMode="numeric"
-              max={MAX_SEATS_PER_RESERVATION}
-              min={1}
-              type="number"
-              value={form.seatCount}
-              onChange={(e) => {
-                const next = Math.max(1, Math.min(MAX_SEATS_PER_RESERVATION, Number(e.target.value) || 1));
-                setForm({ ...form, seatCount: next });
-              }}
-            />
+            <span className="field-label">예약 좌석 수 *</span>
+            <div className="seat-count-picker" role="radiogroup" aria-label="예약 좌석 수">
+              {Array.from({ length: MAX_SEATS_PER_RESERVATION }, (_, index) => index + 1).map((count) => (
+                <button
+                  aria-checked={form.seatCount === count}
+                  className={form.seatCount === count ? "active" : ""}
+                  key={count}
+                  role="radio"
+                  type="button"
+                  onClick={() => setForm({ ...form, seatCount: count })}
+                >
+                  {count}석
+                </button>
+              ))}
+            </div>
           </div>
           <label className="hint consent-row">
             <input

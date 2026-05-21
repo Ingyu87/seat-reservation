@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { FLOORS } from "@seat/shared";
 import type { CSSProperties } from "react";
 import type { Seat } from "@seat/shared";
@@ -46,14 +46,22 @@ export const SeatMap = memo(function SeatMap({ seats, selectedIds = [], disabled
   const selected = useMemo(() => new Set(selectedIds), [selectedIds]);
   const disabled = useMemo(() => new Set(disabledIds), [disabledIds]);
   const [zoom, setZoom] = useState(1);
+  const mapRef = useRef<HTMLDivElement | null>(null);
   const zoomPercent = Math.round(zoom * 100);
+
+  useEffect(() => {
+    const panel = mapRef.current?.closest(".seat-panel");
+    if (panel instanceof HTMLElement) {
+      panel.scrollLeft = 0;
+    }
+  }, [seats, zoom]);
 
   function changeZoom(next: number) {
     setZoom(Math.max(1, Math.min(2, next)));
   }
 
   return (
-    <div className="seat-map" style={{ "--seat-zoom": zoom } as CSSProperties}>
+    <div className="seat-map" ref={mapRef} style={{ "--seat-zoom": zoom } as CSSProperties}>
       <div className="seat-map-toolbar">
         <div className="seat-zoom-controls" aria-label="좌석도 확대 조절">
           <button className="btn btn-secondary btn-small" disabled={zoom <= 1} type="button" onClick={() => changeZoom(zoom - 0.25)}>

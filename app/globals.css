@@ -197,7 +197,8 @@ input {
 
 .seat-panel {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   overflow: auto;
   max-height: 68vh;
   padding: 16px;
@@ -214,15 +215,17 @@ input {
   display: grid;
   gap: 18px;
   width: fit-content;
-  margin: 0 auto;
+  min-width: max-content;
+  margin: 0;
+  padding: 0 12px 12px 0;
   user-select: none;
 }
 
 .seat-map-toolbar {
-  position: sticky;
-  left: 0;
   z-index: 6;
   width: fit-content;
+  margin-bottom: 2px;
+  padding-left: 4px;
 }
 
 .seat-zoom-controls {
@@ -254,6 +257,7 @@ input {
 
 .floor-map {
   width: fit-content;
+  min-width: max-content;
   padding: 18px 22px 22px;
   background: #fdfdfd;
   border: 1px solid #d4d4d4;
@@ -411,6 +415,12 @@ input {
   font-weight: 800;
 }
 
+.field-label {
+  color: var(--gray-700);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .field input {
   width: 100%;
   padding: 10px 12px;
@@ -422,6 +432,34 @@ input {
 .field input:focus {
   border-color: var(--green-800);
   box-shadow: 0 0 0 2px var(--green-100);
+}
+
+.seat-count-picker {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.seat-count-picker button {
+  min-height: 44px;
+  padding: 8px 6px;
+  color: var(--gray-700);
+  background: white;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.seat-count-picker button:hover {
+  border-color: var(--green-800);
+  background: var(--green-100);
+}
+
+.seat-count-picker button.active {
+  color: white;
+  background: var(--green-800);
+  border-color: var(--green-800);
 }
 
 .hint {
@@ -907,6 +945,10 @@ th {
   .seat-panel {
     max-height: min(58dvh, 480px);
     padding: 8px;
+  }
+
+  .seat-count-picker {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .seat-selection-layout,

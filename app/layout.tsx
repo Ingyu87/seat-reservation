@@ -6,7 +6,8 @@ import "./globals.css";
 
 const bookingSiteUrl = getBookingSiteUrl() || "https://seat-reservation-bice.vercel.app";
 const bookingTitle = "생태전환교육 행사 좌석 예약";
-const bookingDescription = "서울특별시교육청 생태전환교육 행사 2,500석 좌석 예약";
+const bookingDescription = "생태전환교육 행사 2,828석 좌석 예약";
+const bookingOgImage = "/og.png?v=20260522-booking";
 
 export const metadata: Metadata = {
   title: bookingTitle,
@@ -21,7 +22,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og.png",
+        url: bookingOgImage,
+        width: 1672,
+        height: 941,
         alt: bookingTitle
       }
     ]
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: bookingTitle,
     description: bookingDescription,
-    images: ["/og.png"]
+    images: [bookingOgImage]
   }
 };
 
@@ -56,9 +59,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
-          <p>© 2026 서울가동초 백인규/ 창의미래교육과 최정엽. All rights reserved.</p>
+          <p>© 2026 서울특별시교육청. All rights reserved.</p>
           <p>
-            개인정보책임자: 서울가동초 백인규{" "}
+            개인정보책임자{" "}
             <a href="mailto:ingyu87@sen.go.kr">ingyu87@sen.go.kr</a>
           </p>
         </footer>

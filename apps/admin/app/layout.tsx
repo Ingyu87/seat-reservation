@@ -4,8 +4,9 @@ import { getAdminSiteUrl, getBookingSiteUrl } from "@seat/shared/site-url";
 import "./globals.css";
 
 const adminSiteUrl = getAdminSiteUrl() || "https://seat-reservation-admin.vercel.app";
-const adminTitle = "생태전환교육 행사 좌석 관리자";
-const adminDescription = "서울특별시교육청 생태전환교육 행사 좌석 예약 관리";
+const adminTitle = "생태전환교육 행사 관리자";
+const adminDescription = "생태전환교육 행사 좌석 예약 관리자";
+const adminOgImage = "/og.png?v=20260522-admin";
 
 export const metadata: Metadata = {
   title: adminTitle,
@@ -20,7 +21,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og.png",
+        url: adminOgImage,
+        width: 1672,
+        height: 941,
         alt: adminTitle
       }
     ]
@@ -29,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: adminTitle,
     description: adminDescription,
-    images: ["/og.png"]
+    images: [adminOgImage]
   }
 };
 
@@ -59,9 +62,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
-          <p>© 2026 서울가동초 백인규/ 창의미래교육과 최정엽. All rights reserved.</p>
+          <p>© 2026 서울특별시교육청. All rights reserved.</p>
           <p>
-            개인정보책임자: 서울가동초 백인규{" "}
+            개인정보책임자{" "}
             <a href="mailto:ingyu87@sen.go.kr">ingyu87@sen.go.kr</a>
           </p>
         </footer>

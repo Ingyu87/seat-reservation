@@ -675,9 +675,11 @@ input {
   border-radius: 8px;
 }
 
-.selected-seat-list span {
+.selected-seat-list span,
+.selected-seat-chip {
   display: inline-flex;
   align-items: center;
+  gap: 5px;
   min-height: 26px;
   padding: 4px 8px;
   color: #2d256f;
@@ -686,6 +688,28 @@ input {
   background: #eeeaff;
   border: 1px solid #d5cdfd;
   border-radius: 999px;
+}
+
+.selected-seat-chip {
+  cursor: pointer;
+}
+
+.selected-seat-chip:hover,
+.selected-seat-chip:focus-visible {
+  color: white;
+  background: #6d5dfc;
+  border-color: #5145cd;
+  outline: none;
+}
+
+.selected-seat-chip span {
+  min-height: auto;
+  padding: 0;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1;
+  background: transparent;
+  border: 0;
 }
 
 .selected-seat-list .empty-selected {

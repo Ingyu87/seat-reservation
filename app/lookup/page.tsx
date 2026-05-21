@@ -242,7 +242,18 @@ export default function LookupPage() {
                   {selectedSeats.length === 0 ? (
                     <span className="empty-selected">좌석을 선택해 주세요.</span>
                   ) : (
-                    selectedSeats.map((seat) => <span key={seat.id}>{seat.displayName}</span>)
+                    selectedSeats.map((seat) => (
+                      <button
+                        aria-label={`${seat.displayName} 선택 취소`}
+                        className="selected-seat-chip"
+                        key={seat.id}
+                        type="button"
+                        onClick={() => toggleSeat(seat)}
+                      >
+                        {seat.displayName}
+                        <span aria-hidden>×</span>
+                      </button>
+                    ))
                   )}
                 </div>
                 <div className="button-row">

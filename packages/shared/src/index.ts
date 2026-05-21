@@ -4,3 +4,4 @@ export * from "./site-url";
 export * from "./firebase";
 export * from "./export-utils";
 export * from "./download-reservation-png";
+export * from "./reservation-minimap";

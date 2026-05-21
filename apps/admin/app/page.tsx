@@ -1,6 +1,7 @@
 "use client";
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { collection, getFirestore, onSnapshot, orderBy, query as firestoreQuery } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -10,9 +11,12 @@ import {
   adminUpdateReservation,
   auth,
   downloadReservationsExcel,
+  firebaseApp,
+  generateDemoSeats,
   getCallableErrorMessage
 } from "@seat/shared";
-import type { AdminReservation, AdminUpdateReservationInput } from "@seat/shared";
+import { AdminSeatStatusMap } from "@/app/components/AdminSeatStatusMap";
+import type { AdminReservation, AdminUpdateReservationInput, Seat, SeatMapResponse } from "@seat/shared";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -34,6 +38,9 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [pageSize, setPageSize] = useState<20 | 50>(20);
   const [page, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState<"reservations" | "seats">("reservations");
+  const [seatMap, setSeatMap] = useState<SeatMapResponse | null>(null);
+  const [seatMapError, setSeatMapError] = useState("");
 
   const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
   const pageItems = useMemo(() => {
@@ -84,6 +91,31 @@ export default function AdminPage() {
       loadReservations("").catch(() => undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready]);
+
+  useEffect(() => {
+    if (!ready || !auth?.currentUser) return;
+
+    if (!firebaseApp) {
+      const seats = generateDemoSeats();
+      setSeatMap({ total: seats.length, reserved: 0, seats });
+      return;
+    }
+
+    const firestore = getFirestore(firebaseApp);
+    const seatsQuery = firestoreQuery(collection(firestore, "seats"), orderBy("sortOrder", "asc"));
+    const unsubscribe = onSnapshot(
+      seatsQuery,
+      (snapshot) => {
+        const seats = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Seat[];
+        const reserved = seats.filter((seat) => seat.status === "RESERVED").length;
+        setSeatMap({ total: seats.length, reserved, seats });
+        setSeatMapError("");
+      },
+      () => setSeatMapError("좌석 현황을 실시간으로 불러오지 못했습니다.")
+    );
+
+    return unsubscribe;
   }, [ready]);
 
   useEffect(() => {
@@ -213,6 +245,29 @@ export default function AdminPage() {
         </div>
       </section>
 
+      <div className="admin-tabs" role="tablist" aria-label="관리자 메뉴">
+        <button
+          aria-selected={activeTab === "reservations"}
+          className={activeTab === "reservations" ? "active" : ""}
+          role="tab"
+          type="button"
+          onClick={() => setActiveTab("reservations")}
+        >
+          예약 관리
+        </button>
+        <button
+          aria-selected={activeTab === "seats"}
+          className={activeTab === "seats" ? "active" : ""}
+          role="tab"
+          type="button"
+          onClick={() => setActiveTab("seats")}
+        >
+          좌석 현황
+        </button>
+      </div>
+
+      {activeTab === "reservations" && (
+        <>
       <section className="panel" style={{ marginBottom: 16 }}>
         <h1>예약 관리</h1>
         <div className="field">
@@ -355,6 +410,45 @@ export default function AdminPage() {
           </tbody>
         </table>
       </div>
+        </>
+      )}
+
+      {activeTab === "seats" && (
+        <section className="panel admin-seat-status-panel">
+          <div className="admin-seat-status-head">
+            <div>
+              <h1>좌석 현황</h1>
+              <p className="hint">예약 가능 좌석과 예약 완료 좌석을 실시간으로 확인합니다.</p>
+            </div>
+            <div className="legend admin-seat-legend">
+              <span className="legend-item">
+                <span className="swatch available-swatch" />
+                예약 가능
+              </span>
+              <span className="legend-item">
+                <span className="swatch reserved-swatch" />
+                예약 완료
+              </span>
+            </div>
+          </div>
+          {seatMapError && <div className="error">{seatMapError}</div>}
+          <div className="summary seat-status-summary">
+            <div className="summary-card">
+              <span>전체 좌석</span>
+              <strong>{(seatMap?.total ?? 0).toLocaleString()}</strong>
+            </div>
+            <div className="summary-card">
+              <span>예약 완료</span>
+              <strong>{(seatMap?.reserved ?? 0).toLocaleString()}</strong>
+            </div>
+            <div className="summary-card">
+              <span>잔여 좌석</span>
+              <strong>{Math.max(0, (seatMap?.total ?? 0) - (seatMap?.reserved ?? 0)).toLocaleString()}</strong>
+            </div>
+          </div>
+          <AdminSeatStatusMap seats={seatMap?.seats ?? []} />
+        </section>
+      )}
 
       {editing && (
         <div className="modal-backdrop" onClick={(event) => event.target === event.currentTarget && setEditing(null)}>

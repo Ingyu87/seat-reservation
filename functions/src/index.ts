@@ -142,17 +142,22 @@ function mapAdminReservation(id: string, item: Reservation) {
 }
 
 async function releaseSeatsInTransaction(tx: Transaction, seatIds: string[]) {
-  for (const seatId of seatIds) {
-    const seatRef = db.collection("seats").doc(seatId);
-    const seatSnap = await tx.get(seatRef);
-    if (!seatSnap.exists) continue;
+  const seatRefs = seatIds.map((seatId) => db.collection("seats").doc(seatId));
+  const seatSnaps = [];
 
-    tx.update(seatRef, {
+  for (const seatRef of seatRefs) {
+    seatSnaps.push(await tx.get(seatRef));
+  }
+
+  seatSnaps.forEach((seatSnap, index) => {
+    if (!seatSnap.exists) return;
+
+    tx.update(seatRefs[index], {
       status: "AVAILABLE",
       reservationId: null,
       updatedAt: FieldValue.serverTimestamp()
     });
-  }
+  });
 }
 
 async function findReservationForOwner(data: Record<string, unknown>) {

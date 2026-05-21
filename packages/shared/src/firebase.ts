@@ -29,6 +29,7 @@ export const hasFirebaseConfig = Boolean(
 
 const app = hasFirebaseConfig && getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
+export const firebaseApp = app;
 export const auth = hasFirebaseConfig && app ? getAuth(app) : null;
 const functions = hasFirebaseConfig && app ? getFunctions(app, "asia-northeast3") : null;
 

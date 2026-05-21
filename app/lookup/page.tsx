@@ -9,6 +9,7 @@ import {
   lookupReservation,
   validatePhoneLast4
 } from "@seat/shared";
+import { ReservationMiniMap } from "@/app/components/ReservationMiniMap";
 import { SeatMap } from "@/app/components/SeatMap";
 import type { LookupInput, ReservationSummary, Seat } from "@seat/shared";
 
@@ -22,6 +23,8 @@ export default function LookupPage() {
   const [changing, setChanging] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [seats, setSeats] = useState<Seat[]>([]);
+  const [seatMapLoading, setSeatMapLoading] = useState(false);
+  const [seatMapError, setSeatMapError] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const selectedSeats = useMemo(
@@ -33,6 +36,9 @@ export default function LookupPage() {
     setError("");
     setMessage("");
     setFound(null);
+    setSeats([]);
+    setSeatMapError("");
+    setSeatMapLoading(false);
 
     if (!form.name.trim() || !validatePhoneLast4(form.phoneLast4)) {
       setError("이름과 전화번호 뒷자리 4자리를 다시 확인해 주세요.");
@@ -42,6 +48,15 @@ export default function LookupPage() {
     try {
       const result = await lookupReservation(form);
       setFound(result);
+      setSeatMapLoading(true);
+      try {
+        const seatMap = await fetchSeatMap();
+        setSeats(seatMap.seats);
+      } catch {
+        setSeatMapError("좌석 위치를 불러오지 못했습니다.");
+      } finally {
+        setSeatMapLoading(false);
+      }
     } catch {
       setError("예약 정보를 찾을 수 없습니다. 입력 정보를 다시 확인해 주세요.");
     }
@@ -52,8 +67,12 @@ export default function LookupPage() {
     setError("");
     setDownloading(true);
     try {
-      await downloadReservationInfoPng(found);
-      setMessage("예약 정보 PNG 파일을 다운로드했습니다.");
+      const result = await downloadReservationInfoPng(found, { seats });
+      setMessage(
+        result.mode === "opened"
+          ? "이미지를 새 창으로 열었습니다. 모바일에서는 이미지를 길게 눌러 저장해 주세요."
+          : "예약 정보 PNG 파일을 다운로드했습니다."
+      );
     } catch {
       setError("PNG 다운로드에 실패했습니다.");
     } finally {
@@ -183,6 +202,9 @@ export default function LookupPage() {
                 </div>
               )}
             </dl>
+            {seatMapLoading && <p className="hint">좌석 위치를 불러오는 중입니다.</p>}
+            {!seatMapLoading && seatMapError && <p className="hint">{seatMapError}</p>}
+            {!seatMapLoading && !seatMapError && <ReservationMiniMap reservation={found} seats={seats} />}
             <div className="button-row">
               <button className="btn btn-secondary" disabled={downloading} type="button" onClick={downloadPng}>
                 {downloading ? "저장 중" : "PNG 저장"}

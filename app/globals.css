@@ -384,6 +384,110 @@ input {
   clip: rect(0 0 0 0);
 }
 
+.reservation-minimap {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.reservation-minimap-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--gray-800);
+}
+
+.reservation-minimap-title strong {
+  font-size: 16px;
+}
+
+.reservation-minimap-title span {
+  color: var(--gray-500);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reservation-minimap-floors {
+  display: grid;
+  gap: 12px;
+}
+
+.reservation-minimap-floor {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: #fbfcfb;
+}
+
+.reservation-minimap-floor figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--gray-800);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.reservation-minimap-floor figcaption span {
+  color: #5045c7;
+  font-size: 12px;
+}
+
+.reservation-minimap-floor svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.reservation-minimap-bg {
+  fill: #fff;
+  stroke: #d9ded9;
+}
+
+.reservation-minimap-stage {
+  fill: none;
+  stroke: #9aa09a;
+  stroke-width: 3;
+}
+
+.reservation-minimap-stage-label {
+  fill: #777;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 4px;
+}
+
+.reservation-minimap-seat {
+  fill: #33bd3a;
+  stroke: #f7fff7;
+  stroke-width: 0.5;
+}
+
+.reservation-minimap-seat.reserved {
+  fill: #6d5dfc;
+  stroke: #3f35a6;
+  stroke-width: 1;
+}
+
+.reservation-minimap-seat-ring {
+  fill: none;
+  stroke: #3f35a6;
+  stroke-width: 1.5;
+}
+
+.reservation-minimap-label {
+  fill: #2d257f;
+  font-size: 11px;
+  font-weight: 900;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 3px;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;

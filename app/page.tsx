@@ -173,7 +173,12 @@ export default function HomePage() {
 
   async function downloadCompletedCard() {
     if (!completed) return;
-    await downloadReservationInfoPng(completed);
+    const result = await downloadReservationInfoPng(completed, { seats });
+    setMessage(
+      result.mode === "opened"
+        ? "이미지를 새 창으로 열었습니다. 모바일에서는 이미지를 길게 눌러 저장해 주세요."
+        : "예약 카드 PNG 파일을 다운로드했습니다."
+    );
   }
 
   return (

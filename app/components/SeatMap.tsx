@@ -1,7 +1,8 @@
 "use client";
 
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import { FLOORS } from "@seat/shared";
+import type { CSSProperties } from "react";
 import type { Seat } from "@seat/shared";
 
 type SeatMapProps = {
@@ -44,9 +45,28 @@ function SeatCell({
 export const SeatMap = memo(function SeatMap({ seats, selectedIds = [], disabledIds = [], onSelect }: SeatMapProps) {
   const selected = useMemo(() => new Set(selectedIds), [selectedIds]);
   const disabled = useMemo(() => new Set(disabledIds), [disabledIds]);
+  const [zoom, setZoom] = useState(1);
+  const zoomPercent = Math.round(zoom * 100);
+
+  function changeZoom(next: number) {
+    setZoom(Math.max(1, Math.min(2, next)));
+  }
 
   return (
-    <div className="seat-map">
+    <div className="seat-map" style={{ "--seat-zoom": zoom } as CSSProperties}>
+      <div className="seat-zoom-controls" aria-label="좌석도 확대 조절">
+        <button className="btn btn-secondary btn-small" disabled={zoom <= 1} type="button" onClick={() => changeZoom(zoom - 0.25)}>
+          축소
+        </button>
+        <span>{zoomPercent}%</span>
+        <button className="btn btn-secondary btn-small" disabled={zoom >= 2} type="button" onClick={() => changeZoom(zoom + 0.25)}>
+          확대
+        </button>
+        <button className="btn btn-secondary btn-small" disabled={zoom === 1} type="button" onClick={() => changeZoom(1)}>
+          초기화
+        </button>
+      </div>
+
       {FLOORS.map((floor) => {
         const floorSeats = seats.filter((seat) => seat.floor === floor.id);
         if (floorSeats.length === 0) return null;
@@ -64,8 +84,8 @@ export const SeatMap = memo(function SeatMap({ seats, selectedIds = [], disabled
             <div
               className="floor-grid"
               style={{
-                gridTemplateColumns: `repeat(${maxColumn}, var(--seat-size))`,
-                gridTemplateRows: `repeat(${maxRow}, var(--seat-size))`
+                gridTemplateColumns: `repeat(${maxColumn}, calc(var(--seat-size) * var(--seat-zoom)))`,
+                gridTemplateRows: `repeat(${maxRow}, calc(var(--seat-size) * var(--seat-zoom)))`
               }}
             >
               {floorSeats.map((seat) => (

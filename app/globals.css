@@ -211,11 +211,35 @@ input {
 }
 
 .seat-map {
+  --seat-zoom: 1;
   display: grid;
   gap: 24px;
   width: fit-content;
   margin: 0 auto;
   user-select: none;
+}
+
+.seat-zoom-controls {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 8px;
+  background: rgb(255 255 255 / 92%);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
+}
+
+.seat-zoom-controls span {
+  min-width: 48px;
+  color: var(--gray-700);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
 }
 
 .seat-map-hint {
@@ -255,9 +279,9 @@ input {
 
 .seat-cell {
   position: relative;
-  width: var(--seat-size);
-  height: var(--seat-size);
-  flex: 0 0 var(--seat-size);
+  width: calc(var(--seat-size) * var(--seat-zoom));
+  height: calc(var(--seat-size) * var(--seat-zoom));
+  flex: 0 0 calc(var(--seat-size) * var(--seat-zoom));
   padding: 0;
   border: 0;
   border-radius: 2px;

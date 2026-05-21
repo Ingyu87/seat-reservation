@@ -32,6 +32,8 @@ export function ReservationMiniMap({ reservation, seats }: ReservationMiniMapPro
           const rows = floor.maxRow - floor.minRow + 1;
           const columns = floor.maxColumn - floor.minColumn + 1;
           const cell = Math.min((VIEWBOX_WIDTH - MARGIN * 2) / columns, (FLOOR_HEIGHT - 54) / rows);
+          const usedWidth = columns * cell;
+          const mapLeft = Math.max(MARGIN, (VIEWBOX_WIDTH - usedWidth) / 2);
           const reservedIds = new Set(floor.reservedSeats.map((seat) => seat.id));
 
           return (
@@ -51,7 +53,7 @@ export function ReservationMiniMap({ reservation, seats }: ReservationMiniMapPro
                   STAGE
                 </text>
                 {floor.seats.map((seat) => {
-                  const x = MARGIN + (seat.gridColumn - floor.minColumn) * cell;
+                  const x = mapLeft + (seat.gridColumn - floor.minColumn) * cell;
                   const y = 58 + (seat.gridRow - floor.minRow) * cell;
                   const reserved = reservedIds.has(seat.id);
 

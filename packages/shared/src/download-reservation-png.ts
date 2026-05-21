@@ -137,11 +137,12 @@ function drawReservationMiniMap(
     const rows = floor.maxRow - floor.minRow + 1;
     const columns = floor.maxColumn - floor.minColumn + 1;
     const reservedIds = new Set(floor.reservedSeats.map((seat) => seat.id));
-    const mapX = x + margin;
     const mapY = floorY + 30;
     const mapWidth = width - margin * 2;
     const mapHeight = floorHeight - 44;
     const cell = Math.min(mapWidth / columns, mapHeight / rows);
+    const usedWidth = columns * cell;
+    const mapX = x + Math.max(margin, (width - usedWidth) / 2);
 
     ctx.fillStyle = "#ffffff";
     ctx.strokeStyle = "#e0e5e0";

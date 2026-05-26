@@ -125,7 +125,7 @@ export default function AdminPage() {
   }, [page, totalPages]);
 
   async function runResetAll() {
-    if (!window.confirm("모든 예약을 취소하고 좌석을 비울까요? 이 작업은 되돌릴 수 없습니다.")) return;
+    if (!window.confirm("모든 예약 기록을 삭제하고 좌석을 비울까요? 이 작업은 되돌릴 수 없습니다.")) return;
 
     setError("");
     setMessage("");
@@ -136,7 +136,7 @@ export default function AdminPage() {
         await auth.currentUser.getIdToken(true);
       }
       const result = await adminResetAllReservations();
-      setMessage(`예약 ${result.canceled.toLocaleString()}건 취소, 좌석 ${result.released.toLocaleString()}석 초기화했습니다.`);
+      setMessage(`예약 ${result.deleted.toLocaleString()}건 삭제, 좌석 ${result.released.toLocaleString()}석 초기화했습니다.`);
       await loadReservations();
     } catch {
       setError("예약 전체 초기화에 실패했습니다.");

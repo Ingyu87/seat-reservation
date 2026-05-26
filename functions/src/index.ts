@@ -617,22 +617,18 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
 export const adminResetAllReservations = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
 
-  const reservationsSnap = await db.collection("reservations").where("status", "==", "CONFIRMED").get();
+  const reservationsSnap = await db.collection("reservations").get();
   const seatsSnap = await db.collection("seats").where("status", "==", "RESERVED").get();
   const activeKeysSnap = await db.collection("activeReservationKeys").get();
 
   const batchState = { batch: db.batch(), count: 0 };
-  let canceled = 0;
+  let deleted = 0;
   let released = 0;
 
   for (const doc of reservationsSnap.docs) {
-    batchState.batch.update(doc.ref, {
-      status: "CANCELED",
-      canceledAt: FieldValue.serverTimestamp(),
-      updatedAt: FieldValue.serverTimestamp()
-    });
+    batchState.batch.delete(doc.ref);
     batchState.count += 1;
-    canceled += 1;
+    deleted += 1;
     await commitBatch(batchState);
   }
 
@@ -655,7 +651,7 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
 
   await commitBatch(batchState, true);
   await ensureSeatsReady();
-  return { canceled, released };
+  return { deleted, released };
 });
 
 export const seedSeats = onCall(callableOptions, async (request) => {

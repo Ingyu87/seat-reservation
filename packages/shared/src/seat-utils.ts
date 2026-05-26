@@ -3,7 +3,7 @@ import type { Seat } from "./types";
 
 export { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL, SEAT_LAYOUT_TOTAL_BY_FLOOR };
 
-export const MAX_SEATS_PER_RESERVATION = 6;
+export const MAX_SEATS_PER_RESERVATION = 4;
 
 export const FLOORS = [
   { id: "F1", label: "1층" },

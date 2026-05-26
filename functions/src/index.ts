@@ -8,7 +8,7 @@ initializeApp();
 
 const db = getFirestore();
 const callableOptions = { region: "asia-northeast3", cors: "*", invoker: "public" } as const;
-const MAX_SEATS_PER_RESERVATION = 6;
+const MAX_SEATS_PER_RESERVATION = 4;
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 

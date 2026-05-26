@@ -95,7 +95,7 @@ input {
 }
 
 .page {
-  width: min(1480px, calc(100vw - 32px));
+  width: min(2220px, calc(100vw - 32px));
   margin: 0 auto;
   padding: 24px 0 48px;
 }

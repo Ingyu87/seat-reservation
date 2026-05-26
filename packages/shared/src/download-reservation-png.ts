@@ -202,11 +202,11 @@ export async function downloadReservationInfoPng(
   const rows = [
     "예약 확인",
     "",
-    `예약자: ${found.name}`,
+    `학생 이름: ${found.name}`,
+    `학생 소속교: ${found.schoolName}`,
     `좌석 수: ${found.seatCount}`,
     `좌석: ${seatLine}`,
-    `전화번호 뒷자리: ${found.phoneLast4}`,
-    `이메일: ${found.emailMasked}`,
+    `보호자 전화번호 뒤 4자리: ${found.phoneLast4}`,
     `예약 일시: ${formatReservedAt(found.createdAt)}`,
     `상태: ${found.status === "CONFIRMED" ? "예약 완료" : "취소"}`
   ];

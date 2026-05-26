@@ -24,21 +24,22 @@ export type SeatMapResponse = {
 export type ReservationInput = {
   seatIds: string[];
   name: string;
+  schoolName: string;
   phoneLast4: string;
-  email: string;
   privacyConsent: boolean;
 };
 
 export type LookupInput = {
   name: string;
+  schoolName: string;
   phoneLast4: string;
 };
 
 export type ReservationSummary = {
   reservationId: string;
   name: string;
+  schoolName: string;
   phoneLast4: string;
-  emailMasked: string;
   seatCount: number;
   seats: Array<{
     displayName: string;
@@ -55,8 +56,8 @@ export type ReservationSummary = {
 export type AdminReservation = {
   id: string;
   name: string;
+  schoolName: string;
   phoneLast4: string;
-  email: string;
   seatIds: string[];
   seatDisplayNames: string[];
   seatCount: number;
@@ -70,7 +71,7 @@ export type AdminReservation = {
 export type AdminUpdateReservationInput = {
   reservationId: string;
   name: string;
+  schoolName: string;
   phoneLast4: string;
-  email: string;
   seatDisplayNames?: string[];
 };

@@ -19,8 +19,8 @@ type Reservation = {
   seatId?: string;
   seatDisplayName?: string;
   name: string;
+  schoolName?: string;
   phoneLast4: string;
-  email: string;
   status: ReservationStatus;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
@@ -40,14 +40,6 @@ function normalizePhoneLast4(value: unknown) {
     throw new HttpsError("invalid-argument", "phoneLast4 must be exactly 4 digits.");
   }
   return text;
-}
-
-function normalizeEmail(value: unknown) {
-  const email = assertString(value, "email").toLowerCase();
-  if (!email.includes("@")) {
-    throw new HttpsError("invalid-argument", "A valid email is required.");
-  }
-  return email;
 }
 
 function normalizeSeatIds(value: unknown) {
@@ -78,10 +70,17 @@ function reservationSeatDisplayNames(item: Reservation) {
       : [];
 }
 
-function maskEmail(email: string) {
-  const [name, domain] = email.split("@");
-  if (!domain) return email;
-  return `${name.slice(0, 1)}***@${domain}`;
+function activeReservationKey(name: string, schoolName: string, phoneLast4: string) {
+  return [name, schoolName, phoneLast4].map((part) => encodeURIComponent(part.trim())).join("__");
+}
+
+function activeReservationRef(name: string, schoolName: string, phoneLast4: string) {
+  return db.collection("activeReservationKeys").doc(activeReservationKey(name, schoolName, phoneLast4));
+}
+
+function deleteActiveReservationKey(tx: Transaction, reservation: Reservation) {
+  if (!reservation.schoolName) return;
+  tx.delete(activeReservationRef(reservation.name, reservation.schoolName, reservation.phoneLast4));
 }
 
 function toDateString(value: unknown) {
@@ -128,8 +127,8 @@ function mapAdminReservation(id: string, item: Reservation) {
   return {
     id,
     name: item.name,
+    schoolName: item.schoolName ?? "",
     phoneLast4: item.phoneLast4,
-    email: item.email,
     seatIds,
     seatDisplayNames,
     seatCount: item.seatCount ?? seatIds.length,
@@ -162,11 +161,13 @@ async function releaseSeatsInTransaction(tx: Transaction, seatIds: string[]) {
 
 async function findReservationForOwner(data: Record<string, unknown>) {
   const name = assertString(data.name, "name");
+  const schoolName = assertString(data.schoolName, "schoolName");
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
 
   const snap = await db
     .collection("reservations")
     .where("name", "==", name)
+    .where("schoolName", "==", schoolName)
     .where("phoneLast4", "==", phoneLast4)
     .where("status", "==", "CONFIRMED")
     .limit(20)
@@ -263,8 +264,8 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const seatIds = normalizeSeatIds(data.seatIds);
   const name = assertString(data.name, "name");
+  const schoolName = assertString(data.schoolName, "schoolName");
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
-  const email = normalizeEmail(data.email);
   const privacyConsent = data.privacyConsent === true;
 
   if (!privacyConsent) {
@@ -272,6 +273,22 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
   }
 
   return db.runTransaction(async (tx) => {
+    const duplicateRef = activeReservationRef(name, schoolName, phoneLast4);
+    const duplicateSnap = await tx.get(duplicateRef);
+    const duplicateReservationSnap = await tx.get(
+      db
+        .collection("reservations")
+        .where("name", "==", name)
+        .where("schoolName", "==", schoolName)
+        .where("phoneLast4", "==", phoneLast4)
+        .where("status", "==", "CONFIRMED")
+        .limit(1)
+    );
+
+    if (duplicateSnap.exists || !duplicateReservationSnap.empty) {
+      throw new HttpsError("already-exists", "이미 예약된 정보가 있습니다. 예약 조회에서 확인해 주세요.");
+    }
+
     const seatRefs = seatIds.map((seatId) => db.collection("seats").doc(seatId));
     const seatSnaps = [];
 
@@ -293,12 +310,13 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
     }
 
     const reservationRef = db.collection("reservations").doc();
-    const payload = {
+    tx.create(duplicateRef, {
+      reservationId: reservationRef.id,
       name,
+      schoolName,
       phoneLast4,
-      seatDisplayNames,
-      seatCount: seatIds.length
-    };
+      createdAt: FieldValue.serverTimestamp()
+    });
 
     tx.create(reservationRef, {
       seatIds,
@@ -307,8 +325,8 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
       seatId: seatIds[0],
       seatDisplayName: seatDisplayNames.join(", "),
       name,
+      schoolName,
       phoneLast4,
-      email,
       status: "CONFIRMED",
       privacyConsent: true,
       privacyConsentAt: FieldValue.serverTimestamp(),
@@ -325,18 +343,6 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
       });
     }
 
-    tx.create(db.collection("notificationJobs").doc(), {
-      reservationId: reservationRef.id,
-      type: "EMAIL",
-      event: "RESERVED",
-      recipient: email,
-      payload,
-      status: "PENDING",
-      errorMessage: null,
-      createdAt: FieldValue.serverTimestamp(),
-      sentAt: null
-    });
-
     return { reservationId: reservationRef.id, seatDisplayNames };
   });
 });
@@ -349,8 +355,8 @@ export const lookupReservation = onCall(callableOptions, async (request) => {
   return {
     reservationId: found.id,
     name: found.data.name,
+    schoolName: found.data.schoolName ?? "",
     phoneLast4: found.data.phoneLast4,
-    emailMasked: maskEmail(found.data.email),
     seatCount: found.data.seatCount ?? seatIds.length,
     seats: seatDisplayNames.map((displayName, index) => ({
       id: seatIds[index],
@@ -415,23 +421,6 @@ export const changeSeat = onCall(callableOptions, async (request) => {
       updatedAt: FieldValue.serverTimestamp()
     });
 
-    tx.create(db.collection("notificationJobs").doc(), {
-      reservationId: found.id,
-      type: "EMAIL",
-      event: "CHANGED",
-      recipient: found.data.email,
-      payload: {
-        name: found.data.name,
-        phoneLast4: found.data.phoneLast4,
-        seatDisplayNames: newSeatDisplayNames,
-        seatCount: newSeatIds.length
-      },
-      status: "PENDING",
-      errorMessage: null,
-      createdAt: FieldValue.serverTimestamp(),
-      sentAt: null
-    });
-
     return { seatDisplayNames: newSeatDisplayNames };
   });
 });
@@ -441,26 +430,11 @@ export const cancelReservation = onCall(callableOptions, async (request) => {
 
   await db.runTransaction(async (tx) => {
     await releaseSeatsInTransaction(tx, reservationSeatIds(found.data));
+    deleteActiveReservationKey(tx, found.data);
     tx.update(found.ref, {
       status: "CANCELED",
       canceledAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp()
-    });
-    tx.create(db.collection("notificationJobs").doc(), {
-      reservationId: found.id,
-      type: "EMAIL",
-      event: "CANCELED",
-      recipient: found.data.email,
-      payload: {
-        name: found.data.name,
-        phoneLast4: found.data.phoneLast4,
-        seatDisplayNames: reservationSeatDisplayNames(found.data),
-        seatCount: reservationSeatIds(found.data).length
-      },
-      status: "PENDING",
-      errorMessage: null,
-      createdAt: FieldValue.serverTimestamp(),
-      sentAt: null
     });
   });
 
@@ -478,8 +452,8 @@ export const adminSearchReservations = onCall(callableOptions, async (request) =
       if (!query) return true;
       return (
         item.name.toLowerCase().includes(query) ||
+        (item.schoolName ?? "").toLowerCase().includes(query) ||
         item.phoneLast4.includes(query) ||
-        item.email.toLowerCase().includes(query) ||
         seatDisplayNames.includes(query)
       );
     })
@@ -502,6 +476,7 @@ export const adminDeleteReservation = onCall(callableOptions, async (request) =>
     const reservation = reservationSnap.data() as Reservation;
     if (reservation.status === "CONFIRMED") {
       await releaseSeatsInTransaction(tx, reservationSeatIds(reservation));
+      deleteActiveReservationKey(tx, reservation);
     }
 
     tx.delete(reservationRef);
@@ -515,23 +490,49 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
   const data = request.data as Record<string, unknown>;
   const reservationId = assertString(data.reservationId, "reservationId");
   const name = assertString(data.name, "name");
+  const schoolName = assertString(data.schoolName, "schoolName");
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
-  const email = normalizeEmail(data.email);
   const seatDisplayNames = normalizeSeatDisplayNames(data.seatDisplayNames);
 
   const reservationRef = db.collection("reservations").doc(reservationId);
 
   return db.runTransaction(async (tx) => {
+    let nextActiveRef: ReturnType<typeof activeReservationRef> | null = null;
+    let shouldDeleteCurrentActiveRef = false;
+    let shouldCreateNextActiveRef = false;
+
     const reservationSnap = await tx.get(reservationRef);
     if (!reservationSnap.exists) {
       throw new HttpsError("not-found", "Reservation was not found.");
     }
 
     const reservation = reservationSnap.data() as Reservation;
+    if (reservation.status === "CONFIRMED") {
+      nextActiveRef = activeReservationRef(name, schoolName, phoneLast4);
+      const nextActiveSnap = await tx.get(nextActiveRef);
+      const nextActiveReservationId = (nextActiveSnap.data() as { reservationId?: string } | undefined)?.reservationId;
+      const currentKey = reservation.schoolName
+        ? activeReservationKey(reservation.name, reservation.schoolName, reservation.phoneLast4)
+        : "";
+      const nextKey = activeReservationKey(name, schoolName, phoneLast4);
+
+      if (nextActiveSnap.exists && nextActiveReservationId !== reservationId) {
+        throw new HttpsError("already-exists", "이미 예약된 정보가 있습니다.");
+      }
+
+      if (currentKey && currentKey !== nextKey) {
+        shouldDeleteCurrentActiveRef = true;
+      }
+
+      if (!nextActiveSnap.exists) {
+        shouldCreateNextActiveRef = true;
+      }
+    }
+
     const updates: Record<string, unknown> = {
       name,
+      schoolName,
       phoneLast4,
-      email,
       updatedAt: FieldValue.serverTimestamp()
     };
 
@@ -588,13 +589,27 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
       updates.seatDisplayName = newDisplayNames.join(", ");
     }
 
+    if (shouldDeleteCurrentActiveRef) {
+      deleteActiveReservationKey(tx, reservation);
+    }
+
+    if (shouldCreateNextActiveRef && nextActiveRef) {
+      tx.create(nextActiveRef, {
+        reservationId,
+        name,
+        schoolName,
+        phoneLast4,
+        createdAt: FieldValue.serverTimestamp()
+      });
+    }
+
     tx.update(reservationRef, updates);
     return mapAdminReservation(reservationId, {
       ...reservation,
       ...updates,
       name,
-      phoneLast4,
-      email
+      schoolName,
+      phoneLast4
     } as Reservation);
   });
 });
@@ -604,6 +619,7 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
 
   const reservationsSnap = await db.collection("reservations").where("status", "==", "CONFIRMED").get();
   const seatsSnap = await db.collection("seats").where("status", "==", "RESERVED").get();
+  const activeKeysSnap = await db.collection("activeReservationKeys").get();
 
   const batchState = { batch: db.batch(), count: 0 };
   let canceled = 0;
@@ -628,6 +644,12 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
     });
     batchState.count += 1;
     released += 1;
+    await commitBatch(batchState);
+  }
+
+  for (const doc of activeKeysSnap.docs) {
+    batchState.batch.delete(doc.ref);
+    batchState.count += 1;
     await commitBatch(batchState);
   }
 

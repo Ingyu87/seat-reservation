@@ -4,14 +4,13 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { SeatMap } from "@/app/components/SeatMap";
 import {
-  downloadReservationInfoPng,
   fetchSeatMap,
   hasFirebaseConfig,
   MAX_SEATS_PER_RESERVATION,
   reserveSeat,
   validatePhoneLast4
 } from "@seat/shared";
-import type { ReservationInput, ReservationSummary, Seat, SeatMapResponse } from "@seat/shared";
+import type { ReservationInput, Seat, SeatMapResponse } from "@seat/shared";
 
 type ReservationForm = Omit<ReservationInput, "seatIds"> & {
   seatCount: number;
@@ -19,8 +18,8 @@ type ReservationForm = Omit<ReservationInput, "seatIds"> & {
 
 const initialForm: ReservationForm = {
   name: "",
+  schoolName: "",
   phoneLast4: "",
-  email: "",
   seatCount: 1,
   privacyConsent: false
 };
@@ -31,7 +30,7 @@ export default function HomePage() {
   const [form, setForm] = useState(initialForm);
   const [step, setStep] = useState<"form" | "seats">("form");
   const [confirming, setConfirming] = useState(false);
-  const [completed, setCompleted] = useState<ReservationSummary | null>(null);
+  const [completed, setCompleted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -85,9 +84,9 @@ export default function HomePage() {
   const available = Math.max(0, total - reserved);
 
   function validateForm() {
-    if (!form.name.trim()) return "이름을 입력해 주세요.";
-    if (!validatePhoneLast4(form.phoneLast4)) return "전화번호 뒷자리 4자리를 숫자로 입력해 주세요.";
-    if (!form.email.includes("@")) return "이메일 주소를 확인해 주세요.";
+    if (!form.name.trim()) return "학생 이름을 입력해 주세요.";
+    if (!form.schoolName.trim()) return "학생 소속교를 입력해 주세요.";
+    if (!validatePhoneLast4(form.phoneLast4)) return "보호자 전화번호 뒤 4자리를 숫자로 입력해 주세요.";
     if (!Number.isInteger(form.seatCount) || form.seatCount < 1 || form.seatCount > MAX_SEATS_PER_RESERVATION) {
       return `예약 좌석 수는 1~${MAX_SEATS_PER_RESERVATION}석까지 가능합니다.`;
     }
@@ -99,7 +98,7 @@ export default function HomePage() {
     const validation = validateForm();
     setError(validation);
     setMessage("");
-    setCompleted(null);
+    setCompleted(false);
     if (validation) return;
     setSelectedIds([]);
     setStep("seats");
@@ -108,7 +107,7 @@ export default function HomePage() {
   function toggleSeat(seat: Seat) {
     setError("");
     setMessage("");
-    setCompleted(null);
+    setCompleted(false);
     setSelectedIds((current) => {
       if (current.includes(seat.id)) return current.filter((id) => id !== seat.id);
       if (current.length >= form.seatCount) {
@@ -137,27 +136,13 @@ export default function HomePage() {
       const input: ReservationInput = {
         seatIds: selectedIds,
         name: form.name.trim(),
+        schoolName: form.schoolName.trim(),
         phoneLast4: form.phoneLast4,
-        email: form.email.trim(),
         privacyConsent: form.privacyConsent
       };
-      const result = await reserveSeat(input);
-      const seatDisplayNames = result.seatDisplayNames.length
-        ? result.seatDisplayNames
-        : selectedSeats.map((seat) => seat.displayName);
-      const summary: ReservationSummary = {
-        reservationId: result.reservationId,
-        name: input.name,
-        phoneLast4: input.phoneLast4,
-        emailMasked: input.email.replace(/^(.).*@/, "$1***@"),
-        seatCount: seatDisplayNames.length,
-        seats: seatDisplayNames.map((displayName, index) => ({ displayName, id: selectedIds[index] })),
-        seat: { displayName: seatDisplayNames[0] ?? "-", id: selectedIds[0] },
-        status: "CONFIRMED",
-        createdAt: new Date().toISOString()
-      };
-      setCompleted(summary);
-      setMessage("예약이 완료되었습니다. 아래에서 예약 카드를 다운로드할 수 있습니다.");
+      await reserveSeat(input);
+      setCompleted(true);
+      setMessage("");
       setConfirming(false);
       setStep("form");
       setSelectedIds([]);
@@ -169,16 +154,6 @@ export default function HomePage() {
     } finally {
       setSubmitting(false);
     }
-  }
-
-  async function downloadCompletedCard() {
-    if (!completed) return;
-    const result = await downloadReservationInfoPng(completed, { seats });
-    setMessage(
-      result.mode === "opened"
-        ? "이미지를 새 창으로 열었습니다. 모바일에서는 이미지를 길게 눌러 저장해 주세요."
-        : "예약 카드 PNG 파일을 다운로드했습니다."
-    );
   }
 
   return (
@@ -208,27 +183,18 @@ export default function HomePage() {
       {completed && (
         <section className="panel reservation-complete">
           <h2>예약 완료</h2>
-          <dl className="lookup-details">
-            <div>
-              <dt>예약자</dt>
-              <dd>{completed.name}</dd>
-            </div>
-            <div>
-              <dt>좌석</dt>
-              <dd>{completed.seats.map((seat) => seat.displayName).join(", ")}</dd>
-            </div>
-          </dl>
-          <button className="btn btn-primary" type="button" onClick={downloadCompletedCard}>
-            예약 카드 다운로드
+          <p className="hint">예약이 완료되었습니다.</p>
+          <button className="btn btn-primary" type="button" onClick={() => setCompleted(false)}>
+            종료
           </button>
         </section>
       )}
 
       {step === "form" && (
         <section className="panel reservation-form">
-          <h1>예약자 정보</h1>
+          <h1>예약 정보</h1>
           <div className="field">
-            <label htmlFor="reservation-name">이름 *</label>
+            <label htmlFor="reservation-name">학생 이름 *</label>
             <input
               autoComplete="off"
               id="reservation-name"
@@ -237,7 +203,16 @@ export default function HomePage() {
             />
           </div>
           <div className="field">
-            <label htmlFor="reservation-phone">전화번호 뒷자리 4자리 *</label>
+            <label htmlFor="reservation-school">학생 소속교 *</label>
+            <input
+              autoComplete="off"
+              id="reservation-school"
+              value={form.schoolName}
+              onChange={(e) => setForm({ ...form, schoolName: e.target.value })}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="reservation-phone">보호자 전화번호 뒤 4자리 *</label>
             <input
               autoComplete="off"
               id="reservation-phone"
@@ -245,16 +220,6 @@ export default function HomePage() {
               maxLength={4}
               value={form.phoneLast4}
               onChange={(e) => setForm({ ...form, phoneLast4: e.target.value.replace(/\D/g, "").slice(0, 4) })}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="reservation-email">이메일 *</label>
-            <input
-              autoComplete="off"
-              id="reservation-email"
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
           </div>
           <div className="field">
@@ -373,16 +338,16 @@ export default function HomePage() {
             <h2>예약 확인</h2>
             <dl className="lookup-details">
               <div>
-                <dt>이름</dt>
+                <dt>학생 이름</dt>
                 <dd>{form.name}</dd>
               </div>
               <div>
-                <dt>전화번호</dt>
-                <dd>{form.phoneLast4}</dd>
+                <dt>학생 소속교</dt>
+                <dd>{form.schoolName}</dd>
               </div>
               <div>
-                <dt>이메일</dt>
-                <dd>{form.email}</dd>
+                <dt>보호자 전화번호 뒤 4자리</dt>
+                <dd>{form.phoneLast4}</dd>
               </div>
               <div>
                 <dt>좌석</dt>

@@ -30,8 +30,8 @@ export default function AdminPage() {
   const [editing, setEditing] = useState<AdminReservation | null>(null);
   const [editForm, setEditForm] = useState<Omit<AdminUpdateReservationInput, "reservationId"> & { seatText: string }>({
     name: "",
+    schoolName: "",
     phoneLast4: "",
-    email: "",
     seatDisplayNames: [],
     seatText: ""
   });
@@ -167,8 +167,8 @@ export default function AdminPage() {
     setEditing(item);
     setEditForm({
       name: item.name,
+      schoolName: item.schoolName,
       phoneLast4: item.phoneLast4,
-      email: item.email,
       seatDisplayNames: item.seatDisplayNames,
       seatText: item.seatDisplayNames.join(", ")
     });
@@ -194,8 +194,8 @@ export default function AdminPage() {
       await adminUpdateReservation({
         reservationId: editing.id,
         name: editForm.name,
+        schoolName: editForm.schoolName,
         phoneLast4: editForm.phoneLast4,
-        email: editForm.email,
         seatDisplayNames
       });
       setMessage(`${editForm.name} 예약 정보를 수정했습니다.`);
@@ -271,7 +271,7 @@ export default function AdminPage() {
       <section className="panel" style={{ marginBottom: 16 }}>
         <h1>예약 관리</h1>
         <div className="field">
-          <label htmlFor="admin-query">이름, 전화번호 뒷자리, 이메일, 좌석</label>
+          <label htmlFor="admin-query">학생 이름, 학생 소속교, 보호자 전화번호 뒤 4자리, 좌석</label>
           <input
             id="admin-query"
             value={query}
@@ -344,10 +344,10 @@ export default function AdminPage() {
               <dl>
                 <dt>좌석</dt>
                 <dd>{item.seatDisplayNames.join(", ")}</dd>
-                <dt>전화번호</dt>
+                <dt>학생 소속교</dt>
+                <dd>{item.schoolName || "-"}</dd>
+                <dt>보호자 전화번호 뒤 4자리</dt>
                 <dd>{item.phoneLast4}</dd>
-                <dt>이메일</dt>
-                <dd>{item.email}</dd>
                 <dt>상태</dt>
                 <dd>{item.status === "CONFIRMED" ? "예약 완료" : "취소"}</dd>
                 <dt>예약 일시</dt>
@@ -370,11 +370,11 @@ export default function AdminPage() {
         <table className="admin-table-desktop">
           <thead>
             <tr>
-              <th>이름</th>
+              <th>학생 이름</th>
+              <th>학생 소속교</th>
               <th>좌석 수</th>
               <th>좌석 위치</th>
-              <th>전화번호</th>
-              <th>이메일</th>
+              <th>보호자 전화번호 뒤 4자리</th>
               <th>상태</th>
               <th>예약 일시</th>
               <th>관리</th>
@@ -384,10 +384,10 @@ export default function AdminPage() {
             {pageItems.map((item) => (
               <tr key={item.id}>
                 <td>{item.name}</td>
+                <td>{item.schoolName || "-"}</td>
                 <td>{item.seatCount}</td>
                 <td>{item.seatDisplayNames.join(", ")}</td>
                 <td>{item.phoneLast4}</td>
-                <td>{item.email}</td>
                 <td>{item.status === "CONFIRMED" ? "예약 완료" : "취소"}</td>
                 <td>{item.createdAt ? new Date(item.createdAt).toLocaleString("ko-KR") : "-"}</td>
                 <td>
@@ -457,12 +457,17 @@ export default function AdminPage() {
             <div className="notice">현재 좌석: {editing.seatDisplayNames.join(", ")}</div>
 
             <div className="field">
-              <label htmlFor="edit-name">이름</label>
+              <label htmlFor="edit-name">학생 이름</label>
               <input id="edit-name" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} />
             </div>
 
             <div className="field">
-              <label htmlFor="edit-phone">전화번호 뒷자리</label>
+              <label htmlFor="edit-school">학생 소속교</label>
+              <input id="edit-school" value={editForm.schoolName} onChange={(e) => setEditForm({ ...editForm, schoolName: e.target.value })} />
+            </div>
+
+            <div className="field">
+              <label htmlFor="edit-phone">보호자 전화번호 뒤 4자리</label>
               <input
                 id="edit-phone"
                 inputMode="numeric"
@@ -470,11 +475,6 @@ export default function AdminPage() {
                 value={editForm.phoneLast4}
                 onChange={(e) => setEditForm({ ...editForm, phoneLast4: e.target.value.replace(/\D/g, "").slice(0, 4) })}
               />
-            </div>
-
-            <div className="field">
-              <label htmlFor="edit-email">이메일</label>
-              <input id="edit-email" type="email" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} />
             </div>
 
             <div className="field">

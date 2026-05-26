@@ -15,11 +15,11 @@ function formatDate(value?: string) {
 }
 
 export function downloadReservationsExcel(items: AdminReservation[], filename = "예약목록.csv") {
-  const headers = ["이름", "전화번호 뒷자리", "이메일", "좌석 수", "좌석 위치", "상태", "예약 일시", "수정 일시"];
+  const headers = ["학생 이름", "학생 소속교", "보호자 전화번호 뒤 4자리", "좌석 수", "좌석 위치", "상태", "예약 일시", "수정 일시"];
   const rows = items.map((item) => [
     item.name,
+    item.schoolName,
     item.phoneLast4,
-    item.email,
     String(item.seatCount),
     item.seatDisplayNames.join(", "),
     item.status === "CONFIRMED" ? "예약 완료" : "취소",

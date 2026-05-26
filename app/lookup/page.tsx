@@ -13,7 +13,7 @@ import { ReservationMiniMap } from "@/app/components/ReservationMiniMap";
 import { SeatMap } from "@/app/components/SeatMap";
 import type { LookupInput, ReservationSummary, Seat } from "@seat/shared";
 
-const emptyLookup = { name: "", phoneLast4: "" };
+const emptyLookup = { name: "", schoolName: "", phoneLast4: "" };
 
 export default function LookupPage() {
   const [form, setForm] = useState<LookupInput>(emptyLookup);
@@ -40,8 +40,8 @@ export default function LookupPage() {
     setSeatMapError("");
     setSeatMapLoading(false);
 
-    if (!form.name.trim() || !validatePhoneLast4(form.phoneLast4)) {
-      setError("이름과 전화번호 뒷자리 4자리를 다시 확인해 주세요.");
+    if (!form.name.trim() || !form.schoolName.trim() || !validatePhoneLast4(form.phoneLast4)) {
+      setError("학생 이름, 학생 소속교, 보호자 전화번호 뒤 4자리를 다시 확인해 주세요.");
       return;
     }
 
@@ -145,15 +145,20 @@ export default function LookupPage() {
       <div className="lookup-wrap">
         <section className="panel">
           <h1>예약 조회</h1>
-          <p className="hint">이름과 전화번호 뒷자리 4자리로 예약을 조회합니다.</p>
+          <p className="hint">학생 이름, 학생 소속교, 보호자 전화번호 뒤 4자리로 예약을 조회합니다.</p>
 
           <div className="field">
-            <label htmlFor="lookup-name">이름</label>
+            <label htmlFor="lookup-name">학생 이름</label>
             <input id="lookup-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
           </div>
 
           <div className="field">
-            <label htmlFor="lookup-phone">전화번호 뒷자리 4자리</label>
+            <label htmlFor="lookup-school">학생 소속교</label>
+            <input id="lookup-school" value={form.schoolName} onChange={(e) => setForm({ ...form, schoolName: e.target.value })} />
+          </div>
+
+          <div className="field">
+            <label htmlFor="lookup-phone">보호자 전화번호 뒤 4자리</label>
             <input
               id="lookup-phone"
               inputMode="numeric"
@@ -176,8 +181,12 @@ export default function LookupPage() {
             <h2>예약 정보</h2>
             <dl className="lookup-details">
               <div>
-                <dt>예약자</dt>
+                <dt>학생 이름</dt>
                 <dd>{found.name}</dd>
+              </div>
+              <div>
+                <dt>학생 소속교</dt>
+                <dd>{found.schoolName}</dd>
               </div>
               <div>
                 <dt>좌석 수</dt>
@@ -188,12 +197,8 @@ export default function LookupPage() {
                 <dd>{found.seats.map((seat) => seat.displayName).join(", ")}</dd>
               </div>
               <div>
-                <dt>전화번호</dt>
+                <dt>보호자 전화번호 뒤 4자리</dt>
                 <dd>{found.phoneLast4}</dd>
-              </div>
-              <div>
-                <dt>이메일</dt>
-                <dd>{found.emailMasked}</dd>
               </div>
               {found.createdAt && (
                 <div>

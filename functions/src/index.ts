@@ -651,7 +651,7 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
 
   await commitBatch(batchState, true);
   await ensureSeatsReady();
-  return { deleted, released };
+  return { deleted, canceled: deleted, released };
 });
 
 export const seedSeats = onCall(callableOptions, async (request) => {

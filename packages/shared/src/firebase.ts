@@ -97,7 +97,7 @@ export async function adminUpdateReservation(input: AdminUpdateReservationInput)
 }
 
 export async function adminResetAllReservations() {
-  return callFunction<undefined, { deleted: number; released: number }>("adminResetAllReservations");
+  return callFunction<undefined, { deleted: number; canceled: number; released: number }>("adminResetAllReservations");
 }
 
 export async function seedSeats() {

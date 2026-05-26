@@ -197,7 +197,7 @@ input {
 
 .seat-panel {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
   overflow: auto;
   max-height: 68vh;
@@ -1071,6 +1071,7 @@ th {
   }
 
   .seat-panel {
+    justify-content: flex-start;
     max-height: min(58dvh, 480px);
     padding: 8px;
   }

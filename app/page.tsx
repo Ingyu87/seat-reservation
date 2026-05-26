@@ -6,6 +6,7 @@ import { SeatMap } from "@/app/components/SeatMap";
 import {
   fetchSeatMap,
   hasFirebaseConfig,
+  lookupReservation,
   MAX_SEATS_PER_RESERVATION,
   reserveSeat,
   validatePhoneLast4
@@ -32,6 +33,7 @@ export default function HomePage() {
   const [confirming, setConfirming] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [checkingReservation, setCheckingReservation] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -94,12 +96,42 @@ export default function HomePage() {
     return "";
   }
 
-  function goSeatStep() {
+  function isReservationNotFound(error: unknown) {
+    if (!error || typeof error !== "object") return false;
+    const code = "code" in error ? String((error as { code?: unknown }).code ?? "") : "";
+    const message = "message" in error ? String((error as { message?: unknown }).message ?? "") : "";
+    return code === "functions/not-found" || message.includes("Reservation was not found");
+  }
+
+  async function goSeatStep() {
     const validation = validateForm();
     setError(validation);
     setMessage("");
     setCompleted(false);
     if (validation) return;
+
+    if (hasFirebaseConfig) {
+      setCheckingReservation(true);
+      try {
+        await lookupReservation({
+          name: form.name.trim(),
+          schoolName: form.schoolName.trim(),
+          phoneLast4: form.phoneLast4
+        });
+        setError("이미 예약된 정보가 있습니다. 예약 조회에서 확인해 주세요.");
+        setSelectedIds([]);
+        return;
+      } catch (err) {
+        if (!isReservationNotFound(err)) {
+          const message = err instanceof Error ? err.message : "";
+          setError(message || "예약 정보를 확인하는 중 오류가 발생했습니다.");
+          return;
+        }
+      } finally {
+        setCheckingReservation(false);
+      }
+    }
+
     setSelectedIds([]);
     setStep("seats");
   }
@@ -250,8 +282,8 @@ export default function HomePage() {
               처리방침
             </Link>
           </label>
-          <button className="btn btn-primary" type="button" onClick={goSeatStep}>
-            좌석 선택하기
+          <button className="btn btn-primary" disabled={checkingReservation} type="button" onClick={goSeatStep}>
+            {checkingReservation ? "예약 확인 중" : "좌석 선택하기"}
           </button>
         </section>
       )}

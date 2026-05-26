@@ -20,6 +20,7 @@ type Reservation = {
   seatDisplayName?: string;
   name: string;
   schoolName?: string;
+  schoolNameKey?: string;
   phoneLast4: string;
   status: ReservationStatus;
   createdAt?: Timestamp;
@@ -70,8 +71,28 @@ function reservationSeatDisplayNames(item: Reservation) {
       : [];
 }
 
-function activeReservationKey(name: string, schoolName: string, phoneLast4: string) {
+function normalizeSchoolNameKey(value: string) {
+  let text = value.trim().replace(/\s+/g, "").toLowerCase();
+  text = text.replace(/^서울특별시/, "").replace(/^서울시/, "").replace(/^서울/, "");
+  text = text.replace(/초등학교$/, "").replace(/초교$/, "").replace(/초$/, "");
+  return text;
+}
+
+function schoolNameAliases(value: string) {
+  const key = normalizeSchoolNameKey(value);
+  return Array.from(new Set([value.trim(), `${key}초`, `${key}초등학교`, `서울${key}초`, `서울${key}초등학교`]));
+}
+
+function activeReservationKeyFromSchoolKey(name: string, schoolNameKey: string, phoneLast4: string) {
+  return [name, schoolNameKey, phoneLast4].map((part) => encodeURIComponent(part.trim())).join("__");
+}
+
+function legacyActiveReservationKey(name: string, schoolName: string, phoneLast4: string) {
   return [name, schoolName, phoneLast4].map((part) => encodeURIComponent(part.trim())).join("__");
+}
+
+function activeReservationKey(name: string, schoolName: string, phoneLast4: string) {
+  return activeReservationKeyFromSchoolKey(name, normalizeSchoolNameKey(schoolName), phoneLast4);
 }
 
 function activeReservationRef(name: string, schoolName: string, phoneLast4: string) {
@@ -81,6 +102,14 @@ function activeReservationRef(name: string, schoolName: string, phoneLast4: stri
 function deleteActiveReservationKey(tx: Transaction, reservation: Reservation) {
   if (!reservation.schoolName) return;
   tx.delete(activeReservationRef(reservation.name, reservation.schoolName, reservation.phoneLast4));
+  tx.delete(db.collection("activeReservationKeys").doc(
+    legacyActiveReservationKey(reservation.name, reservation.schoolName, reservation.phoneLast4)
+  ));
+  if (reservation.schoolNameKey) {
+    tx.delete(db.collection("activeReservationKeys").doc(
+      activeReservationKeyFromSchoolKey(reservation.name, reservation.schoolNameKey, reservation.phoneLast4)
+    ));
+  }
 }
 
 function toDateString(value: unknown) {
@@ -162,16 +191,28 @@ async function releaseSeatsInTransaction(tx: Transaction, seatIds: string[]) {
 async function findReservationForOwner(data: Record<string, unknown>) {
   const name = assertString(data.name, "name");
   const schoolName = assertString(data.schoolName, "schoolName");
+  const schoolNameKey = normalizeSchoolNameKey(schoolName);
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
 
-  const snap = await db
+  let snap = await db
     .collection("reservations")
     .where("name", "==", name)
-    .where("schoolName", "==", schoolName)
+    .where("schoolNameKey", "==", schoolNameKey)
     .where("phoneLast4", "==", phoneLast4)
     .where("status", "==", "CONFIRMED")
     .limit(20)
     .get();
+
+  if (snap.empty) {
+    snap = await db
+      .collection("reservations")
+      .where("name", "==", name)
+      .where("schoolName", "in", schoolNameAliases(schoolName))
+      .where("phoneLast4", "==", phoneLast4)
+      .where("status", "==", "CONFIRMED")
+      .limit(20)
+      .get();
+  }
 
   if (snap.empty) {
     throw new HttpsError("not-found", "Reservation was not found.");
@@ -265,6 +306,7 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
   const seatIds = normalizeSeatIds(data.seatIds);
   const name = assertString(data.name, "name");
   const schoolName = assertString(data.schoolName, "schoolName");
+  const schoolNameKey = normalizeSchoolNameKey(schoolName);
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
   const privacyConsent = data.privacyConsent === true;
 
@@ -279,13 +321,22 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
       db
         .collection("reservations")
         .where("name", "==", name)
-        .where("schoolName", "==", schoolName)
+        .where("schoolNameKey", "==", schoolNameKey)
+        .where("phoneLast4", "==", phoneLast4)
+        .where("status", "==", "CONFIRMED")
+        .limit(1)
+    );
+    const duplicateLegacyReservationSnap = await tx.get(
+      db
+        .collection("reservations")
+        .where("name", "==", name)
+        .where("schoolName", "in", schoolNameAliases(schoolName))
         .where("phoneLast4", "==", phoneLast4)
         .where("status", "==", "CONFIRMED")
         .limit(1)
     );
 
-    if (duplicateSnap.exists || !duplicateReservationSnap.empty) {
+    if (duplicateSnap.exists || !duplicateReservationSnap.empty || !duplicateLegacyReservationSnap.empty) {
       throw new HttpsError("already-exists", "이미 예약된 정보가 있습니다. 예약 조회에서 확인해 주세요.");
     }
 
@@ -314,6 +365,7 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
       reservationId: reservationRef.id,
       name,
       schoolName,
+      schoolNameKey,
       phoneLast4,
       createdAt: FieldValue.serverTimestamp()
     });
@@ -326,6 +378,7 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
       seatDisplayName: seatDisplayNames.join(", "),
       name,
       schoolName,
+      schoolNameKey,
       phoneLast4,
       status: "CONFIRMED",
       privacyConsent: true,
@@ -491,6 +544,7 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
   const reservationId = assertString(data.reservationId, "reservationId");
   const name = assertString(data.name, "name");
   const schoolName = assertString(data.schoolName, "schoolName");
+  const schoolNameKey = normalizeSchoolNameKey(schoolName);
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
   const seatDisplayNames = normalizeSeatDisplayNames(data.seatDisplayNames);
 
@@ -510,13 +564,34 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
     if (reservation.status === "CONFIRMED") {
       nextActiveRef = activeReservationRef(name, schoolName, phoneLast4);
       const nextActiveSnap = await tx.get(nextActiveRef);
+      const duplicateReservationSnap = await tx.get(
+        db
+          .collection("reservations")
+          .where("name", "==", name)
+          .where("schoolNameKey", "==", schoolNameKey)
+          .where("phoneLast4", "==", phoneLast4)
+          .where("status", "==", "CONFIRMED")
+          .limit(20)
+      );
+      const duplicateLegacyReservationSnap = await tx.get(
+        db
+          .collection("reservations")
+          .where("name", "==", name)
+          .where("schoolName", "in", schoolNameAliases(schoolName))
+          .where("phoneLast4", "==", phoneLast4)
+          .where("status", "==", "CONFIRMED")
+          .limit(20)
+      );
       const nextActiveReservationId = (nextActiveSnap.data() as { reservationId?: string } | undefined)?.reservationId;
       const currentKey = reservation.schoolName
         ? activeReservationKey(reservation.name, reservation.schoolName, reservation.phoneLast4)
         : "";
       const nextKey = activeReservationKey(name, schoolName, phoneLast4);
+      const duplicateReservationExists =
+        duplicateReservationSnap.docs.some((doc) => doc.id !== reservationId) ||
+        duplicateLegacyReservationSnap.docs.some((doc) => doc.id !== reservationId);
 
-      if (nextActiveSnap.exists && nextActiveReservationId !== reservationId) {
+      if ((nextActiveSnap.exists && nextActiveReservationId !== reservationId) || duplicateReservationExists) {
         throw new HttpsError("already-exists", "이미 예약된 정보가 있습니다.");
       }
 
@@ -532,6 +607,7 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
     const updates: Record<string, unknown> = {
       name,
       schoolName,
+      schoolNameKey,
       phoneLast4,
       updatedAt: FieldValue.serverTimestamp()
     };
@@ -598,6 +674,7 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
         reservationId,
         name,
         schoolName,
+        schoolNameKey,
         phoneLast4,
         createdAt: FieldValue.serverTimestamp()
       });
@@ -609,6 +686,7 @@ export const adminUpdateReservation = onCall(callableOptions, async (request) =>
       ...updates,
       name,
       schoolName,
+      schoolNameKey,
       phoneLast4
     } as Reservation);
   });

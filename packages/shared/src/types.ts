@@ -35,6 +35,13 @@ export type LookupInput = {
   phoneLast4: string;
 };
 
+export type ReservationEligibility = {
+  name: string;
+  schoolName: string;
+  phoneLast4: string;
+  seatCount: number;
+};
+
 export type ReservationSummary = {
   reservationId: string;
   name: string;

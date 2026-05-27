@@ -8,6 +8,7 @@ import type {
   AdminReservation,
   AdminUpdateReservationInput,
   LookupInput,
+  ReservationEligibility,
   ReservationInput,
   ReservationSummary,
   SeatMapResponse
@@ -74,6 +75,10 @@ export async function reserveSeat(input: ReservationInput) {
 
 export async function lookupReservation(input: LookupInput) {
   return callFunction<LookupInput, ReservationSummary>("lookupReservation", input);
+}
+
+export async function verifyReservationEligibility(input: LookupInput) {
+  return callFunction<LookupInput, ReservationEligibility>("verifyReservationEligibility", input);
 }
 
 export async function changeReservationSeat(input: LookupInput & { newSeatIds: string[] }) {

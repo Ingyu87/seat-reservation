@@ -7,9 +7,9 @@ import {
   fetchSeatMap,
   hasFirebaseConfig,
   lookupReservation,
-  MAX_SEATS_PER_RESERVATION,
   reserveSeat,
-  validatePhoneLast4
+  validatePhoneLast4,
+  verifyReservationEligibility
 } from "@seat/shared";
 import type { ReservationInput, Seat, SeatMapResponse } from "@seat/shared";
 
@@ -89,9 +89,6 @@ export default function HomePage() {
     if (!form.name.trim()) return "학생 이름을 입력해 주세요.";
     if (!form.schoolName.trim()) return "학생 소속교를 입력해 주세요.";
     if (!validatePhoneLast4(form.phoneLast4)) return "보호자 전화번호 뒤 4자리를 숫자로 입력해 주세요.";
-    if (!Number.isInteger(form.seatCount) || form.seatCount < 1 || form.seatCount > MAX_SEATS_PER_RESERVATION) {
-      return `예약 좌석 수는 1~${MAX_SEATS_PER_RESERVATION}석까지 가능합니다.`;
-    }
     if (!form.privacyConsent) return "개인정보 수집 및 이용에 동의해 주세요.";
     return "";
   }
@@ -110,13 +107,30 @@ export default function HomePage() {
     setCompleted(false);
     if (validation) return;
 
+    let allowedSeatCount = form.seatCount;
+    let nextForm = form;
+
     if (hasFirebaseConfig) {
       setCheckingReservation(true);
       try {
-        await lookupReservation({
+        const eligibility = await verifyReservationEligibility({
           name: form.name.trim(),
           schoolName: form.schoolName.trim(),
           phoneLast4: form.phoneLast4
+        });
+        allowedSeatCount = eligibility.seatCount;
+        nextForm = {
+          ...form,
+          name: eligibility.name,
+          schoolName: eligibility.schoolName,
+          phoneLast4: eligibility.phoneLast4,
+          seatCount: eligibility.seatCount
+        };
+
+        await lookupReservation({
+          name: nextForm.name,
+          schoolName: nextForm.schoolName,
+          phoneLast4: nextForm.phoneLast4
         });
         setError("이미 예약된 정보가 있습니다. 예약 조회에서 확인해 주세요.");
         setSelectedIds([]);
@@ -124,7 +138,7 @@ export default function HomePage() {
       } catch (err) {
         if (!isReservationNotFound(err)) {
           const message = err instanceof Error ? err.message : "";
-          setError(message || "예약 정보를 확인하는 중 오류가 발생했습니다.");
+          setError(message || "신청 명단에 없는 정보입니다. 이름, 학교명, 전화번호 뒷자리를 확인해 주세요.");
           return;
         }
       } finally {
@@ -132,7 +146,9 @@ export default function HomePage() {
       }
     }
 
+    setForm(nextForm);
     setSelectedIds([]);
+    setMessage(`명단 확인 완료: ${allowedSeatCount}석 예약 가능합니다.`);
     setStep("seats");
   }
 
@@ -254,23 +270,7 @@ export default function HomePage() {
               onChange={(e) => setForm({ ...form, phoneLast4: e.target.value.replace(/\D/g, "").slice(0, 4) })}
             />
           </div>
-          <div className="field">
-            <span className="field-label">예약 좌석 수 *</span>
-            <div className="seat-count-picker" role="radiogroup" aria-label="예약 좌석 수">
-              {Array.from({ length: MAX_SEATS_PER_RESERVATION }, (_, index) => index + 1).map((count) => (
-                <button
-                  aria-checked={form.seatCount === count}
-                  className={form.seatCount === count ? "active" : ""}
-                  key={count}
-                  role="radio"
-                  type="button"
-                  onClick={() => setForm({ ...form, seatCount: count })}
-                >
-                  {count}석
-                </button>
-              ))}
-            </div>
-          </div>
+          <p className="hint">명단 확인 후 예약 가능한 좌석 수가 자동 적용됩니다.</p>
           <label className="hint consent-row">
             <input
               checked={form.privacyConsent}

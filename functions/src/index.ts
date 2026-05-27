@@ -2,6 +2,7 @@ import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { FieldValue, getFirestore, Timestamp, type Transaction } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
+import { RESERVATION_ALLOWLIST, type AllowedReservation } from "./reservation-allowlist.generated.js";
 import { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL } from "./seat-layout.generated.js";
 
 initializeApp();
@@ -41,6 +42,28 @@ function normalizePhoneLast4(value: unknown) {
     throw new HttpsError("invalid-argument", "phoneLast4 must be exactly 4 digits.");
   }
   return text;
+}
+
+function normalizeAllowlistText(value: string) {
+  return value.trim().replace(/\s+/g, "").toLowerCase();
+}
+
+function allowlistKey(name: string, schoolName: string, phoneLast4: string) {
+  return [normalizeAllowlistText(name), normalizeAllowlistText(schoolName), phoneLast4].join("__");
+}
+
+const reservationAllowlistByKey = new Map<string, AllowedReservation>();
+
+for (const item of RESERVATION_ALLOWLIST) {
+  reservationAllowlistByKey.set(allowlistKey(item.name, item.schoolName, item.phoneLast4), item);
+}
+
+function findAllowedReservation(name: string, schoolName: string, phoneLast4: string) {
+  const item = reservationAllowlistByKey.get(allowlistKey(name, schoolName, phoneLast4));
+  if (!item) {
+    throw new HttpsError("permission-denied", "신청 명단에 없는 정보입니다. 이름, 학교명, 전화번호 뒷자리를 확인해 주세요.");
+  }
+  return item;
 }
 
 function normalizeSeatIds(value: unknown) {
@@ -301,6 +324,21 @@ export const getSeatMap = onCall(callableOptions, async () => {
   return { total: seats.length, reserved, seats };
 });
 
+export const verifyReservationEligibility = onCall(callableOptions, async (request) => {
+  const data = request.data as Record<string, unknown>;
+  const name = assertString(data.name, "name");
+  const schoolName = assertString(data.schoolName, "schoolName");
+  const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
+  const allowed = findAllowedReservation(name, schoolName, phoneLast4);
+
+  return {
+    name: allowed.name,
+    schoolName: allowed.schoolName,
+    phoneLast4: allowed.phoneLast4,
+    seatCount: allowed.seatCount
+  };
+});
+
 export const reserveSeat = onCall(callableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const seatIds = normalizeSeatIds(data.seatIds);
@@ -308,10 +346,14 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
   const schoolName = assertString(data.schoolName, "schoolName");
   const schoolNameKey = normalizeSchoolNameKey(schoolName);
   const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
+  const allowed = findAllowedReservation(name, schoolName, phoneLast4);
   const privacyConsent = data.privacyConsent === true;
 
   if (!privacyConsent) {
     throw new HttpsError("invalid-argument", "Privacy consent is required.");
+  }
+  if (seatIds.length !== allowed.seatCount) {
+    throw new HttpsError("invalid-argument", `신청 명단 기준 ${allowed.seatCount}석만 예약할 수 있습니다.`);
   }
 
   return db.runTransaction(async (tx) => {

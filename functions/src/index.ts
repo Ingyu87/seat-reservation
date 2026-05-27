@@ -8,7 +8,15 @@ import { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL } from "./seat-layout.generated.js";
 initializeApp();
 
 const db = getFirestore();
-const callableOptions = { region: "asia-northeast3", cors: "*", invoker: "public" } as const;
+const callableCorsOrigins: Array<string | RegExp> = [
+  "https://seat-reservation-bice.vercel.app",
+  "https://seat-reservation-admin.vercel.app",
+  /^https:\/\/seat-reservation-bice-[a-z0-9-]+\.vercel\.app$/,
+  /^https:\/\/seat-reservation-admin-[a-z0-9-]+\.vercel\.app$/,
+  /^http:\/\/localhost:\d+$/,
+  /^http:\/\/127\.0\.0\.1:\d+$/
+];
+const callableOptions = { region: "asia-northeast3", cors: callableCorsOrigins, invoker: "public" } as const;
 const MAX_SEATS_PER_RESERVATION = 4;
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";

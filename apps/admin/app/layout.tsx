@@ -62,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
-          <p>© 2026 서울특별시교육청. All rights reserved.</p>
+          <p>서울특별시교육청(서울특별시교육청 1호 교사개발자 서울가동초 백인규)</p>
           <p>개인정보 보호책임자: 서울특별시교육청 박옥선 / 문의: poseon@sen.go.kr</p>
         </footer>
       </body>

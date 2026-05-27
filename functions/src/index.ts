@@ -56,8 +56,17 @@ function normalizeAllowlistText(value: string) {
   return value.trim().replace(/\s+/g, "").toLowerCase();
 }
 
+function normalizeAllowlistSchoolName(value: string) {
+  let text = normalizeAllowlistText(value);
+  text = text.replace(/^서울특별시/, "").replace(/^서울시/, "").replace(/^서울/, "");
+  text = text.replace(/초등학교$/, "초").replace(/초교$/, "초");
+  text = text.replace(/중학교$/, "중").replace(/중교$/, "중");
+  text = text.replace(/고등학교$/, "고").replace(/고교$/, "고");
+  return text;
+}
+
 function allowlistKey(name: string, schoolName: string, phoneLast4: string) {
-  return [normalizeAllowlistText(name), normalizeAllowlistText(schoolName), phoneLast4].join("__");
+  return [normalizeAllowlistText(name), normalizeAllowlistSchoolName(schoolName), phoneLast4].join("__");
 }
 
 const reservationAllowlistByKey = new Map<string, AllowedReservation>();

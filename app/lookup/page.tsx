@@ -4,8 +4,10 @@ import { useMemo, useState } from "react";
 import {
   cancelReservation,
   changeReservationSeat,
+  DISABLED_SEAT_IDS,
   downloadReservationInfoPng,
   fetchSeatMap,
+  isSeatDisabled,
   lookupReservation,
   validatePhoneLast4
 } from "@seat/shared";
@@ -93,6 +95,10 @@ export default function LookupPage() {
   function toggleSeat(seat: Seat) {
     if (!found) return;
     setError("");
+    if (isSeatDisabled(seat.id) && !selectedIds.includes(seat.id)) {
+      setError("선택할 수 없는 좌석입니다.");
+      return;
+    }
     setSelectedIds((current) => {
       if (current.includes(seat.id)) return current.filter((id) => id !== seat.id);
       if (current.length >= found.seatCount) {
@@ -235,7 +241,7 @@ export default function LookupPage() {
             <section className="seat-selection-layout seat-selection-layout-compact" aria-label="좌석 변경">
               <div className="seat-selection-main">
                 <div className="seat-panel auditorium-panel change-seat-panel">
-                  <SeatMap seats={seats} selectedIds={selectedIds} onSelect={toggleSeat} />
+                  <SeatMap seats={seats} selectedIds={selectedIds} disabledIds={DISABLED_SEAT_IDS} onSelect={toggleSeat} />
                 </div>
               </div>
               <aside className="seat-selection-sidebar" aria-label="선택 좌석 정보">

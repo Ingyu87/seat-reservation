@@ -320,6 +320,12 @@ input {
   stroke-width: 1.1;
 }
 
+.admin-seat-dot.locked {
+  fill: #9aa0a6;
+  stroke: #6b7176;
+  stroke-width: 0.8;
+}
+
 .stage {
   padding: 10px;
   color: white;

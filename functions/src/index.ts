@@ -3,7 +3,7 @@ import { getAuth } from "firebase-admin/auth";
 import { FieldValue, getFirestore, Timestamp, type Transaction } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { RESERVATION_ALLOWLIST, type AllowedReservation } from "./reservation-allowlist.generated.js";
-import { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL } from "./seat-layout.generated.js";
+import { DISABLED_SEAT_IDS, SEAT_LAYOUT, SEAT_LAYOUT_TOTAL } from "./seat-layout.generated.js";
 
 initializeApp();
 
@@ -18,6 +18,13 @@ const callableCorsOrigins: Array<string | RegExp> = [
 ];
 const callableOptions = { region: "asia-northeast3", cors: callableCorsOrigins, invoker: "public" } as const;
 const MAX_SEATS_PER_RESERVATION = 4;
+const DISABLED_SEAT_ID_SET = new Set<string>(DISABLED_SEAT_IDS);
+
+function assertSeatsSelectable(seatIds: string[]) {
+  if (seatIds.some((seatId) => DISABLED_SEAT_ID_SET.has(seatId))) {
+    throw new HttpsError("failed-precondition", "선택할 수 없는 좌석이 포함되어 있습니다.");
+  }
+}
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
 
@@ -309,6 +316,7 @@ async function ensureSeatsReady() {
       gridRow: layout.gridRow,
       gridColumn: layout.gridColumn,
       displayName: layout.displayName,
+      disabled: Boolean(layout.disabled),
       sortOrder: index + 1,
       updatedAt: FieldValue.serverTimestamp()
     };
@@ -336,7 +344,11 @@ async function ensureSeatsReady() {
 export const getSeatMap = onCall(callableOptions, async () => {
   await ensureSeatsReady();
   const snap = await db.collection("seats").orderBy("sortOrder", "asc").get();
-  const seats = snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as { status?: string }) }));
+  const seats = snap.docs.map((doc) => ({
+    id: doc.id,
+    ...(doc.data() as { status?: string }),
+    disabled: DISABLED_SEAT_ID_SET.has(doc.id)
+  }));
   const reserved = seats.filter((seat) => seat.status === "RESERVED").length;
   return { total: seats.length, reserved, seats };
 });
@@ -359,6 +371,7 @@ export const verifyReservationEligibility = onCall(callableOptions, async (reque
 export const reserveSeat = onCall(callableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const seatIds = normalizeSeatIds(data.seatIds);
+  assertSeatsSelectable(seatIds);
   const name = assertString(data.name, "name");
   const schoolName = assertString(data.schoolName, "schoolName");
   const schoolNameKey = normalizeSchoolNameKey(schoolName);
@@ -486,6 +499,7 @@ export const lookupReservation = onCall(callableOptions, async (request) => {
 export const changeSeat = onCall(callableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const newSeatIds = normalizeSeatIds(data.newSeatIds);
+  assertSeatsSelectable(newSeatIds);
   const found = await findReservationForOwner(data);
   const currentSeatIds = reservationSeatIds(found.data);
 

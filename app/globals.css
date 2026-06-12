@@ -191,6 +191,10 @@ input {
   background: #bdbdbd;
 }
 
+.locked-swatch {
+  background: repeating-linear-gradient(45deg, #9aa0a6, #9aa0a6 2px, #7c8186 2px, #7c8186 4px);
+}
+
 .seat-map-scroll-hint {
   display: none;
 }
@@ -363,11 +367,20 @@ input {
   background: #48d54d;
 }
 
-.seat-cell.reserved,
-.seat-cell.locked {
+.seat-cell.reserved {
   cursor: not-allowed;
   background: #c6c6c6;
   border-color: #b1b1b1;
+}
+
+.seat-cell.locked {
+  cursor: not-allowed;
+  background: repeating-linear-gradient(45deg, #9aa0a6, #9aa0a6 2px, #7c8186 2px, #7c8186 4px);
+  border-color: #6b7176;
+}
+
+.seat-cell.locked:hover {
+  background: repeating-linear-gradient(45deg, #9aa0a6, #9aa0a6 2px, #7c8186 2px, #7c8186 4px);
 }
 
 .seat-cell.selected {

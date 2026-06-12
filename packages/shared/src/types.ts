@@ -13,6 +13,7 @@ export type Seat = {
   displayName: string;
   sortOrder: number;
   status: SeatStatus;
+  disabled?: boolean;
 };
 
 export type SeatMapResponse = {

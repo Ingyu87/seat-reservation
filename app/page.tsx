@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { SeatMap } from "@/app/components/SeatMap";
 import {
+  DISABLED_SEAT_IDS,
   fetchSeatMap,
   hasFirebaseConfig,
+  isSeatDisabled,
   lookupReservation,
   reserveSeat,
   validatePhoneLast4,
@@ -83,7 +85,11 @@ export default function HomePage() {
   );
   const reserved = data?.reserved ?? 0;
   const total = data?.total ?? 0;
-  const available = Math.max(0, total - reserved);
+  const disabledCount = useMemo(
+    () => seats.filter((seat) => seat.status === "AVAILABLE" && isSeatDisabled(seat.id)).length,
+    [seats]
+  );
+  const available = Math.max(0, total - reserved - disabledCount);
 
   function validateForm() {
     if (!form.name.trim()) return "학생 이름을 입력해 주세요.";
@@ -156,6 +162,10 @@ export default function HomePage() {
     setError("");
     setMessage("");
     setCompleted(false);
+    if (isSeatDisabled(seat.id) && !selectedIds.includes(seat.id)) {
+      setError("선택할 수 없는 좌석입니다.");
+      return;
+    }
     setSelectedIds((current) => {
       if (current.includes(seat.id)) return current.filter((id) => id !== seat.id);
       if (current.length >= form.seatCount) {
@@ -295,7 +305,7 @@ export default function HomePage() {
               좌석도는 가로와 세로로 스크롤할 수 있습니다. 확대 버튼으로 좌석을 크게 보고 선택해 주세요.
             </p>
             <section className="seat-panel auditorium-panel" aria-label="좌석 배치도">
-              <SeatMap seats={seats} selectedIds={selectedIds} onSelect={toggleSeat} />
+              <SeatMap seats={seats} selectedIds={selectedIds} disabledIds={DISABLED_SEAT_IDS} onSelect={toggleSeat} />
             </section>
           </div>
 
@@ -316,6 +326,10 @@ export default function HomePage() {
               <span className="legend-item">
                 <span className="swatch reserved-swatch" />
                 예약 완료
+              </span>
+              <span className="legend-item">
+                <span className="swatch locked-swatch" />
+                선택 불가
               </span>
             </div>
             <dl className="seat-count-list">

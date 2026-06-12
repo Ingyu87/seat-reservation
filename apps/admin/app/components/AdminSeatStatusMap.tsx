@@ -23,6 +23,7 @@ export function AdminSeatStatusMap({ seats }: AdminSeatStatusMapProps) {
       {floors.map((floor) => {
         const floorSeats = seats.filter((seat) => seat.floor === floor).sort((a, b) => a.sortOrder - b.sortOrder);
         const reservedCount = floorSeats.filter((seat) => seat.status === "RESERVED").length;
+        const disabledCount = floorSeats.filter((seat) => seat.disabled && seat.status !== "RESERVED").length;
         const rows = floorSeats.map((seat) => seat.gridRow);
         const columns = floorSeats.map((seat) => seat.gridColumn);
         const minRow = Math.min(...rows);
@@ -45,7 +46,8 @@ export function AdminSeatStatusMap({ seats }: AdminSeatStatusMapProps) {
               </div>
               <div>
                 <span>예약 {reservedCount.toLocaleString()}석</span>
-                <span>잔여 {(floorSeats.length - reservedCount).toLocaleString()}석</span>
+                <span>잔여 {(floorSeats.length - reservedCount - disabledCount).toLocaleString()}석</span>
+                {disabledCount > 0 && <span>비활성 {disabledCount.toLocaleString()}석</span>}
               </div>
             </div>
             <svg role="img" viewBox={`0 0 ${VIEWBOX_WIDTH} ${floorHeight}`} aria-label={`${floorSeats[0]?.floorLabel ?? floor} 좌석 현황`}>
@@ -58,10 +60,13 @@ export function AdminSeatStatusMap({ seats }: AdminSeatStatusMapProps) {
                 const x = mapLeft + (seat.gridColumn - minColumn) * cell;
                 const y = MAP_TOP + (seat.gridRow - minRow) * cell;
                 const reserved = seat.status === "RESERVED";
+                const locked = !reserved && Boolean(seat.disabled);
+                const stateClass = reserved ? "reserved" : locked ? "locked" : "available";
+                const stateLabel = reserved ? "예약 완료" : locked ? "비활성" : "예약 가능";
 
                 return (
                   <rect
-                    className={reserved ? "admin-seat-dot reserved" : "admin-seat-dot available"}
+                    className={`admin-seat-dot ${stateClass}`}
                     key={seat.id}
                     x={x}
                     y={y}
@@ -69,7 +74,7 @@ export function AdminSeatStatusMap({ seats }: AdminSeatStatusMapProps) {
                     height={Math.max(2, cell * 0.72)}
                     rx={Math.min(2, cell * 0.16)}
                   >
-                    <title>{`${seat.displayName} ${reserved ? "예약 완료" : "예약 가능"}`}</title>
+                    <title>{`${seat.displayName} ${stateLabel}`}</title>
                   </rect>
                 );
               })}

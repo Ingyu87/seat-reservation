@@ -1,7 +1,18 @@
-import { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL, SEAT_LAYOUT_TOTAL_BY_FLOOR } from "./seat-layout.generated";
+import {
+  DISABLED_SEAT_IDS,
+  SEAT_LAYOUT,
+  SEAT_LAYOUT_TOTAL,
+  SEAT_LAYOUT_TOTAL_BY_FLOOR
+} from "./seat-layout.generated";
 import type { Seat } from "./types";
 
-export { SEAT_LAYOUT, SEAT_LAYOUT_TOTAL, SEAT_LAYOUT_TOTAL_BY_FLOOR };
+export { DISABLED_SEAT_IDS, SEAT_LAYOUT, SEAT_LAYOUT_TOTAL, SEAT_LAYOUT_TOTAL_BY_FLOOR };
+
+export const DISABLED_SEAT_ID_SET = new Set<string>(DISABLED_SEAT_IDS);
+
+export function isSeatDisabled(seatId: string) {
+  return DISABLED_SEAT_ID_SET.has(seatId);
+}
 
 export const MAX_SEATS_PER_RESERVATION = 4;
 
@@ -19,6 +30,7 @@ export function makeSeatId(floor: FloorId, label: string) {
 export function generateDemoSeats(): Seat[] {
   return SEAT_LAYOUT.map((seat, index) => ({
     ...seat,
+    disabled: Boolean(seat.disabled),
     sortOrder: index + 1,
     status: "AVAILABLE"
   }));

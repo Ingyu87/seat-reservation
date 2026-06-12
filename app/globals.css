@@ -201,7 +201,7 @@ input {
 
 .seat-panel {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   overflow: auto;
   max-height: 68vh;
@@ -325,6 +325,7 @@ input {
   background: #fdfdfd;
   border: 1px solid #d9d9d9;
   content: "";
+  pointer-events: none;
 }
 
 .auditorium-shell::before {

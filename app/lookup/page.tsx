@@ -258,6 +258,10 @@ export default function LookupPage() {
                     <span className="swatch reserved-swatch" />
                     예약 완료
                   </span>
+                  <span className="legend-item">
+                    <span className="swatch locked-swatch" />
+                    선택 불가
+                  </span>
                 </div>
                 <dl className="seat-count-list">
                   <div>

@@ -121,13 +121,53 @@ function reservationSeatDisplayNames(item: Reservation) {
 function normalizeSchoolNameKey(value: string) {
   let text = value.trim().replace(/\s+/g, "").toLowerCase();
   text = text.replace(/^서울특별시/, "").replace(/^서울시/, "").replace(/^서울/, "");
+  text = text.replace(/초등학교$/, "초").replace(/초교$/, "초");
+  text = text.replace(/중학교$/, "중").replace(/중교$/, "중");
+  text = text.replace(/고등학교$/, "고").replace(/고교$/, "고");
+  return text;
+}
+
+function legacySchoolNameKey(value: string) {
+  let text = value.trim().replace(/\s+/g, "").toLowerCase();
+  text = text.replace(/^서울특별시/, "").replace(/^서울시/, "").replace(/^서울/, "");
   text = text.replace(/초등학교$/, "").replace(/초교$/, "").replace(/초$/, "");
   return text;
 }
 
+function schoolNameKeyCandidates(value: string) {
+  return Array.from(new Set([normalizeSchoolNameKey(value), legacySchoolNameKey(value)]));
+}
+
 function schoolNameAliases(value: string) {
   const key = normalizeSchoolNameKey(value);
-  return Array.from(new Set([value.trim(), `${key}초`, `${key}초등학교`, `서울${key}초`, `서울${key}초등학교`]));
+  const aliases = new Set<string>([value.trim(), key]);
+
+  aliases.add(`${key}초`);
+  aliases.add(`${key}초등학교`);
+  aliases.add(`서울${key}초`);
+  aliases.add(`서울${key}초등학교`);
+
+  if (key.endsWith("중")) {
+    aliases.add(`${key}학교`);
+    aliases.add(`서울${key}학교`);
+  } else {
+    aliases.add(`${key}중`);
+    aliases.add(`${key}중학교`);
+    aliases.add(`서울${key}중`);
+    aliases.add(`서울${key}중학교`);
+  }
+
+  if (key.endsWith("고")) {
+    aliases.add(`${key}등학교`);
+    aliases.add(`서울${key}등학교`);
+  } else {
+    aliases.add(`${key}고`);
+    aliases.add(`${key}고등학교`);
+    aliases.add(`서울${key}고`);
+    aliases.add(`서울${key}고등학교`);
+  }
+
+  return Array.from(aliases);
 }
 
 function activeReservationKeyFromSchoolKey(name: string, schoolNameKey: string, phoneLast4: string) {
@@ -235,42 +275,51 @@ async function releaseSeatsInTransaction(tx: Transaction, seatIds: string[]) {
   });
 }
 
-async function findReservationForOwner(data: Record<string, unknown>) {
-  const name = assertString(data.name, "name");
-  const schoolName = assertString(data.schoolName, "schoolName");
-  const schoolNameKey = normalizeSchoolNameKey(schoolName);
-  const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
-
-  let snap = await db
-    .collection("reservations")
-    .where("name", "==", name)
-    .where("schoolNameKey", "==", schoolNameKey)
-    .where("phoneLast4", "==", phoneLast4)
-    .where("status", "==", "CONFIRMED")
-    .limit(20)
-    .get();
-
-  if (snap.empty) {
-    snap = await db
-      .collection("reservations")
-      .where("name", "==", name)
-      .where("schoolName", "in", schoolNameAliases(schoolName))
-      .where("phoneLast4", "==", phoneLast4)
-      .where("status", "==", "CONFIRMED")
-      .limit(20)
-      .get();
-  }
-
-  if (snap.empty) {
-    throw new HttpsError("not-found", "Reservation was not found.");
-  }
-
+function pickLatestReservationDoc(
+  snap: FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData>
+) {
   const match = snap.docs.sort((a, b) => {
     const aTime = (a.data().createdAt as Timestamp | undefined)?.toMillis() ?? 0;
     const bTime = (b.data().createdAt as Timestamp | undefined)?.toMillis() ?? 0;
     return bTime - aTime;
   })[0];
   return { id: match.id, data: match.data() as Reservation, ref: match.ref };
+}
+
+async function findReservationForOwner(data: Record<string, unknown>) {
+  const name = assertString(data.name, "name");
+  const schoolName = assertString(data.schoolName, "schoolName");
+  const phoneLast4 = normalizePhoneLast4(data.phoneLast4);
+
+  for (const schoolNameKey of schoolNameKeyCandidates(schoolName)) {
+    const snap = await db
+      .collection("reservations")
+      .where("name", "==", name)
+      .where("schoolNameKey", "==", schoolNameKey)
+      .where("phoneLast4", "==", phoneLast4)
+      .where("status", "==", "CONFIRMED")
+      .limit(20)
+      .get();
+
+    if (!snap.empty) {
+      return pickLatestReservationDoc(snap);
+    }
+  }
+
+  const snap = await db
+    .collection("reservations")
+    .where("name", "==", name)
+    .where("schoolName", "in", schoolNameAliases(schoolName))
+    .where("phoneLast4", "==", phoneLast4)
+    .where("status", "==", "CONFIRMED")
+    .limit(20)
+    .get();
+
+  if (snap.empty) {
+    throw new HttpsError("not-found", "Reservation was not found.");
+  }
+
+  return pickLatestReservationDoc(snap);
 }
 
 async function commitBatch(batchState: { batch: FirebaseFirestore.WriteBatch; count: number }, force = false) {

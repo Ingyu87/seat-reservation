@@ -13,7 +13,8 @@ import {
   downloadReservationsExcel,
   firebaseApp,
   generateDemoSeats,
-  getCallableErrorMessage
+  getCallableErrorMessage,
+  isSeatDisabled
 } from "@seat/shared";
 import { AdminSeatStatusMap } from "@/app/components/AdminSeatStatusMap";
 import type { AdminReservation, AdminUpdateReservationInput, Seat, SeatMapResponse } from "@seat/shared";
@@ -49,6 +50,12 @@ export default function AdminPage() {
   }, [items, page, pageSize]);
   const rangeStart = items.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const rangeEnd = Math.min(page * pageSize, items.length);
+  const disabledSeatCount = useMemo(
+    () =>
+      (seatMap?.seats ?? []).filter((seat) => seat.status === "AVAILABLE" && isSeatDisabled(seat.id)).length,
+    [seatMap?.seats]
+  );
+  const availableSeatCount = Math.max(0, (seatMap?.total ?? 0) - (seatMap?.reserved ?? 0) - disabledSeatCount);
 
   async function loadReservations(searchQuery = query) {
     setError("");
@@ -107,7 +114,11 @@ export default function AdminPage() {
     const unsubscribe = onSnapshot(
       seatsQuery,
       (snapshot) => {
-        const seats = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Seat[];
+        const seats = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Seat, "id">),
+          disabled: isSeatDisabled(doc.id)
+        })) as Seat[];
         const reserved = seats.filter((seat) => seat.status === "RESERVED").length;
         setSeatMap({ total: seats.length, reserved, seats });
         setSeatMapError("");
@@ -418,7 +429,7 @@ export default function AdminPage() {
           <div className="admin-seat-status-head">
             <div>
               <h1>좌석 현황</h1>
-              <p className="hint">예약 가능 좌석과 예약 완료 좌석을 실시간으로 확인합니다.</p>
+              <p className="hint">예약 가능, 예약 완료, 비활성 좌석을 실시간으로 확인합니다.</p>
             </div>
             <div className="legend admin-seat-legend">
               <span className="legend-item">
@@ -428,6 +439,10 @@ export default function AdminPage() {
               <span className="legend-item">
                 <span className="swatch reserved-swatch" />
                 예약 완료
+              </span>
+              <span className="legend-item">
+                <span className="swatch locked-swatch" />
+                비활성
               </span>
             </div>
           </div>
@@ -442,8 +457,12 @@ export default function AdminPage() {
               <strong>{(seatMap?.reserved ?? 0).toLocaleString()}</strong>
             </div>
             <div className="summary-card">
+              <span>비활성</span>
+              <strong>{disabledSeatCount.toLocaleString()}</strong>
+            </div>
+            <div className="summary-card">
               <span>잔여 좌석</span>
-              <strong>{Math.max(0, (seatMap?.total ?? 0) - (seatMap?.reserved ?? 0)).toLocaleString()}</strong>
+              <strong>{availableSeatCount.toLocaleString()}</strong>
             </div>
           </div>
           <AdminSeatStatusMap seats={seatMap?.seats ?? []} />

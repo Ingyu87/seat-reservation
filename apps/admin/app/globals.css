@@ -193,6 +193,10 @@ input {
   background: #ef4444;
 }
 
+.locked-swatch {
+  background: #9aa0a6;
+}
+
 .admin-tabs {
   display: inline-flex;
   gap: 4px;

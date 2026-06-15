@@ -523,13 +523,13 @@ input {
 
 .field {
   display: grid;
-  gap: 5px;
-  margin-bottom: 12px;
+  gap: 7px;
+  margin-bottom: 16px;
 }
 
 .field label {
   color: var(--gray-700);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -541,7 +541,7 @@ input {
 
 .field input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border: 1.5px solid var(--gray-300);
   border-radius: 8px;
   outline: none;
@@ -588,6 +588,14 @@ input {
 .button-row {
   display: flex;
   gap: 8px;
+}
+
+.form-actions {
+  margin-top: 16px;
+}
+
+.form-actions .btn {
+  flex: 1 1 0;
 }
 
 .admin-actions {
@@ -675,7 +683,7 @@ input {
 .reservation-form,
 .reservation-complete,
 .selection-toolbar {
-  width: min(620px, 100%);
+  width: min(680px, 100%);
   margin: 0 auto 16px;
 }
 

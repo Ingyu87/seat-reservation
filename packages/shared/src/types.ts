@@ -20,6 +20,7 @@ export type SeatMapResponse = {
   total: number;
   reserved: number;
   seats: Seat[];
+  reservedSeatIds?: string[];
 };
 
 export type ReservationInput = {

@@ -43,7 +43,7 @@ export default function LookupPage() {
     setSeatMapLoading(false);
 
     if (!form.name.trim() || !form.schoolName.trim() || !validatePhoneLast4(form.phoneLast4)) {
-      setError("학생 이름, 학생 소속교, 보호자 전화번호 뒤 4자리를 다시 확인해 주세요.");
+      setError("학생 이름, 학생 소속교(정식 명칭), 보호자 전화번호 뒤 4자리를 다시 확인해 주세요.");
       return;
     }
 
@@ -151,7 +151,7 @@ export default function LookupPage() {
       <div className="lookup-wrap">
         <section className="panel">
           <h1>예약 조회</h1>
-          <p className="hint">학생 이름, 학생 소속교, 보호자 전화번호 뒤 4자리로 예약을 조회합니다.</p>
+          <p className="hint">명단에 등록된 학교의 정식 명칭으로 입력해 주세요.</p>
 
           <div className="field">
             <label htmlFor="lookup-name">학생 이름</label>
@@ -159,7 +159,7 @@ export default function LookupPage() {
           </div>
 
           <div className="field">
-            <label htmlFor="lookup-school">학생 소속교</label>
+            <label htmlFor="lookup-school">학생 소속교(정식 명칭)</label>
             <input id="lookup-school" value={form.schoolName} onChange={(e) => setForm({ ...form, schoolName: e.target.value })} />
           </div>
 

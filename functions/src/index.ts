@@ -17,7 +17,15 @@ const callableCorsOrigins: Array<string | RegExp> = [
   /^http:\/\/127\.0\.0\.1:\d+$/
 ];
 const callableOptions = { region: "asia-northeast3", cors: callableCorsOrigins, invoker: "public" } as const;
-const MAX_SEATS_PER_RESERVATION = 4;
+const publicCallableOptions = {
+  ...callableOptions,
+  cpu: 1,
+  memory: "512MiB",
+  concurrency: 80,
+  minInstances: 2,
+  maxInstances: 20
+} as const;
+const MAX_SEATS_PER_RESERVATION = 5;
 const DISABLED_SEAT_ID_SET = new Set<string>(DISABLED_SEAT_IDS);
 
 function assertSeatsSelectable(seatIds: string[]) {
@@ -390,19 +398,18 @@ async function ensureSeatsReady() {
   return { total: SEAT_LAYOUT_TOTAL, created, updated, deleted };
 }
 
-export const getSeatMap = onCall(callableOptions, async () => {
-  await ensureSeatsReady();
-  const snap = await db.collection("seats").orderBy("sortOrder", "asc").get();
-  const seats = snap.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as { status?: string }),
-    disabled: DISABLED_SEAT_ID_SET.has(doc.id)
-  }));
-  const reserved = seats.filter((seat) => seat.status === "RESERVED").length;
-  return { total: seats.length, reserved, seats };
+export const getSeatMap = onCall(publicCallableOptions, async () => {
+  const reservedSnap = await db.collection("seats").where("status", "==", "RESERVED").get();
+  const reservedSeatIds = reservedSnap.docs.map((doc) => doc.id);
+
+  return {
+    total: SEAT_LAYOUT_TOTAL,
+    reserved: reservedSeatIds.length,
+    reservedSeatIds
+  };
 });
 
-export const verifyReservationEligibility = onCall(callableOptions, async (request) => {
+export const verifyReservationEligibility = onCall(publicCallableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const name = assertString(data.name, "name");
   const schoolName = assertString(data.schoolName, "schoolName");
@@ -417,7 +424,7 @@ export const verifyReservationEligibility = onCall(callableOptions, async (reque
   };
 });
 
-export const reserveSeat = onCall(callableOptions, async (request) => {
+export const reserveSeat = onCall(publicCallableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const seatIds = normalizeSeatIds(data.seatIds);
   assertSeatsSelectable(seatIds);
@@ -476,7 +483,7 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
 
       const seat = seatSnap.data() as { displayName: string; status: string };
       if (seat.status !== "AVAILABLE") {
-        throw new HttpsError("already-exists", "Seat is already reserved.");
+        throw new HttpsError("already-exists", "다른 사용자가 먼저 예약한 좌석입니다. 좌석 현황을 새로 불러온 뒤 다시 선택해 주세요.");
       }
       seatDisplayNames.push(seat.displayName);
     }
@@ -521,7 +528,7 @@ export const reserveSeat = onCall(callableOptions, async (request) => {
   });
 });
 
-export const lookupReservation = onCall(callableOptions, async (request) => {
+export const lookupReservation = onCall(publicCallableOptions, async (request) => {
   const found = await findReservationForOwner(request.data as Record<string, unknown>);
   const seatIds = reservationSeatIds(found.data);
   const seatDisplayNames = reservationSeatDisplayNames(found.data);
@@ -545,7 +552,7 @@ export const lookupReservation = onCall(callableOptions, async (request) => {
   };
 });
 
-export const changeSeat = onCall(callableOptions, async (request) => {
+export const changeSeat = onCall(publicCallableOptions, async (request) => {
   const data = request.data as Record<string, unknown>;
   const newSeatIds = normalizeSeatIds(data.newSeatIds);
   assertSeatsSelectable(newSeatIds);
@@ -600,7 +607,7 @@ export const changeSeat = onCall(callableOptions, async (request) => {
   });
 });
 
-export const cancelReservation = onCall(callableOptions, async (request) => {
+export const cancelReservation = onCall(publicCallableOptions, async (request) => {
   const found = await findReservationForOwner(request.data as Record<string, unknown>);
 
   await db.runTransaction(async (tx) => {

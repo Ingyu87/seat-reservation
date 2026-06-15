@@ -53,7 +53,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span>생태전환교육 행사 좌석 예약</span>
           </Link>
           <nav className="top-nav" aria-label="주요 메뉴">
-            <Link href="/lookup">예약 조회</Link>
             <Link href="/privacy">개인정보 처리방침</Link>
           </nav>
         </header>

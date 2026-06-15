@@ -3,7 +3,7 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { generateDemoSeats } from "./seat-utils";
+import { generateDemoSeats, SEAT_LAYOUT, SEAT_LAYOUT_TOTAL } from "./seat-utils";
 import type {
   AdminReservation,
   AdminUpdateReservationInput,
@@ -34,6 +34,13 @@ export const firebaseApp = app;
 export const auth = hasFirebaseConfig && app ? getAuth(app) : null;
 const functions = hasFirebaseConfig && app ? getFunctions(app, "asia-northeast3") : null;
 
+type SeatMapWireResponse = SeatMapResponse | {
+  total: number;
+  reserved: number;
+  reservedSeatIds?: string[];
+  seats?: Array<Partial<SeatMapResponse["seats"][number]> & { id: string; status?: string }>;
+};
+
 export function getCallableErrorMessage(error: unknown, fallback: string) {
   if (error && typeof error === "object" && "message" in error) {
     const message = String((error as { message?: string }).message ?? "").trim();
@@ -59,7 +66,32 @@ export async function fetchSeatMap(): Promise<SeatMapResponse> {
     return { total: seats.length, reserved: 0, seats };
   }
 
-  return callFunction<undefined, SeatMapResponse>("getSeatMap");
+  const result = await callFunction<undefined, SeatMapWireResponse>("getSeatMap");
+  const hasFullSeatMap = Array.isArray(result.seats) && result.seats.every((seat) => typeof seat.displayName === "string");
+
+  if (hasFullSeatMap) {
+    return result as SeatMapResponse;
+  }
+
+  const reservedIds = new Set(
+    result.reservedSeatIds ??
+      (result.seats ?? [])
+        .filter((seat) => seat.status === "RESERVED")
+        .map((seat) => seat.id)
+  );
+  const seats = SEAT_LAYOUT.map((seat, index) => ({
+    ...seat,
+    disabled: Boolean(seat.disabled),
+    sortOrder: index + 1,
+    status: reservedIds.has(seat.id) ? "RESERVED" as const : "AVAILABLE" as const
+  }));
+
+  return {
+    total: result.total || SEAT_LAYOUT_TOTAL,
+    reserved: result.reserved ?? reservedIds.size,
+    reservedSeatIds: Array.from(reservedIds),
+    seats
+  };
 }
 
 export async function reserveSeat(input: ReservationInput) {

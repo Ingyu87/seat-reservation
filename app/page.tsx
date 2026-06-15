@@ -38,23 +38,29 @@ export default function HomePage() {
   const [checkingReservation, setCheckingReservation] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  async function load() {
-    const next = await fetchSeatMap();
-    setData(next);
-    setLoading(false);
+  async function load(showLoading = false) {
+    if (showLoading) setLoading(true);
+    try {
+      const next = await fetchSeatMap();
+      setData(next);
+    } finally {
+      if (showLoading) setLoading(false);
+    }
   }
 
   useEffect(() => {
-    load().catch(() => setError("좌석 정보를 불러오지 못했습니다."));
+    if (step !== "seats") return;
+
+    load(true).catch(() => setError("좌석 정보를 불러오지 못했습니다."));
 
     let timer: number | null = null;
 
     function startTimer() {
       timer = window.setInterval(() => {
         load().catch(() => undefined);
-      }, 15000);
+      }, 30000);
     }
 
     function handleVisibilityChange() {
@@ -76,7 +82,7 @@ export default function HomePage() {
       if (timer !== null) window.clearInterval(timer);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [step]);
 
   const seats = data?.seats ?? [];
   const selectedSeats = useMemo(
@@ -93,7 +99,7 @@ export default function HomePage() {
 
   function validateForm() {
     if (!form.name.trim()) return "학생 이름을 입력해 주세요.";
-    if (!form.schoolName.trim()) return "학생 소속교를 입력해 주세요.";
+    if (!form.schoolName.trim()) return "학생 소속교(정식 명칭)를 입력해 주세요.";
     if (!validatePhoneLast4(form.phoneLast4)) return "보호자 전화번호 뒤 4자리를 숫자로 입력해 주세요.";
     if (!form.privacyConsent) return "개인정보 수집 및 이용에 동의해 주세요.";
     return "";
@@ -104,6 +110,13 @@ export default function HomePage() {
     const code = "code" in error ? String((error as { code?: unknown }).code ?? "") : "";
     const message = "message" in error ? String((error as { message?: unknown }).message ?? "") : "";
     return code === "functions/not-found" || message.includes("Reservation was not found");
+  }
+
+  function isSeatConflict(error: unknown) {
+    if (!error || typeof error !== "object") return false;
+    const code = "code" in error ? String((error as { code?: unknown }).code ?? "") : "";
+    const message = "message" in error ? String((error as { message?: unknown }).message ?? "") : "";
+    return code === "functions/already-exists" || message.includes("Seat is already reserved");
   }
 
   async function goSeatStep() {
@@ -144,7 +157,7 @@ export default function HomePage() {
       } catch (err) {
         if (!isReservationNotFound(err)) {
           const message = err instanceof Error ? err.message : "";
-          setError(message || "신청 명단에 없는 정보입니다. 이름, 학교명, 전화번호 뒷자리를 확인해 주세요.");
+          setError(message || "신청 명단에 없는 정보입니다. 학생 이름, 소속교 정식 명칭, 전화번호 뒤 4자리를 확인해 주세요.");
           return;
         }
       } finally {
@@ -205,10 +218,16 @@ export default function HomePage() {
       setStep("form");
       setSelectedIds([]);
       setForm(initialForm);
-      await load();
+      setData(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "예약 처리 중 오류가 발생했습니다.");
-      await load();
+      setError(
+        isSeatConflict(err)
+          ? "다른 사용자가 먼저 예약한 좌석입니다. 좌석 현황을 새로 불러왔습니다."
+          : err instanceof Error
+            ? err.message
+            : "예약 처리 중 오류가 발생했습니다."
+      );
+      await load(true).catch(() => undefined);
     } finally {
       setSubmitting(false);
     }
@@ -218,23 +237,8 @@ export default function HomePage() {
     <main className="page">
       {!hasFirebaseConfig && <div className="notice">Firebase 설정이 없어 데모 좌석으로 표시합니다.</div>}
 
-      <section className="summary" aria-label="좌석 현황">
-        <div className="summary-card">
-          <span>전체 좌석</span>
-          <strong>{total.toLocaleString()}</strong>
-        </div>
-        <div className="summary-card">
-          <span>예약 완료</span>
-          <strong>{reserved.toLocaleString()}</strong>
-        </div>
-        <div className="summary-card">
-          <span>잔여 좌석</span>
-          <strong>{available.toLocaleString()}</strong>
-        </div>
-      </section>
-
-      {loading && <div className="notice">좌석 배치도를 준비하고 있습니다.</div>}
-      {!loading && total === 0 && !error && <div className="notice">좌석 정보를 불러오지 못했습니다.</div>}
+      {step === "seats" && loading && <div className="notice">좌석 배치도를 준비하고 있습니다.</div>}
+      {step === "seats" && !loading && total === 0 && !error && <div className="notice">좌석 정보를 불러오지 못했습니다.</div>}
       {message && <div className="notice">{message}</div>}
       {error && <div className="error">{error}</div>}
 
@@ -261,7 +265,7 @@ export default function HomePage() {
             />
           </div>
           <div className="field">
-            <label htmlFor="reservation-school">학생 소속교 *</label>
+            <label htmlFor="reservation-school">학생 소속교(정식 명칭) *</label>
             <input
               autoComplete="off"
               id="reservation-school"
@@ -292,9 +296,14 @@ export default function HomePage() {
               처리방침
             </Link>
           </label>
-          <button className="btn btn-primary" disabled={checkingReservation} type="button" onClick={goSeatStep}>
-            {checkingReservation ? "예약 확인 중" : "좌석 선택하기"}
-          </button>
+          <div className="button-row form-actions">
+            <button className="btn btn-primary" disabled={checkingReservation} type="button" onClick={goSeatStep}>
+              {checkingReservation ? "예약 확인 중" : "좌석 선택하기"}
+            </button>
+            <Link className="btn btn-secondary" href="/lookup">
+              예약 조회
+            </Link>
+          </div>
         </section>
       )}
 

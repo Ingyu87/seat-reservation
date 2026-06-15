@@ -9,6 +9,7 @@ import type {
   AdminUpdateReservationInput,
   LookupInput,
   ReservationEligibility,
+  ReservationGateSettings,
   ReservationInput,
   ReservationSummary,
   SeatMapResponse
@@ -111,6 +112,14 @@ export async function lookupReservation(input: LookupInput) {
 
 export async function verifyReservationEligibility(input: LookupInput) {
   return callFunction<LookupInput, ReservationEligibility>("verifyReservationEligibility", input);
+}
+
+export async function getReservationGateSettings() {
+  return callFunction<undefined, ReservationGateSettings>("getReservationGateSettings");
+}
+
+export async function adminUpdateReservationGate(input: { opensAt?: string | null }) {
+  return callFunction<{ opensAt?: string | null }, ReservationGateSettings>("adminUpdateReservationGate", input);
 }
 
 export async function changeReservationSeat(input: LookupInput & { newSeatIds: string[] }) {

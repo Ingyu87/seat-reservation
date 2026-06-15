@@ -35,6 +35,7 @@ function assertSeatsSelectable(seatIds: string[]) {
 }
 
 type ReservationStatus = "CONFIRMED" | "CANCELED";
+const RESERVATION_GATE_REF = db.collection("settings").doc("reservation");
 
 type Reservation = {
   seatIds?: string[];
@@ -212,6 +213,44 @@ function toDateString(value: unknown) {
     return value.toDate().toISOString();
   }
   return undefined;
+}
+
+function parseOptionalOpensAt(value: unknown) {
+  if (value === null || value === undefined || value === "") return null;
+  if (typeof value !== "string") {
+    throw new HttpsError("invalid-argument", "opensAt must be an ISO date string or null.");
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    throw new HttpsError("invalid-argument", "opensAt must be a valid date.");
+  }
+
+  return Timestamp.fromDate(date);
+}
+
+function mapReservationGate(data: FirebaseFirestore.DocumentData | undefined) {
+  const now = new Date();
+  const opensAt = data?.opensAt instanceof Timestamp ? data.opensAt.toDate() : null;
+
+  return {
+    opensAt: opensAt ? opensAt.toISOString() : null,
+    isOpen: !opensAt || opensAt.getTime() <= now.getTime(),
+    now: now.toISOString(),
+    updatedAt: toDateString(data?.updatedAt)
+  };
+}
+
+async function getReservationGate() {
+  const snap = await RESERVATION_GATE_REF.get();
+  return mapReservationGate(snap.data());
+}
+
+async function assertReservationOpen() {
+  const gate = await getReservationGate();
+  if (!gate.isOpen) {
+    throw new HttpsError("failed-precondition", `Reservations open at ${gate.opensAt}.`);
+  }
 }
 
 async function assertAdmin(uid?: string, tokenAdmin?: boolean) {
@@ -410,6 +449,7 @@ export const getSeatMap = onCall(publicCallableOptions, async () => {
 });
 
 export const verifyReservationEligibility = onCall(publicCallableOptions, async (request) => {
+  await assertReservationOpen();
   const data = request.data as Record<string, unknown>;
   const name = assertString(data.name, "name");
   const schoolName = assertString(data.schoolName, "schoolName");
@@ -425,6 +465,7 @@ export const verifyReservationEligibility = onCall(publicCallableOptions, async 
 });
 
 export const reserveSeat = onCall(publicCallableOptions, async (request) => {
+  await assertReservationOpen();
   const data = request.data as Record<string, unknown>;
   const seatIds = normalizeSeatIds(data.seatIds);
   assertSeatsSelectable(seatIds);
@@ -528,6 +569,8 @@ export const reserveSeat = onCall(publicCallableOptions, async (request) => {
   });
 });
 
+export const getReservationGateSettings = onCall(publicCallableOptions, async () => getReservationGate());
+
 export const lookupReservation = onCall(publicCallableOptions, async (request) => {
   const found = await findReservationForOwner(request.data as Record<string, unknown>);
   const seatIds = reservationSeatIds(found.data);
@@ -553,6 +596,7 @@ export const lookupReservation = onCall(publicCallableOptions, async (request) =
 });
 
 export const changeSeat = onCall(publicCallableOptions, async (request) => {
+  await assertReservationOpen();
   const data = request.data as Record<string, unknown>;
   const newSeatIds = normalizeSeatIds(data.newSeatIds);
   assertSeatsSelectable(newSeatIds);
@@ -859,6 +903,22 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
   await commitBatch(batchState, true);
   await ensureSeatsReady();
   return { deleted, canceled: deleted, released };
+});
+
+export const adminUpdateReservationGate = onCall(callableOptions, async (request) => {
+  await assertAdmin(request.auth?.uid, adminFlag(request));
+  const data = request.data as Record<string, unknown>;
+  const opensAt = parseOptionalOpensAt(data.opensAt);
+
+  await RESERVATION_GATE_REF.set(
+    {
+      opensAt,
+      updatedAt: FieldValue.serverTimestamp()
+    },
+    { merge: true }
+  );
+
+  return getReservationGate();
 });
 
 export const seedSeats = onCall(callableOptions, async (request) => {

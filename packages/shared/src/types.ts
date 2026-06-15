@@ -44,6 +44,13 @@ export type ReservationEligibility = {
   seatCount: number;
 };
 
+export type ReservationGateSettings = {
+  opensAt?: string | null;
+  isOpen: boolean;
+  now: string;
+  updatedAt?: string;
+};
+
 export type ReservationSummary = {
   reservationId: string;
   name: string;

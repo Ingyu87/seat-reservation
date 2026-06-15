@@ -6,6 +6,7 @@ import { SeatMap } from "@/app/components/SeatMap";
 import {
   DISABLED_SEAT_IDS,
   fetchSeatMap,
+  getReservationGateSettings,
   hasFirebaseConfig,
   isSeatDisabled,
   lookupReservation,
@@ -14,6 +15,7 @@ import {
   verifyReservationEligibility
 } from "@seat/shared";
 import type { ReservationInput, Seat, SeatMapResponse } from "@seat/shared";
+import type { ReservationGateSettings } from "@seat/shared";
 
 type ReservationForm = Omit<ReservationInput, "seatIds"> & {
   seatCount: number;
@@ -27,6 +29,15 @@ const initialForm: ReservationForm = {
   privacyConsent: false
 };
 
+function formatKoreanDateTime(value?: string | null) {
+  if (!value) return "";
+  return new Date(value).toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul",
+    dateStyle: "long",
+    timeStyle: "short"
+  });
+}
+
 export default function HomePage() {
   const [data, setData] = useState<SeatMapResponse | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -39,6 +50,8 @@ export default function HomePage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [gate, setGate] = useState<ReservationGateSettings | null>(null);
+  const [gateLoading, setGateLoading] = useState(false);
 
   async function load(showLoading = false) {
     if (showLoading) setLoading(true);
@@ -49,6 +62,16 @@ export default function HomePage() {
       if (showLoading) setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!hasFirebaseConfig) return;
+
+    setGateLoading(true);
+    getReservationGateSettings()
+      .then(setGate)
+      .catch(() => undefined)
+      .finally(() => setGateLoading(false));
+  }, []);
 
   useEffect(() => {
     if (step !== "seats") return;
@@ -96,6 +119,7 @@ export default function HomePage() {
     [seats]
   );
   const available = Math.max(0, total - reserved - disabledCount);
+  const reservationClosed = Boolean(gate && !gate.isOpen);
 
   function validateForm() {
     if (!form.name.trim()) return "학생 이름을 입력해 주세요.";
@@ -125,6 +149,10 @@ export default function HomePage() {
     setMessage("");
     setCompleted(false);
     if (validation) return;
+    if (reservationClosed) {
+      setError(`예약은 ${formatKoreanDateTime(gate?.opensAt)}부터 가능합니다.`);
+      return;
+    }
 
     let allowedSeatCount = form.seatCount;
     let nextForm = form;
@@ -236,6 +264,7 @@ export default function HomePage() {
   return (
     <main className="page">
       {!hasFirebaseConfig && <div className="notice">Firebase 설정이 없어 데모 좌석으로 표시합니다.</div>}
+      {gateLoading && <div className="notice">예약 오픈 시간을 확인하는 중입니다.</div>}
 
       {step === "seats" && loading && <div className="notice">좌석 배치도를 준비하고 있습니다.</div>}
       {step === "seats" && !loading && total === 0 && !error && <div className="notice">좌석 정보를 불러오지 못했습니다.</div>}
@@ -252,7 +281,18 @@ export default function HomePage() {
         </section>
       )}
 
-      {step === "form" && (
+      {step === "form" && reservationClosed && (
+        <section className="panel reservation-form">
+          <h1>예약 오픈 예정</h1>
+          <p className="hint">아직 좌석 예약이 열리지 않았습니다.</p>
+          <div className="notice">예약은 {formatKoreanDateTime(gate?.opensAt)}부터 가능합니다.</div>
+          <Link className="btn btn-secondary" href="/lookup">
+            예약 조회
+          </Link>
+        </section>
+      )}
+
+      {step === "form" && !reservationClosed && (
         <section className="panel reservation-form">
           <h1>예약 정보</h1>
           <div className="field">

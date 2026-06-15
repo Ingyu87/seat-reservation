@@ -8,16 +8,34 @@ import {
   adminDeleteReservation,
   adminResetAllReservations,
   adminSearchReservations,
+  adminUpdateReservationGate,
   adminUpdateReservation,
   auth,
   downloadReservationsExcel,
   firebaseApp,
   generateDemoSeats,
+  getReservationGateSettings,
   getCallableErrorMessage,
   isSeatDisabled
 } from "@seat/shared";
 import { AdminSeatStatusMap } from "@/app/components/AdminSeatStatusMap";
-import type { AdminReservation, AdminUpdateReservationInput, Seat, SeatMapResponse } from "@seat/shared";
+import type { AdminReservation, AdminUpdateReservationInput, ReservationGateSettings, Seat, SeatMapResponse } from "@seat/shared";
+
+function formatKoreanDateTime(value?: string | null) {
+  if (!value) return "즉시 오픈";
+  return new Date(value).toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul",
+    dateStyle: "long",
+    timeStyle: "short"
+  });
+}
+
+function toDatetimeLocalValue(value?: string | null) {
+  if (!value) return "";
+  const date = new Date(value);
+  const offsetMs = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
+}
 
 export default function AdminPage() {
   const router = useRouter();
@@ -39,9 +57,12 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [pageSize, setPageSize] = useState<20 | 50>(20);
   const [page, setPage] = useState(1);
-  const [activeTab, setActiveTab] = useState<"reservations" | "seats">("reservations");
+  const [activeTab, setActiveTab] = useState<"reservations" | "seats" | "schedule">("reservations");
   const [seatMap, setSeatMap] = useState<SeatMapResponse | null>(null);
   const [seatMapError, setSeatMapError] = useState("");
+  const [gate, setGate] = useState<ReservationGateSettings | null>(null);
+  const [gateForm, setGateForm] = useState("");
+  const [gateSaving, setGateSaving] = useState(false);
 
   const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
   const pageItems = useMemo(() => {
@@ -76,6 +97,16 @@ export default function AdminPage() {
     }
   }
 
+  async function loadReservationGate() {
+    try {
+      const result = await getReservationGateSettings();
+      setGate(result);
+      setGateForm(toDatetimeLocalValue(result.opensAt));
+    } catch {
+      setError("예약 오픈 설정을 불러오지 못했습니다.");
+    }
+  }
+
   useEffect(() => {
     if (!auth) {
       setError("Firebase 설정이 없습니다.");
@@ -96,6 +127,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (ready && auth?.currentUser) {
       loadReservations("").catch(() => undefined);
+      loadReservationGate().catch(() => undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
@@ -154,6 +186,32 @@ export default function AdminPage() {
     } finally {
       setResetting(false);
     }
+  }
+
+  async function saveReservationGate(opensAtValue = gateForm) {
+    setError("");
+    setMessage("");
+    setGateSaving(true);
+
+    try {
+      if (auth?.currentUser) {
+        await auth.currentUser.getIdToken(true);
+      }
+
+      const opensAt = opensAtValue ? new Date(opensAtValue).toISOString() : null;
+      const result = await adminUpdateReservationGate({ opensAt });
+      setGate(result);
+      setGateForm(toDatetimeLocalValue(result.opensAt));
+      setMessage(result.isOpen ? "예약을 즉시 오픈했습니다." : `예약 오픈 시간을 ${formatKoreanDateTime(result.opensAt)}로 저장했습니다.`);
+    } catch (err) {
+      setError(getCallableErrorMessage(err, "예약 오픈 설정 저장에 실패했습니다."));
+    } finally {
+      setGateSaving(false);
+    }
+  }
+
+  function openReservationNow() {
+    saveReservationGate("").catch(() => undefined);
   }
 
   async function removeReservation(item: AdminReservation) {
@@ -274,6 +332,15 @@ export default function AdminPage() {
           onClick={() => setActiveTab("seats")}
         >
           좌석 현황
+        </button>
+        <button
+          aria-selected={activeTab === "schedule"}
+          className={activeTab === "schedule" ? "active" : ""}
+          role="tab"
+          type="button"
+          onClick={() => setActiveTab("schedule")}
+        >
+          예약 오픈
         </button>
       </div>
 
@@ -466,6 +533,51 @@ export default function AdminPage() {
             </div>
           </div>
           <AdminSeatStatusMap seats={seatMap?.seats ?? []} />
+        </section>
+      )}
+
+      {activeTab === "schedule" && (
+        <section className="panel">
+          <h1>예약 오픈 설정</h1>
+          <p className="hint">지정한 날짜와 시간이 되기 전에는 사용자 예약 화면과 예약 함수가 닫힙니다.</p>
+
+          <div className="summary seat-status-summary">
+            <div className="summary-card">
+              <span>현재 상태</span>
+              <strong>{gate ? (gate.isOpen ? "오픈" : "대기") : "-"}</strong>
+            </div>
+            <div className="summary-card">
+              <span>오픈 시간</span>
+              <strong>{gate ? formatKoreanDateTime(gate.opensAt) : "-"}</strong>
+            </div>
+            <div className="summary-card">
+              <span>저장 일시</span>
+              <strong>{gate?.updatedAt ? formatKoreanDateTime(gate.updatedAt) : "-"}</strong>
+            </div>
+          </div>
+
+          <div className="field" style={{ marginTop: 16 }}>
+            <label htmlFor="reservation-opens-at">예약 오픈 날짜/시간</label>
+            <input
+              id="reservation-opens-at"
+              type="datetime-local"
+              value={gateForm}
+              onChange={(e) => setGateForm(e.target.value)}
+            />
+            <span className="hint">비워서 저장하면 즉시 오픈 상태가 됩니다.</span>
+          </div>
+
+          {error && <div className="error">{error}</div>}
+          {message && <div className="notice">{message}</div>}
+
+          <div className="button-row">
+            <button className="btn btn-primary" disabled={gateSaving} type="button" onClick={() => saveReservationGate()}>
+              {gateSaving ? "저장 중" : "오픈 시간 저장"}
+            </button>
+            <button className="btn btn-secondary" disabled={gateSaving} type="button" onClick={openReservationNow}>
+              즉시 오픈
+            </button>
+          </div>
         </section>
       )}
 

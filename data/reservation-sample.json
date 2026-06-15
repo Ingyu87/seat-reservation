@@ -561,4423 +561,5130 @@
     },
     {
         "sequence":  81,
+        "name":  "노지원",
+        "schoolName":  "서울염리초등학교",
+        "phoneLast4":  "2149",
+        "seatCount":  3
+    },
+    {
+        "sequence":  82,
+        "name":  "박시환",
+        "schoolName":  "서울후암초등학교",
+        "phoneLast4":  "8802",
+        "seatCount":  4
+    },
+    {
+        "sequence":  83,
+        "name":  "박지유",
+        "schoolName":  "서울돈암초등학교",
+        "phoneLast4":  "8005",
+        "seatCount":  4
+    },
+    {
+        "sequence":  84,
+        "name":  "박하랑",
+        "schoolName":  "서울목원초등학교",
+        "phoneLast4":  "5567",
+        "seatCount":  3
+    },
+    {
+        "sequence":  85,
+        "name":  "박지나",
+        "schoolName":  "서울응암초등학교",
+        "phoneLast4":  "4893",
+        "seatCount":  2
+    },
+    {
+        "sequence":  86,
+        "name":  "홍우진",
+        "schoolName":  "서울양명초등학교",
+        "phoneLast4":  "2867",
+        "seatCount":  4
+    },
+    {
+        "sequence":  87,
+        "name":  "장희나",
+        "schoolName":  "서울장월초등학교",
+        "phoneLast4":  "5184",
+        "seatCount":  4
+    },
+    {
+        "sequence":  88,
+        "name":  "임찬혁",
+        "schoolName":  "서울태릉초등학교",
+        "phoneLast4":  "5221",
+        "seatCount":  3
+    },
+    {
+        "sequence":  89,
+        "name":  "전윤아",
+        "schoolName":  "서울자곡초등학교",
+        "phoneLast4":  "6996",
+        "seatCount":  4
+    },
+    {
+        "sequence":  90,
+        "name":  "박초은",
+        "schoolName":  "서울서강초등학교",
+        "phoneLast4":  "8599",
+        "seatCount":  3
+    },
+    {
+        "sequence":  91,
+        "name":  "김태후",
+        "schoolName":  "서울목동초등학교",
+        "phoneLast4":  "3685",
+        "seatCount":  2
+    },
+    {
+        "sequence":  92,
+        "name":  "조주원",
+        "schoolName":  "서울명신초등학교",
+        "phoneLast4":  "9741",
+        "seatCount":  3
+    },
+    {
+        "sequence":  93,
+        "name":  "정하린",
+        "schoolName":  "서울숭곡초등학교",
+        "phoneLast4":  "8930",
+        "seatCount":  2
+    },
+    {
+        "sequence":  94,
+        "name":  "이강현",
+        "schoolName":  "서울동교초등학교",
+        "phoneLast4":  "7355",
+        "seatCount":  3
+    },
+    {
+        "sequence":  95,
+        "name":  "양은호",
+        "schoolName":  "서울길원초등학교",
+        "phoneLast4":  "5219",
+        "seatCount":  3
+    },
+    {
+        "sequence":  96,
+        "name":  "김하성",
+        "schoolName":  "서울마천초등학교",
+        "phoneLast4":  "4957",
+        "seatCount":  2
+    },
+    {
+        "sequence":  97,
+        "name":  "황지안",
+        "schoolName":  "서울강빛초등학교",
+        "phoneLast4":  "9515",
+        "seatCount":  2
+    },
+    {
+        "sequence":  98,
+        "name":  "이로운",
+        "schoolName":  "서울장곡초등학고",
+        "phoneLast4":  "8739",
+        "seatCount":  2
+    },
+    {
+        "sequence":  99,
+        "name":  "김호윤",
+        "schoolName":  "서울구룡초등학교",
+        "phoneLast4":  "9464",
+        "seatCount":  2
+    },
+    {
+        "sequence":  100,
+        "name":  "강승호",
+        "schoolName":  "서울송례초등학교",
+        "phoneLast4":  "9100",
+        "seatCount":  2
+    },
+    {
+        "sequence":  101,
+        "name":  "조민건",
+        "schoolName":  "서울개일초등학교",
+        "phoneLast4":  "6565",
+        "seatCount":  4
+    },
+    {
+        "sequence":  102,
+        "name":  "김재민",
+        "schoolName":  "서울불광초등학교",
+        "phoneLast4":  "5941",
+        "seatCount":  3
+    },
+    {
+        "sequence":  103,
+        "name":  "김이정",
+        "schoolName":  "서울송례초등학교",
+        "phoneLast4":  "2757",
+        "seatCount":  3
+    },
+    {
+        "sequence":  104,
+        "name":  "장다영",
+        "schoolName":  "서울홍파초등학교",
+        "phoneLast4":  "7879",
+        "seatCount":  2
+    },
+    {
+        "sequence":  105,
+        "name":  "정현서",
+        "schoolName":  "서울상수초등학교",
+        "phoneLast4":  "9110",
+        "seatCount":  4
+    },
+    {
+        "sequence":  106,
+        "name":  "심지연",
+        "schoolName":  "서울개포초등학교",
+        "phoneLast4":  "6093",
+        "seatCount":  2
+    },
+    {
+        "sequence":  107,
+        "name":  "송지윤",
+        "schoolName":  "서울신도림초등학교",
+        "phoneLast4":  "4565",
+        "seatCount":  2
+    },
+    {
+        "sequence":  108,
+        "name":  "윤수호",
+        "schoolName":  "서울위례별초등학교",
+        "phoneLast4":  "9120",
+        "seatCount":  3
+    },
+    {
+        "sequence":  109,
+        "name":  "조이안",
+        "schoolName":  "서울홍파초등학교",
+        "phoneLast4":  "4898",
+        "seatCount":  2
+    },
+    {
+        "sequence":  110,
+        "name":  "김민재",
+        "schoolName":  "서울양명초등학교",
+        "phoneLast4":  "0420",
+        "seatCount":  2
+    },
+    {
+        "sequence":  111,
+        "name":  "심주환",
+        "schoolName":  "서울혜화초등학교",
+        "phoneLast4":  "0510",
+        "seatCount":  3
+    },
+    {
+        "sequence":  112,
+        "name":  "박성현",
+        "schoolName":  "서울광남초등학교",
+        "phoneLast4":  "4368",
+        "seatCount":  3
+    },
+    {
+        "sequence":  113,
         "name":  "백지완",
         "schoolName":  "서울대방초등학교",
         "phoneLast4":  "5477",
         "seatCount":  2
     },
     {
-        "sequence":  82,
+        "sequence":  114,
         "name":  "권소율",
         "schoolName":  "서울잠일초등학교",
         "phoneLast4":  "0917",
         "seatCount":  4
     },
     {
-        "sequence":  83,
+        "sequence":  115,
         "name":  "최현준",
         "schoolName":  "서울미아초등학교",
         "phoneLast4":  "2090",
         "seatCount":  3
     },
     {
-        "sequence":  84,
+        "sequence":  116,
         "name":  "구윤재",
         "schoolName":  "서울신동초등학교",
         "phoneLast4":  "7143",
         "seatCount":  2
     },
     {
-        "sequence":  85,
+        "sequence":  117,
         "name":  "장현서",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "0404",
         "seatCount":  3
     },
     {
-        "sequence":  86,
+        "sequence":  118,
         "name":  "문예원",
         "schoolName":  "서울영화초등학교",
         "phoneLast4":  "7595",
         "seatCount":  2
     },
     {
-        "sequence":  87,
+        "sequence":  119,
         "name":  "최시아",
         "schoolName":  "서울양원숲초등학교",
         "phoneLast4":  "5107",
         "seatCount":  3
     },
     {
-        "sequence":  88,
+        "sequence":  120,
         "name":  "김규진",
         "schoolName":  "서울목동초등학교",
         "phoneLast4":  "0554",
         "seatCount":  4
     },
     {
-        "sequence":  89,
+        "sequence":  121,
         "name":  "김세연",
         "schoolName":  "서울청구초등학교",
         "phoneLast4":  "8166",
         "seatCount":  3
     },
     {
-        "sequence":  90,
+        "sequence":  122,
         "name":  "이예나",
         "schoolName":  "서울원묵초등학교",
         "phoneLast4":  "2550",
         "seatCount":  2
     },
     {
-        "sequence":  91,
+        "sequence":  123,
         "name":  "정이안",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "6183",
         "seatCount":  4
     },
     {
-        "sequence":  92,
+        "sequence":  124,
         "name":  "김채은",
         "schoolName":  "서울서초초등학교",
         "phoneLast4":  "8906",
         "seatCount":  3
     },
     {
-        "sequence":  93,
+        "sequence":  125,
         "name":  "오서진",
         "schoolName":  "충암초등학교",
         "phoneLast4":  "4869",
         "seatCount":  4
     },
     {
-        "sequence":  94,
+        "sequence":  126,
         "name":  "김용환",
         "schoolName":  "서울행당초등학교",
         "phoneLast4":  "3394",
         "seatCount":  2
     },
     {
-        "sequence":  95,
+        "sequence":  127,
         "name":  "박지유",
         "schoolName":  "서울행당초등학교",
         "phoneLast4":  "1545",
         "seatCount":  3
     },
     {
-        "sequence":  96,
+        "sequence":  128,
         "name":  "송리호",
         "schoolName":  "서울버들초등학교",
         "phoneLast4":  "8747",
         "seatCount":  2
     },
     {
-        "sequence":  97,
+        "sequence":  129,
         "name":  "허예은",
         "schoolName":  "서울월천초등학교",
         "phoneLast4":  "0329",
         "seatCount":  4
     },
     {
-        "sequence":  98,
+        "sequence":  130,
         "name":  "정다선",
         "schoolName":  "이화여자대학교사범대학부속초등학교",
         "phoneLast4":  "0079",
         "seatCount":  2
     },
     {
-        "sequence":  99,
+        "sequence":  131,
         "name":  "석혜령",
         "schoolName":  "서울강남초등학교",
         "phoneLast4":  "0289",
         "seatCount":  2
     },
     {
-        "sequence":  100,
+        "sequence":  132,
         "name":  "강서준",
         "schoolName":  "동북초등학교",
         "phoneLast4":  "2241",
         "seatCount":  3
     },
     {
-        "sequence":  101,
+        "sequence":  133,
         "name":  "이승민",
         "schoolName":  "서울고덕초등학교",
         "phoneLast4":  "2546",
         "seatCount":  3
     },
     {
-        "sequence":  102,
+        "sequence":  134,
         "name":  "이주원",
         "schoolName":  "서울청원초등학교",
         "phoneLast4":  "7986",
         "seatCount":  2
     },
     {
-        "sequence":  103,
+        "sequence":  135,
         "name":  "임승주",
         "schoolName":  "서울화랑초등학교",
         "phoneLast4":  "1111",
         "seatCount":  3
     },
     {
-        "sequence":  104,
+        "sequence":  136,
         "name":  "박소윤",
         "schoolName":  "서울언주초등학교",
         "phoneLast4":  "2064",
         "seatCount":  2
     },
     {
-        "sequence":  105,
+        "sequence":  137,
         "name":  "박예린",
         "schoolName":  "서울원광초등학교",
         "phoneLast4":  "0959",
         "seatCount":  2
     },
     {
-        "sequence":  106,
+        "sequence":  138,
         "name":  "전재혁",
         "schoolName":  "서울문래초등학교",
         "phoneLast4":  "9068",
         "seatCount":  4
     },
     {
-        "sequence":  107,
+        "sequence":  139,
         "name":  "김민혁",
         "schoolName":  "서울동교초등학교",
         "phoneLast4":  "5723",
         "seatCount":  3
     },
     {
-        "sequence":  108,
+        "sequence":  140,
         "name":  "김도현",
         "schoolName":  "서울을지초등학교",
         "phoneLast4":  "3253",
         "seatCount":  3
     },
     {
-        "sequence":  109,
+        "sequence":  141,
         "name":  "김가윤",
         "schoolName":  "서울문래초등학교",
         "phoneLast4":  "3889",
         "seatCount":  4
     },
     {
-        "sequence":  110,
+        "sequence":  142,
         "name":  "김민석",
         "schoolName":  "서울삼일초등학교",
         "phoneLast4":  "2346",
         "seatCount":  3
     },
     {
-        "sequence":  111,
+        "sequence":  143,
         "name":  "김윤호",
         "schoolName":  "서울잠동초등학교",
         "phoneLast4":  "3611",
         "seatCount":  2
     },
     {
-        "sequence":  112,
+        "sequence":  144,
         "name":  "김강",
         "schoolName":  "서울신기초등학교",
         "phoneLast4":  "9356",
         "seatCount":  4
     },
     {
-        "sequence":  113,
+        "sequence":  145,
         "name":  "김민설",
         "schoolName":  "서울봉현초등학교",
         "phoneLast4":  "3015",
         "seatCount":  3
     },
     {
-        "sequence":  114,
+        "sequence":  146,
         "name":  "유승윤",
         "schoolName":  "서울용마초등학교",
         "phoneLast4":  "3836",
         "seatCount":  2
     },
     {
-        "sequence":  115,
+        "sequence":  147,
         "name":  "정윤",
         "schoolName":  "서울강남초등학교",
         "phoneLast4":  "3797",
         "seatCount":  4
     },
     {
-        "sequence":  116,
+        "sequence":  148,
         "name":  "김민준",
         "schoolName":  "서울영도초등학교",
         "phoneLast4":  "5046",
         "seatCount":  3
     },
     {
-        "sequence":  117,
+        "sequence":  149,
         "name":  "문재윤",
         "schoolName":  "서울고명초등학교",
         "phoneLast4":  "9129",
         "seatCount":  2
     },
     {
-        "sequence":  118,
+        "sequence":  150,
         "name":  "박주안",
         "schoolName":  "서울세명초등학교",
         "phoneLast4":  "9731",
         "seatCount":  2
     },
     {
-        "sequence":  119,
+        "sequence":  151,
         "name":  "이효린",
         "schoolName":  "서울월촌초등학교",
         "phoneLast4":  "6731",
         "seatCount":  4
     },
     {
-        "sequence":  120,
+        "sequence":  152,
         "name":  "강남규",
         "schoolName":  "서울은천초등학교",
         "phoneLast4":  "4408",
         "seatCount":  2
     },
     {
-        "sequence":  121,
+        "sequence":  153,
         "name":  "이재인",
         "schoolName":  "태강삼육초등학교",
         "phoneLast4":  "4804",
         "seatCount":  3
     },
     {
-        "sequence":  122,
+        "sequence":  154,
         "name":  "김시은",
         "schoolName":  "서울동자초등학교",
         "phoneLast4":  "4109",
         "seatCount":  2
     },
     {
-        "sequence":  123,
+        "sequence":  155,
         "name":  "남건후",
         "schoolName":  "서울서원초등학교",
         "phoneLast4":  "2690",
         "seatCount":  4
     },
     {
-        "sequence":  124,
+        "sequence":  156,
         "name":  "오연석",
         "schoolName":  "서울묘곡초등학교",
         "phoneLast4":  "1594",
         "seatCount":  2
     },
     {
-        "sequence":  125,
+        "sequence":  157,
         "name":  "최예서",
         "schoolName":  "서울정덕초등학교",
         "phoneLast4":  "0427",
         "seatCount":  2
     },
     {
-        "sequence":  126,
+        "sequence":  158,
         "name":  "이선우",
         "schoolName":  "서울신대림초등학교",
         "phoneLast4":  "8314",
         "seatCount":  3
     },
     {
-        "sequence":  127,
+        "sequence":  159,
         "name":  "이윤우",
         "schoolName":  "서울신용산초등학교",
         "phoneLast4":  "0206",
         "seatCount":  4
     },
     {
-        "sequence":  128,
+        "sequence":  160,
         "name":  "곽윤우",
         "schoolName":  "서울등촌초등학교",
         "phoneLast4":  "0258",
         "seatCount":  2
     },
     {
-        "sequence":  129,
+        "sequence":  161,
         "name":  "김태윤",
         "schoolName":  "서울홍릉초등학교",
         "phoneLast4":  "2774",
         "seatCount":  3
     },
     {
-        "sequence":  130,
+        "sequence":  162,
         "name":  "서아진",
         "schoolName":  "서울상도초등학교",
         "phoneLast4":  "7706",
         "seatCount":  4
     },
     {
-        "sequence":  131,
+        "sequence":  163,
         "name":  "박로하",
         "schoolName":  "서울목운초등학교",
         "phoneLast4":  "5582",
         "seatCount":  2
     },
     {
-        "sequence":  132,
+        "sequence":  164,
         "name":  "신서원",
         "schoolName":  "서울중대초등학교",
         "phoneLast4":  "1361",
         "seatCount":  3
     },
     {
-        "sequence":  133,
+        "sequence":  165,
         "name":  "박상윤",
         "schoolName":  "서울버들초등학교",
         "phoneLast4":  "2027",
         "seatCount":  4
     },
     {
-        "sequence":  134,
+        "sequence":  166,
         "name":  "김재민",
         "schoolName":  "서울월촌초등학교",
         "phoneLast4":  "3991",
         "seatCount":  2
     },
     {
-        "sequence":  135,
+        "sequence":  167,
         "name":  "이정민",
         "schoolName":  "서울자곡초등학교",
         "phoneLast4":  "5476",
         "seatCount":  2
     },
     {
-        "sequence":  136,
+        "sequence":  168,
         "name":  "양지민",
         "schoolName":  "서울녹천초등학교",
         "phoneLast4":  "2842",
         "seatCount":  3
     },
     {
-        "sequence":  137,
+        "sequence":  169,
         "name":  "이정후",
         "schoolName":  "서울가원초등학교",
         "phoneLast4":  "4341",
         "seatCount":  2
     },
     {
-        "sequence":  138,
+        "sequence":  170,
         "name":  "권시우",
         "schoolName":  "서울구의초등학교",
         "phoneLast4":  "3455",
         "seatCount":  4
     },
     {
-        "sequence":  139,
+        "sequence":  171,
         "name":  "권민준",
         "schoolName":  "서울선곡초등학교",
         "phoneLast4":  "6146",
         "seatCount":  3
     },
     {
-        "sequence":  140,
+        "sequence":  172,
         "name":  "김다솜",
         "schoolName":  "서울광진초등학교",
         "phoneLast4":  "1327",
         "seatCount":  4
     },
     {
-        "sequence":  141,
+        "sequence":  173,
         "name":  "한석훈",
         "schoolName":  "서울대모초등학교",
         "phoneLast4":  "4363",
         "seatCount":  2
     },
     {
-        "sequence":  142,
+        "sequence":  174,
         "name":  "이유진",
         "schoolName":  "서울광진초등학교",
         "phoneLast4":  "0118",
         "seatCount":  2
     },
     {
-        "sequence":  143,
+        "sequence":  175,
         "name":  "황보윤",
         "schoolName":  "서울미아초등학교",
         "phoneLast4":  "0124",
         "seatCount":  2
     },
     {
-        "sequence":  144,
+        "sequence":  176,
         "name":  "서현우",
         "schoolName":  "서울신중초등학교",
         "phoneLast4":  "3153",
         "seatCount":  2
     },
     {
-        "sequence":  145,
+        "sequence":  177,
         "name":  "이지윤",
         "schoolName":  "서울상지초등학교",
         "phoneLast4":  "0525",
         "seatCount":  4
     },
     {
-        "sequence":  146,
+        "sequence":  178,
         "name":  "박은우",
         "schoolName":  "서울항동초등학교",
         "phoneLast4":  "3355",
         "seatCount":  3
     },
     {
-        "sequence":  147,
+        "sequence":  179,
         "name":  "이재범",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "9184",
         "seatCount":  4
     },
     {
-        "sequence":  148,
+        "sequence":  180,
         "name":  "오선우",
         "schoolName":  "서울정릉초등학교",
         "phoneLast4":  "9450",
         "seatCount":  2
     },
     {
-        "sequence":  149,
+        "sequence":  181,
         "name":  "진은찬",
         "schoolName":  "서울위례별초등학교",
         "phoneLast4":  "0096",
         "seatCount":  2
     },
     {
-        "sequence":  150,
+        "sequence":  182,
         "name":  "서지환",
         "schoolName":  "서울선곡초등학교",
         "phoneLast4":  "4854",
         "seatCount":  4
     },
     {
-        "sequence":  151,
+        "sequence":  183,
         "name":  "하사연",
         "schoolName":  "서울염리초등학교",
         "phoneLast4":  "3688",
         "seatCount":  2
     },
     {
-        "sequence":  152,
+        "sequence":  184,
         "name":  "배시온",
         "schoolName":  "경희초등학교",
         "phoneLast4":  "2443",
         "seatCount":  3
     },
     {
-        "sequence":  153,
+        "sequence":  185,
         "name":  "함소은",
         "schoolName":  "서울봉래초등학교",
         "phoneLast4":  "7092",
         "seatCount":  2
     },
     {
-        "sequence":  154,
+        "sequence":  186,
         "name":  "서지형",
         "schoolName":  "서울신명초등학교",
         "phoneLast4":  "0914",
         "seatCount":  3
     },
     {
-        "sequence":  155,
+        "sequence":  187,
         "name":  "문기명",
         "schoolName":  "서울용원초등학교",
         "phoneLast4":  "4908",
         "seatCount":  2
     },
     {
-        "sequence":  156,
+        "sequence":  188,
         "name":  "유주현",
         "schoolName":  "서울신용산초등학교",
         "phoneLast4":  "6309",
         "seatCount":  3
     },
     {
-        "sequence":  157,
+        "sequence":  189,
         "name":  "김영진",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "5108",
         "seatCount":  2
     },
     {
-        "sequence":  158,
+        "sequence":  190,
         "name":  "박규리",
         "schoolName":  "서울상곡초등학교",
         "phoneLast4":  "8629",
         "seatCount":  2
     },
     {
-        "sequence":  159,
+        "sequence":  191,
         "name":  "하서호",
         "schoolName":  "서울노일초등학교",
         "phoneLast4":  "6178",
         "seatCount":  2
     },
     {
-        "sequence":  160,
+        "sequence":  192,
         "name":  "이진서",
         "schoolName":  "서울우면초등학교",
-        "phoneLast4":  "0633",
+        "phoneLast4":  "0288",
         "seatCount":  2
     },
     {
-        "sequence":  161,
+        "sequence":  193,
         "name":  "장은성",
         "schoolName":  "서울신도초등학교",
         "phoneLast4":  "0081",
         "seatCount":  3
     },
     {
-        "sequence":  162,
+        "sequence":  194,
         "name":  "양하성",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "5889",
         "seatCount":  2
     },
     {
-        "sequence":  163,
+        "sequence":  195,
         "name":  "김민준",
         "schoolName":  "서울가동초등학교",
         "phoneLast4":  "5254",
         "seatCount":  4
     },
     {
-        "sequence":  164,
+        "sequence":  196,
         "name":  "김지아",
         "schoolName":  "서울내발산초등학교",
         "phoneLast4":  "8656",
         "seatCount":  5
     },
     {
-        "sequence":  165,
+        "sequence":  197,
         "name":  "김로하",
         "schoolName":  "서울양남초등학교",
         "phoneLast4":  "5054",
         "seatCount":  5
     },
     {
-        "sequence":  166,
+        "sequence":  198,
         "name":  "양승원",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "8100",
         "seatCount":  3
     },
     {
-        "sequence":  167,
+        "sequence":  199,
         "name":  "최지안",
         "schoolName":  "서울광남초등학교",
         "phoneLast4":  "6345",
         "seatCount":  4
     },
     {
-        "sequence":  168,
+        "sequence":  200,
         "name":  "정지유",
         "schoolName":  "서울잠현초등학교",
         "phoneLast4":  "4735",
         "seatCount":  2
     },
     {
-        "sequence":  169,
+        "sequence":  201,
         "name":  "정라인",
         "schoolName":  "서울서빙고초등학교",
         "phoneLast4":  "4520",
         "seatCount":  4
     },
     {
-        "sequence":  170,
+        "sequence":  202,
         "name":  "이수성",
         "schoolName":  "서울오금초등학교",
         "phoneLast4":  "4796",
         "seatCount":  2
     },
     {
-        "sequence":  171,
+        "sequence":  203,
         "name":  "원승준",
         "schoolName":  "서울대곡초등학교",
         "phoneLast4":  "6846",
         "seatCount":  2
     },
     {
-        "sequence":  172,
+        "sequence":  204,
         "name":  "최연아",
         "schoolName":  "서울청량초등학교",
         "phoneLast4":  "2397",
         "seatCount":  4
     },
     {
-        "sequence":  173,
+        "sequence":  205,
         "name":  "김다솜",
         "schoolName":  "서울언주초등학교",
         "phoneLast4":  "1751",
         "seatCount":  3
     },
     {
-        "sequence":  174,
+        "sequence":  206,
         "name":  "차윤호",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "3457",
         "seatCount":  3
     },
     {
-        "sequence":  175,
+        "sequence":  207,
         "name":  "전윤주",
         "schoolName":  "서울양천초등학교",
         "phoneLast4":  "7159",
         "seatCount":  2
     },
     {
-        "sequence":  176,
+        "sequence":  208,
         "name":  "최준명",
         "schoolName":  "서울탑산초등학교",
         "phoneLast4":  "1505",
         "seatCount":  3
     },
     {
-        "sequence":  177,
+        "sequence":  209,
         "name":  "손윤우",
         "schoolName":  "경희초등학교",
         "phoneLast4":  "6041",
         "seatCount":  3
     },
     {
-        "sequence":  178,
+        "sequence":  210,
         "name":  "정은선",
         "schoolName":  "상명대학교사범대학부속초등학교",
         "phoneLast4":  "6715",
         "seatCount":  2
     },
     {
-        "sequence":  179,
+        "sequence":  211,
         "name":  "이다현",
         "schoolName":  "서울은천초등학교",
         "phoneLast4":  "1451",
         "seatCount":  2
     },
     {
-        "sequence":  180,
+        "sequence":  212,
         "name":  "안서은",
         "schoolName":  "서울미동초등학교",
         "phoneLast4":  "2110",
         "seatCount":  3
     },
     {
-        "sequence":  181,
+        "sequence":  213,
         "name":  "양지우",
         "schoolName":  "서울독립문초등학교",
         "phoneLast4":  "2132",
         "seatCount":  2
     },
     {
-        "sequence":  182,
+        "sequence":  214,
         "name":  "김서홍",
         "schoolName":  "서울서빙고초등학교",
         "phoneLast4":  "8624",
         "seatCount":  2
     },
     {
-        "sequence":  183,
+        "sequence":  215,
         "name":  "신종현",
         "schoolName":  "서울여의도초등학교",
         "phoneLast4":  "3868",
         "seatCount":  2
     },
     {
-        "sequence":  184,
+        "sequence":  216,
         "name":  "김사랑",
         "schoolName":  "서울언북초등학교",
         "phoneLast4":  "7671",
         "seatCount":  3
     },
     {
-        "sequence":  185,
+        "sequence":  217,
         "name":  "김호진",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "2201",
         "seatCount":  2
     },
     {
-        "sequence":  186,
+        "sequence":  218,
         "name":  "이호진",
         "schoolName":  "서울신동초등학교",
         "phoneLast4":  "4725",
         "seatCount":  2
     },
     {
-        "sequence":  187,
+        "sequence":  219,
         "name":  "이상유",
         "schoolName":  "서울정수초등학교",
         "phoneLast4":  "9397",
         "seatCount":  2
     },
     {
-        "sequence":  188,
+        "sequence":  220,
         "name":  "박효담",
         "schoolName":  "서울선곡초등학교",
         "phoneLast4":  "5852",
         "seatCount":  2
     },
     {
-        "sequence":  189,
+        "sequence":  221,
         "name":  "임재민",
         "schoolName":  "서울대조초등학교",
         "phoneLast4":  "1064",
         "seatCount":  3
     },
     {
-        "sequence":  190,
+        "sequence":  222,
         "name":  "송진아",
         "schoolName":  "서울영본초등학교",
         "phoneLast4":  "5234",
         "seatCount":  2
     },
     {
-        "sequence":  191,
+        "sequence":  223,
         "name":  "최최율호",
         "schoolName":  "서울서교초등학교",
         "phoneLast4":  "7957",
         "seatCount":  2
     },
     {
-        "sequence":  192,
+        "sequence":  224,
         "name":  "최재영",
         "schoolName":  "서울언북초등학교",
         "phoneLast4":  "5350",
         "seatCount":  2
     },
     {
-        "sequence":  193,
+        "sequence":  225,
         "name":  "장하윤",
         "schoolName":  "서울길원초등학교",
         "phoneLast4":  "0874",
         "seatCount":  3
     },
     {
-        "sequence":  194,
+        "sequence":  226,
         "name":  "김하영",
         "schoolName":  "서울당서초등학교",
         "phoneLast4":  "3092",
         "seatCount":  2
     },
     {
-        "sequence":  195,
+        "sequence":  227,
         "name":  "송화준",
         "schoolName":  "서울금양초등학교",
         "phoneLast4":  "8492",
         "seatCount":  3
     },
     {
-        "sequence":  196,
+        "sequence":  228,
         "name":  "김지유",
         "schoolName":  "서울도성초등학교",
         "phoneLast4":  "4510",
         "seatCount":  2
     },
     {
-        "sequence":  197,
+        "sequence":  229,
         "name":  "최준호",
         "schoolName":  "서울오정초등학교",
         "phoneLast4":  "2001",
         "seatCount":  3
     },
     {
-        "sequence":  198,
+        "sequence":  230,
         "name":  "한지훈",
         "schoolName":  "서울내발산초등학교",
         "phoneLast4":  "9004",
         "seatCount":  3
     },
     {
-        "sequence":  199,
+        "sequence":  231,
         "name":  "민동휘",
         "schoolName":  "서울신용산초등학교",
         "phoneLast4":  "6558",
         "seatCount":  2
     },
     {
-        "sequence":  200,
+        "sequence":  232,
         "name":  "김현민",
         "schoolName":  "서울방일초등학교",
         "phoneLast4":  "9964",
         "seatCount":  2
     },
     {
-        "sequence":  201,
+        "sequence":  233,
         "name":  "김서현",
         "schoolName":  "서울석관초등학교",
         "phoneLast4":  "7539",
         "seatCount":  2
     },
     {
-        "sequence":  202,
+        "sequence":  234,
         "name":  "변영진",
         "schoolName":  "서울영중초등학교",
         "phoneLast4":  "6432",
         "seatCount":  4
     },
     {
-        "sequence":  203,
+        "sequence":  235,
         "name":  "김도현",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "3254",
         "seatCount":  3
     },
     {
-        "sequence":  204,
+        "sequence":  236,
         "name":  "최우준",
         "schoolName":  "서울독산초등학교",
         "phoneLast4":  "8333",
         "seatCount":  3
     },
     {
-        "sequence":  205,
+        "sequence":  237,
         "name":  "조우진",
         "schoolName":  "서울경인초등학교",
         "phoneLast4":  "1713",
         "seatCount":  4
     },
     {
-        "sequence":  206,
+        "sequence":  238,
         "name":  "백호윤",
         "schoolName":  "서울행당초등학교",
         "phoneLast4":  "1767",
         "seatCount":  4
     },
     {
-        "sequence":  207,
+        "sequence":  239,
         "name":  "정준교",
         "schoolName":  "서울염리초등학교",
         "phoneLast4":  "5581",
         "seatCount":  3
     },
     {
-        "sequence":  208,
+        "sequence":  240,
         "name":  "서지명",
         "schoolName":  "서울반원초등학교",
         "phoneLast4":  "2126",
         "seatCount":  2
     },
     {
-        "sequence":  209,
+        "sequence":  241,
         "name":  "엄세준",
         "schoolName":  "경희초등학교",
         "phoneLast4":  "8654",
         "seatCount":  3
     },
     {
-        "sequence":  210,
+        "sequence":  242,
         "name":  "이루미",
         "schoolName":  "서울동자초등학교",
         "phoneLast4":  "2406",
         "seatCount":  2
     },
     {
-        "sequence":  211,
+        "sequence":  243,
         "name":  "이도겸",
         "schoolName":  "서울반원초등학교",
         "phoneLast4":  "0404",
         "seatCount":  3
     },
     {
-        "sequence":  212,
+        "sequence":  244,
         "name":  "이서현",
         "schoolName":  "서울배봉초등학교",
         "phoneLast4":  "7776",
         "seatCount":  2
     },
     {
-        "sequence":  213,
+        "sequence":  245,
         "name":  "임아윤",
         "schoolName":  "서울서원초등학교",
         "phoneLast4":  "0323",
         "seatCount":  2
     },
     {
-        "sequence":  214,
+        "sequence":  246,
         "name":  "조현준",
         "schoolName":  "서울경인초등학교",
         "phoneLast4":  "1478",
         "seatCount":  4
     },
     {
-        "sequence":  215,
+        "sequence":  247,
         "name":  "전소윤",
         "schoolName":  "서울숭인초등학교",
         "phoneLast4":  "9925",
         "seatCount":  5
     },
     {
-        "sequence":  216,
+        "sequence":  248,
         "name":  "김승주",
         "schoolName":  "서울영등포초등학교",
         "phoneLast4":  "0192",
         "seatCount":  2
     },
     {
-        "sequence":  217,
+        "sequence":  249,
         "name":  "하주현",
         "schoolName":  "서울목운초등학교",
         "phoneLast4":  "7684",
         "seatCount":  4
     },
     {
-        "sequence":  218,
+        "sequence":  250,
         "name":  "조현우",
         "schoolName":  "서울선유초등학교",
         "phoneLast4":  "3090",
         "seatCount":  3
     },
     {
-        "sequence":  219,
+        "sequence":  251,
         "name":  "박영민",
         "schoolName":  "태강삼육초등학교",
         "phoneLast4":  "5903",
         "seatCount":  4
     },
     {
-        "sequence":  220,
+        "sequence":  252,
         "name":  "황찬성",
         "schoolName":  "서울서빙고초등학교",
         "phoneLast4":  "2339",
         "seatCount":  5
     },
     {
-        "sequence":  221,
+        "sequence":  253,
         "name":  "임서윤",
         "schoolName":  "서울위례솔초등학교",
         "phoneLast4":  "2186",
         "seatCount":  3
     },
     {
-        "sequence":  222,
+        "sequence":  254,
         "name":  "이지섭",
         "schoolName":  "서울난향초등학교",
         "phoneLast4":  "2615",
         "seatCount":  3
     },
     {
-        "sequence":  223,
+        "sequence":  255,
         "name":  "이시원",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "1228",
         "seatCount":  3
     },
     {
-        "sequence":  224,
+        "sequence":  256,
         "name":  "전지훈",
         "schoolName":  "서울신목초등학교",
         "phoneLast4":  "6901",
         "seatCount":  2
     },
     {
-        "sequence":  225,
+        "sequence":  257,
         "name":  "최지한",
         "schoolName":  "서울북가좌초등학교",
         "phoneLast4":  "2234",
         "seatCount":  2
     },
     {
-        "sequence":  226,
+        "sequence":  258,
         "name":  "조서하",
         "schoolName":  "서울미아초등학교",
         "phoneLast4":  "1816",
         "seatCount":  3
     },
     {
-        "sequence":  227,
+        "sequence":  259,
         "name":  "김세희",
         "schoolName":  "서울숭신초등학교",
         "phoneLast4":  "7030",
         "seatCount":  3
     },
     {
-        "sequence":  228,
+        "sequence":  260,
         "name":  "조규원",
         "schoolName":  "서울신구초등학교",
         "phoneLast4":  "7512",
         "seatCount":  4
     },
     {
-        "sequence":  229,
+        "sequence":  261,
         "name":  "이규담",
         "schoolName":  "서울연가초등학교",
         "phoneLast4":  "8778",
         "seatCount":  5
     },
     {
-        "sequence":  230,
+        "sequence":  262,
         "name":  "심규빈",
         "schoolName":  "서울염창초등학교",
         "phoneLast4":  "2367",
         "seatCount":  5
     },
     {
-        "sequence":  231,
-        "name":  "이서윤",
-        "schoolName":  "서울염리초등학교",
-        "phoneLast4":  "1817",
-        "seatCount":  3
-    },
-    {
-        "sequence":  232,
-        "name":  "이서현",
-        "schoolName":  "서울양진초등학교",
-        "phoneLast4":  "2620",
-        "seatCount":  3
-    },
-    {
-        "sequence":  233,
-        "name":  "이윤건",
-        "schoolName":  "서울삼일초등학교",
-        "phoneLast4":  "3445",
-        "seatCount":  3
-    },
-    {
-        "sequence":  234,
+        "sequence":  263,
         "name":  "박지오",
         "schoolName":  "서울염리초등학교",
         "phoneLast4":  "1915",
         "seatCount":  3
     },
     {
-        "sequence":  235,
+        "sequence":  264,
         "name":  "방민서",
         "schoolName":  "서울해누리초등학교",
         "phoneLast4":  "8051",
         "seatCount":  4
     },
     {
-        "sequence":  236,
+        "sequence":  265,
         "name":  "이지안",
         "schoolName":  "서울삼선초등학교",
         "phoneLast4":  "1205",
         "seatCount":  3
     },
     {
-        "sequence":  237,
+        "sequence":  266,
         "name":  "황현정",
         "schoolName":  "서울흥인초등학교",
         "phoneLast4":  "7038",
         "seatCount":  2
     },
     {
-        "sequence":  238,
+        "sequence":  267,
         "name":  "김민지",
         "schoolName":  "서울당서초등학교",
         "phoneLast4":  "9922",
         "seatCount":  3
     },
     {
-        "sequence":  239,
+        "sequence":  268,
         "name":  "이준희",
         "schoolName":  "서울숭신초등학교",
         "phoneLast4":  "2867",
         "seatCount":  3
     },
     {
-        "sequence":  240,
+        "sequence":  269,
         "name":  "최유민",
         "schoolName":  "서울양진초등학교",
         "phoneLast4":  "0863",
         "seatCount":  2
     },
     {
-        "sequence":  241,
+        "sequence":  270,
         "name":  "최유준",
         "schoolName":  "서울흑석초등학교",
         "phoneLast4":  "4220",
         "seatCount":  2
     },
     {
-        "sequence":  242,
+        "sequence":  271,
         "name":  "김솔누리",
         "schoolName":  "서울중대초등학교",
         "phoneLast4":  "1979",
         "seatCount":  3
     },
     {
-        "sequence":  243,
+        "sequence":  272,
         "name":  "김찬형",
         "schoolName":  "광운초등학교",
         "phoneLast4":  "4320",
         "seatCount":  2
     },
     {
-        "sequence":  244,
+        "sequence":  273,
         "name":  "신유환",
         "schoolName":  "서울공진초등학교",
         "phoneLast4":  "5328",
         "seatCount":  2
     },
     {
-        "sequence":  245,
+        "sequence":  274,
         "name":  "이재진",
         "schoolName":  "서울신용산초등학교",
         "phoneLast4":  "1190",
         "seatCount":  2
     },
     {
-        "sequence":  246,
+        "sequence":  275,
         "name":  "김지섭",
         "schoolName":  "서울연가초등학교",
         "phoneLast4":  "0807",
         "seatCount":  2
     },
     {
-        "sequence":  247,
+        "sequence":  276,
         "name":  "이라영",
         "schoolName":  "서울영문초등학교",
         "phoneLast4":  "4746",
         "seatCount":  2
     },
     {
-        "sequence":  248,
+        "sequence":  277,
         "name":  "김도윤",
         "schoolName":  "서울봉은초등학교",
         "phoneLast4":  "5967",
         "seatCount":  3
     },
     {
-        "sequence":  249,
+        "sequence":  278,
         "name":  "강리원",
         "schoolName":  "서울난향초등학교",
         "phoneLast4":  "9770",
         "seatCount":  2
     },
     {
-        "sequence":  250,
+        "sequence":  279,
         "name":  "호윤서",
         "schoolName":  "서울대현초등학교",
         "phoneLast4":  "3154",
         "seatCount":  5
     },
     {
-        "sequence":  251,
+        "sequence":  280,
         "name":  "조시윤",
         "schoolName":  "서울태랑초등학교",
         "phoneLast4":  "8718",
         "seatCount":  3
     },
     {
-        "sequence":  252,
+        "sequence":  281,
         "name":  "이연규",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "0868",
         "seatCount":  3
     },
     {
-        "sequence":  253,
+        "sequence":  282,
         "name":  "한지호",
         "schoolName":  "서울세검정초등학교",
         "phoneLast4":  "2152",
         "seatCount":  2
     },
     {
-        "sequence":  254,
+        "sequence":  283,
         "name":  "배현준",
         "schoolName":  "서울잠현초등학교",
         "phoneLast4":  "9899",
         "seatCount":  2
     },
     {
-        "sequence":  255,
+        "sequence":  284,
         "name":  "강다윤",
         "schoolName":  "서울세명초등학교",
         "phoneLast4":  "8991",
         "seatCount":  3
     },
     {
-        "sequence":  256,
+        "sequence":  285,
         "name":  "하이안",
         "schoolName":  "서울가락초등학교",
         "phoneLast4":  "4650",
         "seatCount":  3
     },
     {
-        "sequence":  257,
+        "sequence":  286,
         "name":  "송민규",
         "schoolName":  "서울대명초등학교",
         "phoneLast4":  "4778",
         "seatCount":  2
     },
     {
-        "sequence":  258,
+        "sequence":  287,
         "name":  "전호준",
         "schoolName":  "성동초등학교",
         "phoneLast4":  "7692",
         "seatCount":  3
     },
     {
-        "sequence":  259,
+        "sequence":  288,
         "name":  "황주하",
         "schoolName":  "서울응봉초등학교",
         "phoneLast4":  "5640",
         "seatCount":  4
     },
     {
-        "sequence":  260,
+        "sequence":  289,
         "name":  "박시현",
         "schoolName":  "서울길음초등학교",
         "phoneLast4":  "2566",
         "seatCount":  3
     },
     {
-        "sequence":  261,
+        "sequence":  290,
         "name":  "정하린",
         "schoolName":  "서울가재울초등학교",
         "phoneLast4":  "4676",
         "seatCount":  2
     },
     {
-        "sequence":  262,
+        "sequence":  291,
         "name":  "최선",
         "schoolName":  "서울공진초등학교",
         "phoneLast4":  "1446",
         "seatCount":  3
     },
     {
-        "sequence":  263,
+        "sequence":  292,
         "name":  "정예서",
         "schoolName":  "서울가재울초등학교",
         "phoneLast4":  "5303",
         "seatCount":  2
     },
     {
-        "sequence":  264,
+        "sequence":  293,
         "name":  "이예린",
         "schoolName":  "서울양명초등학교",
         "phoneLast4":  "8579",
         "seatCount":  3
     },
     {
-        "sequence":  265,
+        "sequence":  294,
         "name":  "임담희",
         "schoolName":  "서울위례별초등학교",
         "phoneLast4":  "0544",
         "seatCount":  4
     },
     {
-        "sequence":  266,
+        "sequence":  295,
         "name":  "서홍준",
         "schoolName":  "서울미양초등학교",
         "phoneLast4":  "6183",
         "seatCount":  3
     },
     {
-        "sequence":  267,
+        "sequence":  296,
         "name":  "손채은",
         "schoolName":  "서울청룡초등학교",
         "phoneLast4":  "5322",
         "seatCount":  2
     },
     {
-        "sequence":  268,
+        "sequence":  297,
         "name":  "김수연",
         "schoolName":  "서울흥인초등학교",
         "phoneLast4":  "0548",
         "seatCount":  2
     },
     {
-        "sequence":  269,
+        "sequence":  298,
         "name":  "김시언",
         "schoolName":  "서울하늘숲초등학교",
         "phoneLast4":  "1957",
         "seatCount":  4
     },
     {
-        "sequence":  270,
+        "sequence":  299,
         "name":  "성유주",
         "schoolName":  "서울흥인초등학교",
         "phoneLast4":  "2010",
         "seatCount":  2
     },
     {
-        "sequence":  271,
+        "sequence":  300,
         "name":  "천태민",
         "schoolName":  "서울백석초등학교",
         "phoneLast4":  "3765",
         "seatCount":  3
     },
     {
-        "sequence":  272,
+        "sequence":  301,
         "name":  "조운성",
         "schoolName":  "서울상지초등학교",
         "phoneLast4":  "1023",
         "seatCount":  3
     },
     {
-        "sequence":  273,
+        "sequence":  302,
         "name":  "홍현준",
         "schoolName":  "서울묘곡초등학교",
         "phoneLast4":  "2842",
         "seatCount":  4
     },
     {
-        "sequence":  274,
+        "sequence":  303,
         "name":  "남예서",
         "schoolName":  "서울염창초등학교",
         "phoneLast4":  "8327",
         "seatCount":  2
     },
     {
-        "sequence":  275,
+        "sequence":  304,
         "name":  "현시은",
         "schoolName":  "서울양화초등학교",
         "phoneLast4":  "3002",
         "seatCount":  5
     },
     {
-        "sequence":  276,
+        "sequence":  305,
         "name":  "정주혁",
         "schoolName":  "서울행현초등학교",
         "phoneLast4":  "0794",
         "seatCount":  3
     },
     {
-        "sequence":  277,
+        "sequence":  306,
         "name":  "김진윤",
         "schoolName":  "서울구암초등학교",
         "phoneLast4":  "2055",
         "seatCount":  3
     },
     {
-        "sequence":  278,
+        "sequence":  307,
         "name":  "김세령",
         "schoolName":  "서울우솔초등학교",
         "phoneLast4":  "1957",
         "seatCount":  3
     },
     {
-        "sequence":  279,
+        "sequence":  308,
         "name":  "박서연",
         "schoolName":  "서울고명초등학교",
         "phoneLast4":  "2462",
         "seatCount":  4
     },
     {
-        "sequence":  280,
+        "sequence":  309,
         "name":  "김지민",
         "schoolName":  "서울대방초등학교",
         "phoneLast4":  "1415",
         "seatCount":  2
     },
     {
-        "sequence":  281,
+        "sequence":  310,
         "name":  "김수종",
         "schoolName":  "서울신석초등학교",
         "phoneLast4":  "5517",
         "seatCount":  2
     },
     {
-        "sequence":  282,
+        "sequence":  311,
         "name":  "박소예",
         "schoolName":  "서울영신초등학교",
         "phoneLast4":  "5075",
         "seatCount":  3
     },
     {
-        "sequence":  283,
+        "sequence":  312,
         "name":  "손서현",
         "schoolName":  "서울자곡초등학교",
         "phoneLast4":  "2655",
         "seatCount":  4
     },
     {
-        "sequence":  284,
+        "sequence":  313,
         "name":  "서재인",
         "schoolName":  "서울상지초등학교",
         "phoneLast4":  "2969",
         "seatCount":  3
     },
     {
-        "sequence":  285,
+        "sequence":  314,
         "name":  "박리안",
         "schoolName":  "서울태랑초등학교",
         "phoneLast4":  "9533",
         "seatCount":  4
     },
     {
-        "sequence":  286,
+        "sequence":  315,
         "name":  "문시우",
         "schoolName":  "서울종암초등학교",
         "phoneLast4":  "5837",
         "seatCount":  2
     },
     {
-        "sequence":  287,
+        "sequence":  316,
         "name":  "장유준",
         "schoolName":  "서울불광초등학교",
         "phoneLast4":  "9878",
         "seatCount":  2
     },
     {
-        "sequence":  288,
+        "sequence":  317,
         "name":  "홍준후",
         "schoolName":  "서울하늘초등학교",
         "phoneLast4":  "1279",
         "seatCount":  2
     },
     {
-        "sequence":  289,
+        "sequence":  318,
         "name":  "박시현",
         "schoolName":  "서울송천초등학교",
         "phoneLast4":  "2641",
         "seatCount":  2
     },
     {
-        "sequence":  290,
+        "sequence":  319,
         "name":  "강무아",
         "schoolName":  "서울강동초등학교",
         "phoneLast4":  "7225",
         "seatCount":  4
     },
     {
-        "sequence":  291,
+        "sequence":  320,
         "name":  "최연우",
         "schoolName":  "서울잠전초등학교",
         "phoneLast4":  "8381",
         "seatCount":  2
     },
     {
-        "sequence":  292,
+        "sequence":  321,
         "name":  "이승우",
         "schoolName":  "서울신우초등학교",
         "phoneLast4":  "8113",
         "seatCount":  4
     },
     {
-        "sequence":  293,
+        "sequence":  322,
         "name":  "정하준",
         "schoolName":  "서울강신초등학교",
         "phoneLast4":  "9876",
         "seatCount":  3
     },
     {
-        "sequence":  294,
+        "sequence":  323,
         "name":  "김서율",
         "schoolName":  "서울북가좌초등학교",
         "phoneLast4":  "7058",
         "seatCount":  5
     },
     {
-        "sequence":  295,
+        "sequence":  324,
         "name":  "최아인",
         "schoolName":  "서울광남초등학교",
         "phoneLast4":  "2825",
         "seatCount":  2
     },
     {
-        "sequence":  296,
+        "sequence":  325,
         "name":  "최성은",
         "schoolName":  "서울석촌초등학교",
         "phoneLast4":  "6150",
         "seatCount":  4
     },
     {
-        "sequence":  297,
+        "sequence":  326,
         "name":  "이도현",
         "schoolName":  "서울신중초등학교",
         "phoneLast4":  "0159",
         "seatCount":  2
     },
     {
-        "sequence":  298,
+        "sequence":  327,
         "name":  "최준서",
         "schoolName":  "서울삼육초등학교",
         "phoneLast4":  "8318",
         "seatCount":  2
     },
     {
-        "sequence":  299,
+        "sequence":  328,
         "name":  "이서후",
         "schoolName":  "서울위례솔초등학교",
         "phoneLast4":  "2716",
         "seatCount":  2
     },
     {
-        "sequence":  300,
+        "sequence":  329,
         "name":  "황상연",
         "schoolName":  "서울장평초등학교",
         "phoneLast4":  "9953",
         "seatCount":  2
     },
     {
-        "sequence":  301,
+        "sequence":  330,
         "name":  "허은유",
         "schoolName":  "서울송례초등학교",
         "phoneLast4":  "9098",
         "seatCount":  2
     },
     {
-        "sequence":  302,
+        "sequence":  331,
         "name":  "장우현",
         "schoolName":  "한신초등학교",
         "phoneLast4":  "4625",
         "seatCount":  2
     },
     {
-        "sequence":  303,
+        "sequence":  332,
         "name":  "공태오",
         "schoolName":  "서울길음초등학교",
         "phoneLast4":  "7173",
         "seatCount":  3
     },
     {
-        "sequence":  304,
+        "sequence":  333,
         "name":  "정진모",
         "schoolName":  "서울양천초등학교",
         "phoneLast4":  "6028",
         "seatCount":  4
     },
     {
-        "sequence":  305,
+        "sequence":  334,
         "name":  "김하은",
         "schoolName":  "서울대진초등학교",
         "phoneLast4":  "1866",
         "seatCount":  2
     },
     {
-        "sequence":  306,
+        "sequence":  335,
         "name":  "이건희",
         "schoolName":  "서울세검정초등학교",
         "phoneLast4":  "0284",
         "seatCount":  4
     },
     {
-        "sequence":  307,
+        "sequence":  336,
         "name":  "최서준",
         "schoolName":  "서울정덕초등학교",
         "phoneLast4":  "8615",
         "seatCount":  4
     },
     {
-        "sequence":  308,
+        "sequence":  337,
         "name":  "배지호",
         "schoolName":  "서울삼일초등학교",
         "phoneLast4":  "8783",
         "seatCount":  4
     },
     {
-        "sequence":  309,
+        "sequence":  338,
         "name":  "김윤호",
         "schoolName":  "서울언주초등학교",
         "phoneLast4":  "8083",
         "seatCount":  4
     },
     {
-        "sequence":  310,
+        "sequence":  339,
         "name":  "이동우",
         "schoolName":  "서울대곡초등학교",
         "phoneLast4":  "4798",
         "seatCount":  2
     },
     {
-        "sequence":  311,
+        "sequence":  340,
         "name":  "김리율",
         "schoolName":  "서울목동초등학교",
         "phoneLast4":  "5525",
         "seatCount":  3
     },
     {
-        "sequence":  312,
+        "sequence":  341,
         "name":  "김세은",
         "schoolName":  "서울도성초등학교",
         "phoneLast4":  "6403",
         "seatCount":  3
     },
     {
-        "sequence":  313,
+        "sequence":  342,
         "name":  "이호연",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "7230",
         "seatCount":  2
     },
     {
-        "sequence":  314,
+        "sequence":  343,
         "name":  "김한결",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "9328",
         "seatCount":  2
     },
     {
-        "sequence":  315,
+        "sequence":  344,
         "name":  "주예린",
         "schoolName":  "서울을지초등학교",
         "phoneLast4":  "1106",
         "seatCount":  2
     },
     {
-        "sequence":  316,
+        "sequence":  345,
         "name":  "김도아",
         "schoolName":  "서울가원초등학교",
         "phoneLast4":  "4253",
         "seatCount":  2
     },
     {
-        "sequence":  317,
+        "sequence":  346,
         "name":  "이건희",
         "schoolName":  "서울미동초등학교",
         "phoneLast4":  "6824",
         "seatCount":  2
     },
     {
-        "sequence":  318,
+        "sequence":  347,
         "name":  "이선우",
         "schoolName":  "서울미아초등학교",
         "phoneLast4":  "2227",
         "seatCount":  4
     },
     {
-        "sequence":  319,
+        "sequence":  348,
         "name":  "정나래",
         "schoolName":  "사울동자초등학교",
         "phoneLast4":  "4666",
         "seatCount":  3
     },
     {
-        "sequence":  320,
+        "sequence":  349,
         "name":  "최승원",
         "schoolName":  "서울공진초등학교",
         "phoneLast4":  "0526",
         "seatCount":  3
     },
     {
-        "sequence":  321,
+        "sequence":  350,
         "name":  "김하은",
         "schoolName":  "서울송예초등학교",
         "phoneLast4":  "2655",
         "seatCount":  2
     },
     {
-        "sequence":  322,
+        "sequence":  351,
         "name":  "정서후",
         "schoolName":  "서울우장초등학교",
         "phoneLast4":  "4197",
         "seatCount":  3
     },
     {
-        "sequence":  323,
+        "sequence":  352,
         "name":  "천태현",
         "schoolName":  "서울상지초등학교",
         "phoneLast4":  "2821",
         "seatCount":  3
     },
     {
-        "sequence":  324,
+        "sequence":  353,
         "name":  "임동한",
         "schoolName":  "서울대현초등학교",
         "phoneLast4":  "8927",
         "seatCount":  2
     },
     {
-        "sequence":  325,
+        "sequence":  354,
         "name":  "전지윤",
         "schoolName":  "서울누원초등학교",
         "phoneLast4":  "4227",
         "seatCount":  3
     },
     {
-        "sequence":  326,
+        "sequence":  355,
         "name":  "양세현",
         "schoolName":  "서울잠일초등학교",
         "phoneLast4":  "8167",
         "seatCount":  3
     },
     {
-        "sequence":  327,
+        "sequence":  356,
         "name":  "성민수",
         "schoolName":  "서울교육대학교부설초등학교",
         "phoneLast4":  "8424",
         "seatCount":  4
     },
     {
-        "sequence":  328,
+        "sequence":  357,
         "name":  "신민재",
         "schoolName":  "서울은진초등학교",
         "phoneLast4":  "3359",
         "seatCount":  2
     },
     {
-        "sequence":  329,
+        "sequence":  358,
         "name":  "양수아",
         "schoolName":  "서울서원초등학교",
         "phoneLast4":  "8571",
         "seatCount":  2
     },
     {
-        "sequence":  330,
+        "sequence":  359,
         "name":  "손태윤",
         "schoolName":  "서울목동초등학교",
         "phoneLast4":  "7033",
         "seatCount":  4
     },
     {
-        "sequence":  331,
+        "sequence":  360,
         "name":  "정시율",
         "schoolName":  "서울미성초등학교",
         "phoneLast4":  "5368",
         "seatCount":  3
     },
     {
-        "sequence":  332,
+        "sequence":  361,
         "name":  "송이안",
         "schoolName":  "서울버들초등학교",
         "phoneLast4":  "2969",
         "seatCount":  4
     },
     {
-        "sequence":  333,
+        "sequence":  362,
         "name":  "김시완",
         "schoolName":  "서울대방초등학교",
         "phoneLast4":  "3310",
         "seatCount":  4
     },
     {
-        "sequence":  334,
+        "sequence":  363,
         "name":  "신린하",
         "schoolName":  "서울목운초등학교",
         "phoneLast4":  "2448",
         "seatCount":  2
     },
     {
-        "sequence":  335,
+        "sequence":  364,
         "name":  "우연재",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "0522",
         "seatCount":  2
     },
     {
-        "sequence":  336,
+        "sequence":  365,
         "name":  "유민하",
         "schoolName":  "서울증산초등학교",
         "phoneLast4":  "3461",
         "seatCount":  3
     },
     {
-        "sequence":  337,
+        "sequence":  366,
         "name":  "최재하",
         "schoolName":  "서울금양초등학교",
         "phoneLast4":  "6428",
         "seatCount":  2
     },
     {
-        "sequence":  338,
+        "sequence":  367,
         "name":  "박지윤",
         "schoolName":  "서울탑동초등학교",
         "phoneLast4":  "0957",
         "seatCount":  4
     },
     {
-        "sequence":  339,
+        "sequence":  368,
         "name":  "유주한",
         "schoolName":  "서울등마초등학교",
         "phoneLast4":  "6482",
         "seatCount":  2
     },
     {
-        "sequence":  340,
+        "sequence":  369,
         "name":  "김동환",
         "schoolName":  "서울월촌초등학교",
         "phoneLast4":  "5154",
         "seatCount":  4
     },
     {
-        "sequence":  341,
+        "sequence":  370,
         "name":  "김서짓",
         "schoolName":  "서울고현초등학교",
         "phoneLast4":  "6480",
         "seatCount":  2
     },
     {
-        "sequence":  342,
+        "sequence":  371,
         "name":  "김로아",
         "schoolName":  "서울개일초등학교",
         "phoneLast4":  "5616",
         "seatCount":  5
     },
     {
-        "sequence":  343,
+        "sequence":  372,
         "name":  "홍지안",
         "schoolName":  "서울목동초등학교",
         "phoneLast4":  "6333",
         "seatCount":  2
     },
     {
-        "sequence":  344,
+        "sequence":  373,
         "name":  "차다솔",
         "schoolName":  "서울위례별초등학교",
         "phoneLast4":  "6888",
         "seatCount":  4
     },
     {
-        "sequence":  345,
+        "sequence":  374,
         "name":  "이서준",
         "schoolName":  "서울서원초등학교",
         "phoneLast4":  "6488",
         "seatCount":  4
     },
     {
-        "sequence":  346,
+        "sequence":  375,
         "name":  "서범석",
         "schoolName":  "서울위례초등학교",
         "phoneLast4":  "2435",
         "seatCount":  3
     },
     {
-        "sequence":  347,
+        "sequence":  376,
         "name":  "심보람",
         "schoolName":  "서울중대초등학교",
         "phoneLast4":  "9808",
         "seatCount":  2
     },
     {
-        "sequence":  348,
+        "sequence":  377,
         "name":  "최이진",
         "schoolName":  "우촌초등학교",
         "phoneLast4":  "9643",
         "seatCount":  3
     },
     {
-        "sequence":  349,
+        "sequence":  378,
         "name":  "송재은",
         "schoolName":  "서울삼일초등학교",
         "phoneLast4":  "4649",
         "seatCount":  2
     },
     {
-        "sequence":  350,
+        "sequence":  379,
         "name":  "이주호",
         "schoolName":  "서울대도초등학교",
         "phoneLast4":  "2332",
         "seatCount":  4
     },
     {
-        "sequence":  351,
+        "sequence":  380,
         "name":  "백민재",
         "schoolName":  "서울명덕초등학교",
         "phoneLast4":  "6045",
         "seatCount":  3
     },
     {
-        "sequence":  352,
+        "sequence":  381,
         "name":  "김현우",
         "schoolName":  "서울오금초등학교",
         "phoneLast4":  "7987",
         "seatCount":  2
     },
     {
-        "sequence":  353,
+        "sequence":  382,
         "name":  "신하연",
         "schoolName":  "서울불암초등학교",
         "phoneLast4":  "6361",
         "seatCount":  2
     },
     {
-        "sequence":  354,
+        "sequence":  383,
         "name":  "최율",
         "schoolName":  "서울후암초등학교",
         "phoneLast4":  "1589",
         "seatCount":  3
     },
     {
-        "sequence":  355,
+        "sequence":  384,
         "name":  "최지성",
         "schoolName":  "서울신중초등학교",
         "phoneLast4":  "1100",
         "seatCount":  3
     },
     {
-        "sequence":  356,
+        "sequence":  385,
         "name":  "이봄",
         "schoolName":  "서울난향초등학교",
         "phoneLast4":  "6487",
         "seatCount":  4
     },
     {
-        "sequence":  357,
+        "sequence":  386,
         "name":  "홍서진",
         "schoolName":  "서울언주초등학교",
         "phoneLast4":  "8494",
         "seatCount":  4
     },
     {
-        "sequence":  358,
+        "sequence":  387,
         "name":  "김승주",
         "schoolName":  "서울서강초등학교",
         "phoneLast4":  "7414",
         "seatCount":  3
     },
     {
-        "sequence":  359,
+        "sequence":  388,
         "name":  "조민아",
         "schoolName":  "서울서래초등학교",
         "phoneLast4":  "7739",
         "seatCount":  2
     },
     {
-        "sequence":  360,
+        "sequence":  389,
         "name":  "허소은",
         "schoolName":  "서울덕의초등학교",
         "phoneLast4":  "8498",
         "seatCount":  3
     },
     {
-        "sequence":  361,
+        "sequence":  390,
         "name":  "최이도",
         "schoolName":  "서울홍제초등학교",
         "phoneLast4":  "1751",
         "seatCount":  3
     },
     {
-        "sequence":  362,
+        "sequence":  391,
         "name":  "주서후",
         "schoolName":  "서울길음초등학교",
         "phoneLast4":  "0508",
         "seatCount":  3
     },
     {
-        "sequence":  363,
+        "sequence":  392,
         "name":  "류지아",
         "schoolName":  "서울갈현초등학교",
         "phoneLast4":  "0775",
         "seatCount":  2
     },
     {
-        "sequence":  364,
+        "sequence":  393,
         "name":  "홍서연",
         "schoolName":  "서울전농초등학교",
         "phoneLast4":  "3632",
         "seatCount":  2
     },
     {
-        "sequence":  365,
+        "sequence":  394,
         "name":  "김수아",
         "schoolName":  "서울고덕초등학교",
         "phoneLast4":  "0827",
         "seatCount":  2
     },
     {
-        "sequence":  366,
+        "sequence":  395,
         "name":  "이윤재",
         "schoolName":  "서울삼정초등학교",
         "phoneLast4":  "1501",
         "seatCount":  3
     },
     {
-        "sequence":  367,
+        "sequence":  396,
         "name":  "오세안",
         "schoolName":  "서울묘곡초등학교",
         "phoneLast4":  "9321",
         "seatCount":  4
     },
     {
-        "sequence":  368,
+        "sequence":  397,
         "name":  "문채린",
         "schoolName":  "서울중평초등학교",
         "phoneLast4":  "1122",
         "seatCount":  2
     },
     {
-        "sequence":  369,
+        "sequence":  398,
         "name":  "장윤소",
         "schoolName":  "서울목동초등학교",
         "phoneLast4":  "4208",
         "seatCount":  2
     },
     {
-        "sequence":  370,
+        "sequence":  399,
         "name":  "김소은",
         "schoolName":  "서울앙명초등학교",
         "phoneLast4":  "5702",
         "seatCount":  4
     },
     {
-        "sequence":  371,
+        "sequence":  400,
         "name":  "김지원",
         "schoolName":  "서울당서초등학교",
         "phoneLast4":  "1578",
         "seatCount":  3
     },
     {
-        "sequence":  372,
+        "sequence":  401,
         "name":  "이승환",
         "schoolName":  "서울잠현초등학교",
         "phoneLast4":  "2257",
         "seatCount":  4
     },
     {
-        "sequence":  373,
+        "sequence":  402,
         "name":  "최우진",
         "schoolName":  "서울원묵초등학교",
         "phoneLast4":  "2151",
         "seatCount":  3
     },
     {
-        "sequence":  374,
+        "sequence":  403,
         "name":  "김지석",
         "schoolName":  "서울삼육초등학교",
         "phoneLast4":  "1229",
         "seatCount":  3
     },
     {
-        "sequence":  375,
+        "sequence":  404,
         "name":  "고서영",
         "schoolName":  "서울도성초등학교",
         "phoneLast4":  "9143",
         "seatCount":  4
     },
     {
-        "sequence":  376,
+        "sequence":  405,
         "name":  "신하준",
         "schoolName":  "서울세명초등학교",
         "phoneLast4":  "7585",
         "seatCount":  2
     },
     {
-        "sequence":  377,
+        "sequence":  406,
         "name":  "김지원",
         "schoolName":  "서울청운초등학교",
         "phoneLast4":  "3489",
         "seatCount":  2
     },
     {
-        "sequence":  378,
+        "sequence":  407,
         "name":  "양설희",
         "schoolName":  "서울잠일초등학교",
         "phoneLast4":  "0690",
         "seatCount":  4
     },
     {
-        "sequence":  379,
+        "sequence":  408,
         "name":  "이중윤",
         "schoolName":  "서울잠동초등학교",
         "phoneLast4":  "0827",
         "seatCount":  4
     },
     {
-        "sequence":  380,
+        "sequence":  409,
         "name":  "김해민",
         "schoolName":  "서울잠일초등학교",
         "phoneLast4":  "0974",
         "seatCount":  2
     },
     {
-        "sequence":  381,
+        "sequence":  410,
         "name":  "박선호",
         "schoolName":  "서울서교초등학교",
         "phoneLast4":  "3255",
         "seatCount":  3
     },
     {
-        "sequence":  382,
+        "sequence":  411,
         "name":  "배유성",
         "schoolName":  "서울동교초등학교",
         "phoneLast4":  "4104",
         "seatCount":  2
     },
     {
-        "sequence":  383,
+        "sequence":  412,
         "name":  "김솔하",
         "schoolName":  "서울돈암초등학교",
         "phoneLast4":  "9359",
         "seatCount":  3
     },
     {
-        "sequence":  384,
+        "sequence":  413,
         "name":  "곽지우",
         "schoolName":  "서울양천초등학교",
         "phoneLast4":  "4520",
         "seatCount":  2
     },
     {
-        "sequence":  385,
+        "sequence":  414,
         "name":  "김주원",
         "schoolName":  "서울양명초등학교",
         "phoneLast4":  "8174",
         "seatCount":  4
     },
     {
-        "sequence":  386,
+        "sequence":  415,
+        "name":  "포츈루카스민",
+        "schoolName":  "서울경동초등학교",
+        "phoneLast4":  "0702",
+        "seatCount":  4
+    },
+    {
+        "sequence":  416,
+        "name":  "김자민",
+        "schoolName":  "서울영동초등학교",
+        "phoneLast4":  "9147",
+        "seatCount":  3
+    },
+    {
+        "sequence":  417,
+        "name":  "김예지",
+        "schoolName":  "서울행림초등학교",
+        "phoneLast4":  "9915",
+        "seatCount":  3
+    },
+    {
+        "sequence":  418,
+        "name":  "안치윤",
+        "schoolName":  "서울태랑초등학교",
+        "phoneLast4":  "8487",
+        "seatCount":  4
+    },
+    {
+        "sequence":  419,
+        "name":  "김그림",
+        "schoolName":  "서울언남초등학교",
+        "phoneLast4":  "5345",
+        "seatCount":  3
+    },
+    {
+        "sequence":  420,
+        "name":  "김지원",
+        "schoolName":  "서울잠동초등학교",
+        "phoneLast4":  "9817",
+        "seatCount":  2
+    },
+    {
+        "sequence":  421,
+        "name":  "이주환",
+        "schoolName":  "서울을지초등학교",
+        "phoneLast4":  "2987",
+        "seatCount":  3
+    },
+    {
+        "sequence":  422,
+        "name":  "조예린",
+        "schoolName":  "서울구남초등학교",
+        "phoneLast4":  "0388",
+        "seatCount":  5
+    },
+    {
+        "sequence":  423,
+        "name":  "이연",
+        "schoolName":  "서울잠현초등학교",
+        "phoneLast4":  "1213",
+        "seatCount":  4
+    },
+    {
+        "sequence":  424,
+        "name":  "배서준",
+        "schoolName":  "서울당중초등학교",
+        "phoneLast4":  "9860",
+        "seatCount":  2
+    },
+    {
+        "sequence":  425,
+        "name":  "최서윤",
+        "schoolName":  "서울고덕초등학교",
+        "phoneLast4":  "7630",
+        "seatCount":  2
+    },
+    {
+        "sequence":  426,
+        "name":  "김민준",
+        "schoolName":  "서울신도초등학교",
+        "phoneLast4":  "4520",
+        "seatCount":  4
+    },
+    {
+        "sequence":  427,
+        "name":  "김유정",
+        "schoolName":  "서울정덕초등학교",
+        "phoneLast4":  "5867",
+        "seatCount":  3
+    },
+    {
+        "sequence":  428,
+        "name":  "김서호",
+        "schoolName":  "서울강서초등학교",
+        "phoneLast4":  "6842",
+        "seatCount":  3
+    },
+    {
+        "sequence":  429,
+        "name":  "김예지",
+        "schoolName":  "서울행림초등학교",
+        "phoneLast4":  "0878",
+        "seatCount":  3
+    },
+    {
+        "sequence":  430,
+        "name":  "정라윤",
+        "schoolName":  "서울삼각산초등학교",
+        "phoneLast4":  "2292",
+        "seatCount":  2
+    },
+    {
+        "sequence":  431,
+        "name":  "박채성",
+        "schoolName":  "서울북가좌초등학교",
+        "phoneLast4":  "8185",
+        "seatCount":  2
+    },
+    {
+        "sequence":  432,
+        "name":  "양다인",
+        "schoolName":  "서울미동초등학교",
+        "phoneLast4":  "8917",
+        "seatCount":  2
+    },
+    {
+        "sequence":  433,
+        "name":  "장하리",
+        "schoolName":  "서울가곡초등학교",
+        "phoneLast4":  "8031",
+        "seatCount":  4
+    },
+    {
+        "sequence":  434,
+        "name":  "방진후",
+        "schoolName":  "서울대림초등학교",
+        "phoneLast4":  "6200",
+        "seatCount":  4
+    },
+    {
+        "sequence":  435,
+        "name":  "박서진",
+        "schoolName":  "서울을지초등학교",
+        "phoneLast4":  "9139",
+        "seatCount":  3
+    },
+    {
+        "sequence":  436,
+        "name":  "류재원",
+        "schoolName":  "서울서원초등학교",
+        "phoneLast4":  "4336",
+        "seatCount":  3
+    },
+    {
+        "sequence":  437,
+        "name":  "이라온",
+        "schoolName":  "서울세검정초등학교",
+        "phoneLast4":  "5177",
+        "seatCount":  2
+    },
+    {
+        "sequence":  438,
         "name":  "황주은",
         "schoolName":  "해누리중학교",
         "phoneLast4":  "3294",
         "seatCount":  3
     },
     {
-        "sequence":  387,
+        "sequence":  439,
         "name":  "정서진",
         "schoolName":  "중원중학교",
         "phoneLast4":  "8210",
         "seatCount":  3
     },
     {
-        "sequence":  388,
+        "sequence":  440,
         "name":  "석지우",
         "schoolName":  "충암중학교",
         "phoneLast4":  "5400",
         "seatCount":  2
     },
     {
-        "sequence":  389,
+        "sequence":  441,
         "name":  "허대영",
         "schoolName":  "휘문중학교",
         "phoneLast4":  "6559",
         "seatCount":  4
     },
     {
-        "sequence":  390,
+        "sequence":  442,
         "name":  "김도현",
         "schoolName":  "삼각산중학교",
         "phoneLast4":  "5047",
         "seatCount":  3
     },
     {
-        "sequence":  391,
+        "sequence":  443,
         "name":  "김주은",
         "schoolName":  "중계중학교",
         "phoneLast4":  "9131",
         "seatCount":  2
     },
     {
-        "sequence":  392,
+        "sequence":  444,
         "name":  "박하윤",
         "schoolName":  "서울대학교사범대학부설여자중학교",
         "phoneLast4":  "8014",
         "seatCount":  2
     },
     {
-        "sequence":  393,
+        "sequence":  445,
         "name":  "김현승",
         "schoolName":  "목동중학교",
         "phoneLast4":  "9052",
         "seatCount":  2
     },
     {
-        "sequence":  394,
+        "sequence":  446,
         "name":  "박서윤",
         "schoolName":  "동구여자중학교",
         "phoneLast4":  "2413",
         "seatCount":  3
     },
     {
-        "sequence":  395,
+        "sequence":  447,
         "name":  "이혜진",
         "schoolName":  "명일중학교",
         "phoneLast4":  "0385",
         "seatCount":  2
     },
     {
-        "sequence":  396,
+        "sequence":  448,
         "name":  "김건우",
         "schoolName":  "이수중학교",
         "phoneLast4":  "6485",
         "seatCount":  4
     },
     {
-        "sequence":  397,
+        "sequence":  449,
         "name":  "신재현",
         "schoolName":  "사당중학교",
         "phoneLast4":  "7419",
         "seatCount":  2
     },
     {
-        "sequence":  398,
+        "sequence":  450,
         "name":  "서채은",
         "schoolName":  "가락중학교",
         "phoneLast4":  "4764",
         "seatCount":  4
     },
     {
-        "sequence":  399,
+        "sequence":  451,
         "name":  "이효민",
         "schoolName":  "광성중학교",
         "phoneLast4":  "1028",
         "seatCount":  4
     },
     {
-        "sequence":  400,
+        "sequence":  452,
         "name":  "성유찬",
         "schoolName":  "경희중학교",
         "phoneLast4":  "9522",
         "seatCount":  3
     },
     {
-        "sequence":  401,
+        "sequence":  453,
         "name":  "박소영",
         "schoolName":  "삼성중학교",
         "phoneLast4":  "3974",
         "seatCount":  3
     },
     {
-        "sequence":  402,
+        "sequence":  454,
         "name":  "김화렁",
         "schoolName":  "영훈국제중학교",
         "phoneLast4":  "1315",
         "seatCount":  3
     },
     {
-        "sequence":  403,
+        "sequence":  455,
         "name":  "이다율",
         "schoolName":  "경성중학교",
         "phoneLast4":  "1605",
         "seatCount":  2
     },
     {
-        "sequence":  404,
+        "sequence":  456,
         "name":  "이하준",
         "schoolName":  "광성중학교",
         "phoneLast4":  "1406",
         "seatCount":  3
     },
     {
-        "sequence":  405,
+        "sequence":  457,
         "name":  "김다현",
         "schoolName":  "목운중학교",
         "phoneLast4":  "3007",
         "seatCount":  3
     },
     {
-        "sequence":  406,
+        "sequence":  458,
         "name":  "장정한",
         "schoolName":  "당산서중학교",
         "phoneLast4":  "9707",
         "seatCount":  2
     },
     {
-        "sequence":  407,
+        "sequence":  459,
         "name":  "방예은",
         "schoolName":  "한성여자중학교",
         "phoneLast4":  "3065",
         "seatCount":  4
     },
     {
-        "sequence":  408,
+        "sequence":  460,
         "name":  "이서주",
         "schoolName":  "중앙대학교사범대학부속중학교",
         "phoneLast4":  "7809",
         "seatCount":  4
     },
     {
-        "sequence":  409,
+        "sequence":  461,
         "name":  "정명수",
         "schoolName":  "구일중학교",
         "phoneLast4":  "7945",
         "seatCount":  3
     },
     {
-        "sequence":  410,
+        "sequence":  462,
         "name":  "이우윤",
         "schoolName":  "천왕중학교",
         "phoneLast4":  "7576",
         "seatCount":  4
     },
     {
-        "sequence":  411,
+        "sequence":  463,
         "name":  "박기윤",
         "schoolName":  "서운중학교",
         "phoneLast4":  "0816",
         "seatCount":  4
     },
     {
-        "sequence":  412,
+        "sequence":  464,
         "name":  "이은채",
         "schoolName":  "덕산중학교",
         "phoneLast4":  "0707",
         "seatCount":  4
     },
     {
-        "sequence":  413,
+        "sequence":  465,
         "name":  "최지환",
         "schoolName":  "원촌중학교",
         "phoneLast4":  "7778",
         "seatCount":  2
     },
     {
-        "sequence":  414,
+        "sequence":  466,
         "name":  "이시윤",
         "schoolName":  "이화금란중학교",
         "phoneLast4":  "7678",
         "seatCount":  4
     },
     {
-        "sequence":  415,
+        "sequence":  467,
         "name":  "장은우",
         "schoolName":  "신도중학교",
         "phoneLast4":  "7806",
         "seatCount":  2
     },
     {
-        "sequence":  416,
+        "sequence":  468,
         "name":  "조서이",
         "schoolName":  "신수중학교",
         "phoneLast4":  "2870",
         "seatCount":  4
     },
     {
-        "sequence":  417,
+        "sequence":  469,
         "name":  "김 준",
         "schoolName":  "공릉중학교",
         "phoneLast4":  "7673",
         "seatCount":  3
     },
     {
-        "sequence":  418,
+        "sequence":  470,
         "name":  "김아림",
         "schoolName":  "북서울중학교",
         "phoneLast4":  "2032",
         "seatCount":  3
     },
     {
-        "sequence":  419,
+        "sequence":  471,
         "name":  "박하린",
         "schoolName":  "개운중학교",
         "phoneLast4":  "4052",
         "seatCount":  2
     },
     {
-        "sequence":  420,
+        "sequence":  472,
         "name":  "김은우",
         "schoolName":  "신반포중학교",
         "phoneLast4":  "6195",
         "seatCount":  2
     },
     {
-        "sequence":  421,
+        "sequence":  473,
         "name":  "이정원",
         "schoolName":  "연신중학교",
         "phoneLast4":  "5456",
         "seatCount":  2
     },
     {
-        "sequence":  422,
+        "sequence":  474,
         "name":  "송우진",
         "schoolName":  "신천중학교",
         "phoneLast4":  "0882",
         "seatCount":  2
     },
     {
-        "sequence":  423,
+        "sequence":  475,
         "name":  "홍윤아",
         "schoolName":  "진선여자중학교",
         "phoneLast4":  "1055",
         "seatCount":  4
     },
     {
-        "sequence":  424,
+        "sequence":  476,
         "name":  "윤태주",
         "schoolName":  "천일중학교",
         "phoneLast4":  "6161",
         "seatCount":  2
     },
     {
-        "sequence":  425,
+        "sequence":  477,
         "name":  "심석현",
         "schoolName":  "중앙중학교",
         "phoneLast4":  "8105",
         "seatCount":  4
     },
     {
-        "sequence":  426,
+        "sequence":  478,
         "name":  "박승모",
         "schoolName":  "구룡중학교",
         "phoneLast4":  "1229",
         "seatCount":  3
     },
     {
-        "sequence":  427,
+        "sequence":  479,
         "name":  "김서준",
         "schoolName":  "전동중학교",
         "phoneLast4":  "2228",
         "seatCount":  4
     },
     {
-        "sequence":  428,
+        "sequence":  480,
         "name":  "이지승",
         "schoolName":  "이화여자대학교사범대학부속이화금란중학교",
         "phoneLast4":  "5897",
         "seatCount":  2
     },
     {
-        "sequence":  429,
+        "sequence":  481,
         "name":  "박재원",
         "schoolName":  "한산중학교",
         "phoneLast4":  "9609",
         "seatCount":  2
     },
     {
-        "sequence":  430,
+        "sequence":  482,
         "name":  "박권율",
         "schoolName":  "상일중학교",
         "phoneLast4":  "8177",
         "seatCount":  2
     },
     {
-        "sequence":  431,
+        "sequence":  483,
         "name":  "김지환",
         "schoolName":  "충암중학교",
         "phoneLast4":  "7835",
         "seatCount":  2
     },
     {
-        "sequence":  432,
+        "sequence":  484,
         "name":  "김태윤",
         "schoolName":  "동신중학교",
         "phoneLast4":  "7915",
         "seatCount":  4
     },
     {
-        "sequence":  433,
+        "sequence":  485,
         "name":  "고준영",
         "schoolName":  "도곡중학교",
         "phoneLast4":  "9143",
         "seatCount":  4
     },
     {
-        "sequence":  434,
+        "sequence":  486,
         "name":  "지혜인",
         "schoolName":  "신천중학교",
         "phoneLast4":  "4369",
         "seatCount":  4
     },
     {
-        "sequence":  435,
+        "sequence":  487,
         "name":  "김도윤",
         "schoolName":  "세곡중학교",
         "phoneLast4":  "5359",
         "seatCount":  2
     },
     {
-        "sequence":  436,
+        "sequence":  488,
         "name":  "이현찬",
         "schoolName":  "경희중학교",
         "phoneLast4":  "7582",
         "seatCount":  2
     },
     {
-        "sequence":  437,
+        "sequence":  489,
         "name":  "김주언",
         "schoolName":  "명일중학교",
         "phoneLast4":  "0802",
         "seatCount":  2
     },
     {
-        "sequence":  438,
+        "sequence":  490,
         "name":  "조수빈",
         "schoolName":  "압구정중학교",
         "phoneLast4":  "4062",
         "seatCount":  3
     },
     {
-        "sequence":  439,
+        "sequence":  491,
         "name":  "이상윤",
         "schoolName":  "삼선중학교",
         "phoneLast4":  "5577",
         "seatCount":  3
     },
     {
-        "sequence":  440,
+        "sequence":  492,
         "name":  "신지건",
         "schoolName":  "중원중학교",
         "phoneLast4":  "3162",
         "seatCount":  4
     },
     {
-        "sequence":  441,
+        "sequence":  493,
         "name":  "정지완",
         "schoolName":  "목운중학교",
         "phoneLast4":  "1506",
         "seatCount":  3
     },
     {
-        "sequence":  442,
+        "sequence":  494,
         "name":  "김사랑",
         "schoolName":  "대명중학교",
         "phoneLast4":  "2014",
         "seatCount":  3
     },
     {
-        "sequence":  443,
+        "sequence":  495,
         "name":  "강주아",
         "schoolName":  "여의도중학교",
         "phoneLast4":  "7415",
         "seatCount":  3
     },
     {
-        "sequence":  444,
+        "sequence":  496,
         "name":  "임서준",
         "schoolName":  "수서중학교",
         "phoneLast4":  "9009",
         "seatCount":  3
     },
     {
-        "sequence":  445,
+        "sequence":  497,
         "name":  "서은우",
         "schoolName":  "신천중학교",
         "phoneLast4":  "8967",
         "seatCount":  2
     },
     {
-        "sequence":  446,
+        "sequence":  498,
         "name":  "김예안",
         "schoolName":  "증산중학교",
         "phoneLast4":  "3255",
         "seatCount":  4
     },
     {
-        "sequence":  447,
+        "sequence":  499,
         "name":  "정은재",
         "schoolName":  "목동중학교",
         "phoneLast4":  "7738",
         "seatCount":  3
     },
     {
-        "sequence":  448,
+        "sequence":  500,
         "name":  "이나경",
         "schoolName":  "광남중학교",
         "phoneLast4":  "2260",
         "seatCount":  2
     },
     {
-        "sequence":  449,
+        "sequence":  501,
         "name":  "이진솔",
         "schoolName":  "원촌중학교",
         "phoneLast4":  "2367",
         "seatCount":  3
     },
     {
-        "sequence":  450,
+        "sequence":  502,
         "name":  "김가윤",
         "schoolName":  "오주중학교",
         "phoneLast4":  "5214",
         "seatCount":  4
     },
     {
-        "sequence":  451,
+        "sequence":  503,
         "name":  "유아인",
         "schoolName":  "이화여대부속금란중학교",
         "phoneLast4":  "0229",
         "seatCount":  2
     },
     {
-        "sequence":  452,
+        "sequence":  504,
         "name":  "이가윤",
         "schoolName":  "동국대학교사범대학부속가람중학교",
         "phoneLast4":  "3292",
         "seatCount":  2
     },
     {
-        "sequence":  453,
+        "sequence":  505,
         "name":  "이지성",
         "schoolName":  "언북중학교",
         "phoneLast4":  "6770",
         "seatCount":  2
     },
     {
-        "sequence":  454,
+        "sequence":  506,
         "name":  "이지호",
         "schoolName":  "여의도중학교",
         "phoneLast4":  "8500",
         "seatCount":  4
     },
     {
-        "sequence":  455,
+        "sequence":  507,
         "name":  "용석민",
         "schoolName":  "경원중학교",
         "phoneLast4":  "0550",
         "seatCount":  3
     },
     {
-        "sequence":  456,
+        "sequence":  508,
         "name":  "정준우",
         "schoolName":  "화곡중학교",
         "phoneLast4":  "9248",
         "seatCount":  4
     },
     {
-        "sequence":  457,
+        "sequence":  509,
         "name":  "이지상",
         "schoolName":  "휘경중학교",
         "phoneLast4":  "7453",
         "seatCount":  3
     },
     {
-        "sequence":  458,
+        "sequence":  510,
         "name":  "이재원",
         "schoolName":  "광운중학교",
         "phoneLast4":  "9833",
         "seatCount":  3
     },
     {
-        "sequence":  459,
+        "sequence":  511,
         "name":  "김주영",
         "schoolName":  "동신중학교",
         "phoneLast4":  "2921",
         "seatCount":  2
     },
     {
-        "sequence":  460,
+        "sequence":  512,
         "name":  "이주용",
         "schoolName":  "경인중학교",
         "phoneLast4":  "7689",
         "seatCount":  2
     },
     {
-        "sequence":  461,
+        "sequence":  513,
         "name":  "윤성빈",
         "schoolName":  "불암중학교",
         "phoneLast4":  "2372",
         "seatCount":  3
     },
     {
-        "sequence":  462,
+        "sequence":  514,
         "name":  "최윤",
         "schoolName":  "은성중학교",
         "phoneLast4":  "8294",
         "seatCount":  3
     },
     {
-        "sequence":  463,
+        "sequence":  515,
         "name":  "전혜린",
         "schoolName":  "신동중학교",
         "phoneLast4":  "4406",
         "seatCount":  3
     },
     {
-        "sequence":  464,
+        "sequence":  516,
         "name":  "강지호",
         "schoolName":  "한강중학교",
         "phoneLast4":  "1596",
         "seatCount":  3
     },
     {
-        "sequence":  465,
+        "sequence":  517,
         "name":  "서연",
         "schoolName":  "길음중학교",
         "phoneLast4":  "2558",
         "seatCount":  3
     },
     {
-        "sequence":  466,
+        "sequence":  518,
         "name":  "장준영",
         "schoolName":  "명지중학교",
         "phoneLast4":  "0566",
         "seatCount":  2
     },
     {
-        "sequence":  467,
+        "sequence":  519,
         "name":  "장지하",
         "schoolName":  "서연중학교",
         "phoneLast4":  "7899",
         "seatCount":  2
     },
     {
-        "sequence":  468,
+        "sequence":  520,
         "name":  "이현우",
         "schoolName":  "신일중학교",
         "phoneLast4":  "3798",
         "seatCount":  2
     },
     {
-        "sequence":  469,
+        "sequence":  521,
         "name":  "김현중",
         "schoolName":  "상암중학교",
         "phoneLast4":  "9517",
         "seatCount":  3
     },
     {
-        "sequence":  470,
+        "sequence":  522,
         "name":  "김도윤",
         "schoolName":  "이수중학교",
         "phoneLast4":  "3839",
         "seatCount":  3
     },
     {
-        "sequence":  471,
+        "sequence":  523,
         "name":  "안시우",
         "schoolName":  "대명중학교",
         "phoneLast4":  "9274",
         "seatCount":  4
     },
     {
-        "sequence":  472,
+        "sequence":  524,
         "name":  "서은우",
         "schoolName":  "구일중학교",
         "phoneLast4":  "8697",
         "seatCount":  2
     },
     {
-        "sequence":  473,
+        "sequence":  525,
         "name":  "유연지",
         "schoolName":  "목운중학교",
         "phoneLast4":  "1775",
         "seatCount":  4
     },
     {
-        "sequence":  474,
+        "sequence":  526,
         "name":  "이재윤",
         "schoolName":  "대왕중학교",
         "phoneLast4":  "0659",
         "seatCount":  4
     },
     {
-        "sequence":  475,
+        "sequence":  527,
         "name":  "전시후",
         "schoolName":  "경희중학교",
         "phoneLast4":  "2023",
         "seatCount":  4
     },
     {
-        "sequence":  476,
+        "sequence":  528,
         "name":  "성지우",
         "schoolName":  "중원중학교",
         "phoneLast4":  "6390",
         "seatCount":  4
     },
     {
-        "sequence":  477,
+        "sequence":  529,
         "name":  "임찬후",
         "schoolName":  "보성중학교",
         "phoneLast4":  "0920",
         "seatCount":  4
     },
     {
-        "sequence":  478,
+        "sequence":  530,
         "name":  "김태희",
         "schoolName":  "정원여자중학교",
         "phoneLast4":  "6711",
         "seatCount":  2
     },
     {
-        "sequence":  479,
+        "sequence":  531,
         "name":  "임지민",
         "schoolName":  "고척중학교",
         "phoneLast4":  "1622",
         "seatCount":  2
     },
     {
-        "sequence":  480,
+        "sequence":  532,
         "name":  "윤지원",
         "schoolName":  "용강중학교",
         "phoneLast4":  "4250",
         "seatCount":  2
     },
     {
-        "sequence":  481,
+        "sequence":  533,
         "name":  "주해영",
         "schoolName":  "마곡하늬중학교",
         "phoneLast4":  "6926",
         "seatCount":  2
     },
     {
-        "sequence":  482,
+        "sequence":  534,
         "name":  "고나은",
         "schoolName":  "서울대학교사범대학부설여자중학교",
         "phoneLast4":  "6018",
         "seatCount":  3
     },
     {
-        "sequence":  483,
+        "sequence":  535,
         "name":  "황선우",
         "schoolName":  "동양중학교",
         "phoneLast4":  "4729",
         "seatCount":  2
     },
     {
-        "sequence":  484,
+        "sequence":  536,
         "name":  "김현준",
         "schoolName":  "이수중학교",
         "phoneLast4":  "7882",
         "seatCount":  2
     },
     {
-        "sequence":  485,
+        "sequence":  537,
         "name":  "남소율",
         "schoolName":  "중암중학교",
         "phoneLast4":  "0734",
         "seatCount":  2
     },
     {
-        "sequence":  486,
+        "sequence":  538,
         "name":  "김도경",
         "schoolName":  "오륜중학교",
         "phoneLast4":  "0935",
         "seatCount":  3
     },
     {
-        "sequence":  487,
+        "sequence":  539,
         "name":  "송유찬",
         "schoolName":  "양진중학교",
         "phoneLast4":  "9879",
         "seatCount":  4
     },
     {
-        "sequence":  488,
+        "sequence":  540,
         "name":  "김대한",
         "schoolName":  "한양대학교사범대학부속중학교",
         "phoneLast4":  "6767",
         "seatCount":  2
     },
     {
-        "sequence":  489,
+        "sequence":  541,
         "name":  "조한나",
         "schoolName":  "공항중학교",
         "phoneLast4":  "0327",
         "seatCount":  3
     },
     {
-        "sequence":  490,
+        "sequence":  542,
         "name":  "김동희",
         "schoolName":  "등명중학교",
         "phoneLast4":  "7524",
         "seatCount":  2
     },
     {
-        "sequence":  491,
+        "sequence":  543,
         "name":  "최이정",
         "schoolName":  "천일중학교",
         "phoneLast4":  "6334",
         "seatCount":  3
     },
     {
-        "sequence":  492,
+        "sequence":  544,
         "name":  "문다니",
         "schoolName":  "한영중학교",
         "phoneLast4":  "7440",
         "seatCount":  3
     },
     {
-        "sequence":  493,
+        "sequence":  545,
         "name":  "김나은",
         "schoolName":  "명덕여자중학교",
         "phoneLast4":  "7929",
         "seatCount":  3
     },
     {
-        "sequence":  494,
+        "sequence":  546,
         "name":  "김하준",
         "schoolName":  "용문중학교",
         "phoneLast4":  "1247",
         "seatCount":  2
     },
     {
-        "sequence":  495,
+        "sequence":  547,
         "name":  "기서윤",
         "schoolName":  "휘경여자중학교",
         "phoneLast4":  "3192",
         "seatCount":  3
     },
     {
-        "sequence":  496,
+        "sequence":  548,
         "name":  "박지성",
         "schoolName":  "목동중학교",
         "phoneLast4":  "2984",
         "seatCount":  2
     },
     {
-        "sequence":  497,
+        "sequence":  549,
         "name":  "이지호",
         "schoolName":  "여의도중학교",
         "phoneLast4":  "6338",
         "seatCount":  3
     },
     {
-        "sequence":  498,
+        "sequence":  550,
         "name":  "조우승",
         "schoolName":  "구일중학교",
         "phoneLast4":  "3082",
         "seatCount":  3
     },
     {
-        "sequence":  499,
+        "sequence":  551,
         "name":  "정민서",
         "schoolName":  "대명중학교",
         "phoneLast4":  "1260",
         "seatCount":  4
     },
     {
-        "sequence":  500,
+        "sequence":  552,
         "name":  "윤주아",
         "schoolName":  "강일중학교",
         "phoneLast4":  "0421",
         "seatCount":  3
     },
     {
-        "sequence":  501,
+        "sequence":  553,
         "name":  "최예람",
         "schoolName":  "신명중학교",
         "phoneLast4":  "0324",
         "seatCount":  2
     },
     {
-        "sequence":  502,
+        "sequence":  554,
         "name":  "윤다인",
         "schoolName":  "아현중학교",
         "phoneLast4":  "0208",
         "seatCount":  3
     },
     {
-        "sequence":  503,
+        "sequence":  555,
         "name":  "정현우",
         "schoolName":  "구룡중학교",
         "phoneLast4":  "7242",
         "seatCount":  4
     },
     {
-        "sequence":  504,
+        "sequence":  556,
         "name":  "최지성",
         "schoolName":  "휘문중학교",
         "phoneLast4":  "0409",
         "seatCount":  2
     },
     {
-        "sequence":  505,
+        "sequence":  557,
         "name":  "이선박",
         "schoolName":  "대영중학교",
         "phoneLast4":  "7520",
         "seatCount":  2
     },
     {
-        "sequence":  506,
+        "sequence":  558,
         "name":  "승리지",
         "schoolName":  "관악 중학교",
         "phoneLast4":  "3571",
         "seatCount":  4
     },
     {
-        "sequence":  507,
+        "sequence":  559,
         "name":  "이승제",
         "schoolName":  "한산중학교",
         "phoneLast4":  "8796",
         "seatCount":  2
     },
     {
-        "sequence":  508,
+        "sequence":  560,
         "name":  "조윤건",
         "schoolName":  "대치중학교",
         "phoneLast4":  "5046",
         "seatCount":  4
     },
     {
-        "sequence":  509,
+        "sequence":  561,
         "name":  "조미래",
         "schoolName":  "구의중학교",
         "phoneLast4":  "9735",
         "seatCount":  2
     },
     {
-        "sequence":  510,
+        "sequence":  562,
         "name":  "류혜원",
         "schoolName":  "신천중학교",
         "phoneLast4":  "2941",
         "seatCount":  2
     },
     {
-        "sequence":  511,
+        "sequence":  563,
         "name":  "안규리",
         "schoolName":  "성심여자중학교",
         "phoneLast4":  "7903",
         "seatCount":  3
     },
     {
-        "sequence":  512,
+        "sequence":  564,
         "name":  "박채윤",
         "schoolName":  "이화여자대학교사범대학부속이화금란중학교",
         "phoneLast4":  "2607",
         "seatCount":  2
     },
     {
-        "sequence":  513,
+        "sequence":  565,
         "name":  "김하율",
         "schoolName":  "서문여자중학교",
         "phoneLast4":  "4948",
         "seatCount":  3
     },
     {
-        "sequence":  514,
+        "sequence":  566,
         "name":  "정서연",
         "schoolName":  "아주중학교",
         "phoneLast4":  "9485",
         "seatCount":  4
     },
     {
-        "sequence":  515,
+        "sequence":  567,
         "name":  "우재윤",
         "schoolName":  "인헌중학교",
         "phoneLast4":  "9250",
         "seatCount":  3
     },
     {
-        "sequence":  516,
+        "sequence":  568,
         "name":  "윤정환",
         "schoolName":  "휘문중학교",
         "phoneLast4":  "0592",
         "seatCount":  3
     },
     {
-        "sequence":  517,
+        "sequence":  569,
         "name":  "윤지현",
         "schoolName":  "염경중학교",
         "phoneLast4":  "6990",
         "seatCount":  2
     },
     {
-        "sequence":  518,
+        "sequence":  570,
         "name":  "임재민",
         "schoolName":  "방화중학교",
         "phoneLast4":  "9196",
         "seatCount":  2
     },
     {
-        "sequence":  519,
+        "sequence":  571,
         "name":  "김선우",
         "schoolName":  "염창중학교",
         "phoneLast4":  "3303",
         "seatCount":  4
     },
     {
-        "sequence":  520,
+        "sequence":  572,
         "name":  "도윤상",
         "schoolName":  "구암중학교",
         "phoneLast4":  "9432",
         "seatCount":  3
     },
     {
-        "sequence":  521,
+        "sequence":  573,
         "name":  "김율",
         "schoolName":  "역삼중학교",
         "phoneLast4":  "7779",
         "seatCount":  3
     },
     {
-        "sequence":  522,
+        "sequence":  574,
         "name":  "장준혁",
         "schoolName":  "구암중학교",
         "phoneLast4":  "7810",
         "seatCount":  3
     },
     {
-        "sequence":  523,
+        "sequence":  575,
         "name":  "감하율",
         "schoolName":  "신명중학교",
         "phoneLast4":  "5308",
         "seatCount":  2
     },
     {
-        "sequence":  524,
+        "sequence":  576,
         "name":  "전서율",
         "schoolName":  "구암중학교",
         "phoneLast4":  "9030",
         "seatCount":  2
     },
     {
-        "sequence":  525,
+        "sequence":  577,
         "name":  "오대양",
         "schoolName":  "서울대학교사범대학부설중학교",
         "phoneLast4":  "4518",
         "seatCount":  3
     },
     {
-        "sequence":  526,
+        "sequence":  578,
         "name":  "김준영",
         "schoolName":  "한영중학교",
         "phoneLast4":  "2703",
         "seatCount":  2
     },
     {
-        "sequence":  527,
+        "sequence":  579,
         "name":  "예서연",
         "schoolName":  "개원중학교",
         "phoneLast4":  "0309",
         "seatCount":  4
     },
     {
-        "sequence":  528,
+        "sequence":  580,
         "name":  "설지수",
         "schoolName":  "명덕여자중학교",
         "phoneLast4":  "1071",
         "seatCount":  2
     },
     {
-        "sequence":  529,
+        "sequence":  581,
         "name":  "김찬우",
         "schoolName":  "한강중학교",
         "phoneLast4":  "3351",
         "seatCount":  3
     },
     {
-        "sequence":  530,
+        "sequence":  582,
         "name":  "김예은",
         "schoolName":  "등명중학교",
         "phoneLast4":  "0753",
         "seatCount":  4
     },
     {
-        "sequence":  531,
+        "sequence":  583,
         "name":  "김다현",
         "schoolName":  "등원중학교",
         "phoneLast4":  "3490",
         "seatCount":  2
     },
     {
-        "sequence":  532,
+        "sequence":  584,
         "name":  "노현우",
         "schoolName":  "중암중학교",
         "phoneLast4":  "6757",
         "seatCount":  3
     },
     {
-        "sequence":  533,
+        "sequence":  585,
         "name":  "김준영",
         "schoolName":  "개원중학교",
         "phoneLast4":  "5636",
         "seatCount":  4
     },
     {
-        "sequence":  534,
+        "sequence":  586,
         "name":  "이재하",
         "schoolName":  "진관중학교",
         "phoneLast4":  "2031",
         "seatCount":  2
     },
     {
-        "sequence":  535,
+        "sequence":  587,
         "name":  "박건후",
         "schoolName":  "용마중학교",
         "phoneLast4":  "1130",
         "seatCount":  3
     },
     {
-        "sequence":  536,
+        "sequence":  588,
         "name":  "홍서아",
         "schoolName":  "숭인중학교",
         "phoneLast4":  "2929",
         "seatCount":  2
     },
     {
-        "sequence":  537,
+        "sequence":  589,
         "name":  "이서인",
         "schoolName":  "명덕여자중학교",
         "phoneLast4":  "5639",
         "seatCount":  5
     },
     {
-        "sequence":  538,
+        "sequence":  590,
+        "name":  "전도율",
+        "schoolName":  "중원중학교",
+        "phoneLast4":  "2852",
+        "seatCount":  2
+    },
+    {
+        "sequence":  591,
+        "name":  "박시현",
+        "schoolName":  "항동중학교",
+        "phoneLast4":  "4857",
+        "seatCount":  4
+    },
+    {
+        "sequence":  592,
+        "name":  "구도훈",
+        "schoolName":  "광남중학교",
+        "phoneLast4":  "1462",
+        "seatCount":  3
+    },
+    {
+        "sequence":  593,
+        "name":  "오민혁",
+        "schoolName":  "증산중학교",
+        "phoneLast4":  "9098",
+        "seatCount":  4
+    },
+    {
+        "sequence":  594,
+        "name":  "이주하",
+        "schoolName":  "개포중힉교",
+        "phoneLast4":  "0914",
+        "seatCount":  4
+    },
+    {
+        "sequence":  595,
+        "name":  "안승준",
+        "schoolName":  "대치중학교",
+        "phoneLast4":  "5720",
+        "seatCount":  3
+    },
+    {
+        "sequence":  596,
+        "name":  "최연지",
+        "schoolName":  "오륜중학교",
+        "phoneLast4":  "5205",
+        "seatCount":  3
+    },
+    {
+        "sequence":  597,
+        "name":  "백찬율",
+        "schoolName":  "삼각산초등학교",
+        "phoneLast4":  "0836",
+        "seatCount":  2
+    },
+    {
+        "sequence":  598,
+        "name":  "손연준",
+        "schoolName":  "보성중학교",
+        "phoneLast4":  "8417",
+        "seatCount":  4
+    },
+    {
+        "sequence":  599,
+        "name":  "김준희",
+        "schoolName":  "신길중학교",
+        "phoneLast4":  "0567",
+        "seatCount":  2
+    },
+    {
+        "sequence":  600,
+        "name":  "양지안",
+        "schoolName":  "이야기학교",
+        "phoneLast4":  "8557",
+        "seatCount":  2
+    },
+    {
+        "sequence":  601,
+        "name":  "서도진",
+        "schoolName":  "언주중학교",
+        "phoneLast4":  "2130",
+        "seatCount":  2
+    },
+    {
+        "sequence":  602,
+        "name":  "김예린",
+        "schoolName":  "거원중학교",
+        "phoneLast4":  "6609",
+        "seatCount":  4
+    },
+    {
+        "sequence":  603,
+        "name":  "장은율",
+        "schoolName":  "휘문중학교",
+        "phoneLast4":  "1037",
+        "seatCount":  2
+    },
+    {
+        "sequence":  604,
+        "name":  "조원우",
+        "schoolName":  "배재중학교",
+        "phoneLast4":  "0774",
+        "seatCount":  3
+    },
+    {
+        "sequence":  605,
+        "name":  "홍지후",
+        "schoolName":  "대청중학교",
+        "phoneLast4":  "2330",
+        "seatCount":  3
+    },
+    {
+        "sequence":  606,
+        "name":  "김가빈",
+        "schoolName":  "아현중학교",
+        "phoneLast4":  "0752",
+        "seatCount":  3
+    },
+    {
+        "sequence":  607,
+        "name":  "김준석",
+        "schoolName":  "목운중학교",
+        "phoneLast4":  "0441",
+        "seatCount":  3
+    },
+    {
+        "sequence":  608,
+        "name":  "이도영",
+        "schoolName":  "성사중학교",
+        "phoneLast4":  "0686",
+        "seatCount":  3
+    },
+    {
+        "sequence":  609,
+        "name":  "민소율",
+        "schoolName":  "용강중학교",
+        "phoneLast4":  "8624",
+        "seatCount":  2
+    },
+    {
+        "sequence":  610,
+        "name":  "김시우",
+        "schoolName":  "구암중학교",
+        "phoneLast4":  "2386",
+        "seatCount":  4
+    },
+    {
+        "sequence":  611,
+        "name":  "권민성",
+        "schoolName":  "중암중학교",
+        "phoneLast4":  "3856",
+        "seatCount":  3
+    },
+    {
+        "sequence":  612,
+        "name":  "김준형",
+        "schoolName":  "공릉중학교",
+        "phoneLast4":  "6519",
+        "seatCount":  2
+    },
+    {
+        "sequence":  613,
+        "name":  "박시윤",
+        "schoolName":  "당산서중학교",
+        "phoneLast4":  "9942",
+        "seatCount":  2
+    },
+    {
+        "sequence":  614,
+        "name":  "윤도연",
+        "schoolName":  "행당중학교",
+        "phoneLast4":  "7637",
+        "seatCount":  2
+    },
+    {
+        "sequence":  615,
+        "name":  "이수홍",
+        "schoolName":  "예원학교",
+        "phoneLast4":  "3281",
+        "seatCount":  3
+    },
+    {
+        "sequence":  616,
+        "name":  "위지홍",
+        "schoolName":  "도곡중학교",
+        "phoneLast4":  "6050",
+        "seatCount":  2
+    },
+    {
+        "sequence":  617,
+        "name":  "김주영",
+        "schoolName":  "동신중학교",
+        "phoneLast4":  "2497",
+        "seatCount":  4
+    },
+    {
+        "sequence":  618,
         "name":  "서지안",
         "schoolName":  "아현중학교",
         "phoneLast4":  "9591",
         "seatCount":  3
     },
     {
-        "sequence":  539,
+        "sequence":  619,
         "name":  "임동하",
         "schoolName":  "무학중학교",
         "phoneLast4":  "9615",
         "seatCount":  3
     },
     {
-        "sequence":  540,
+        "sequence":  620,
         "name":  "박강민",
         "schoolName":  "장평중학교",
         "phoneLast4":  "2539",
         "seatCount":  2
     },
     {
-        "sequence":  541,
+        "sequence":  621,
         "name":  "백서우",
         "schoolName":  "개운중학교",
         "phoneLast4":  "4411",
         "seatCount":  3
     },
     {
-        "sequence":  542,
+        "sequence":  622,
         "name":  "이우찬",
         "schoolName":  "강일중학교",
         "phoneLast4":  "5893",
         "seatCount":  2
     },
     {
-        "sequence":  543,
+        "sequence":  623,
         "name":  "김재윤",
         "schoolName":  "을지중학교",
         "phoneLast4":  "7590",
         "seatCount":  3
     },
     {
-        "sequence":  544,
+        "sequence":  624,
         "name":  "김재겸",
         "schoolName":  "세화여자중학교",
         "phoneLast4":  "5520",
         "seatCount":  4
     },
     {
-        "sequence":  545,
+        "sequence":  625,
         "name":  "조서영",
         "schoolName":  "길음중학교",
         "phoneLast4":  "4448",
         "seatCount":  2
     },
     {
-        "sequence":  546,
+        "sequence":  626,
         "name":  "문다인",
         "schoolName":  "상명대학교사범대학부속여자중학교",
         "phoneLast4":  "9044",
         "seatCount":  3
     },
     {
-        "sequence":  547,
+        "sequence":  627,
         "name":  "황희재",
         "schoolName":  "용강중학교",
         "phoneLast4":  "1502",
         "seatCount":  3
     },
     {
-        "sequence":  548,
+        "sequence":  628,
         "name":  "김현우",
         "schoolName":  "언주중학교",
         "phoneLast4":  "2065",
         "seatCount":  5
     },
     {
-        "sequence":  549,
+        "sequence":  629,
         "name":  "신동우",
         "schoolName":  "덕수중학교",
         "phoneLast4":  "8788",
         "seatCount":  3
     },
     {
-        "sequence":  550,
+        "sequence":  630,
         "name":  "이동원",
         "schoolName":  "선린중학교",
         "phoneLast4":  "0528",
         "seatCount":  3
     },
     {
-        "sequence":  551,
+        "sequence":  631,
         "name":  "이규호",
         "schoolName":  "서울대명중학교",
         "phoneLast4":  "1284",
         "seatCount":  3
     },
     {
-        "sequence":  552,
+        "sequence":  632,
         "name":  "김윤호",
         "schoolName":  "장충중학교",
         "phoneLast4":  "0312",
         "seatCount":  2
     },
     {
-        "sequence":  553,
+        "sequence":  633,
         "name":  "이소은",
         "schoolName":  "항동중학교",
         "phoneLast4":  "2642",
         "seatCount":  2
     },
     {
-        "sequence":  554,
+        "sequence":  634,
         "name":  "장호영",
         "schoolName":  "오륜중학교",
         "phoneLast4":  "3618",
         "seatCount":  3
     },
     {
-        "sequence":  555,
+        "sequence":  635,
         "name":  "김재하",
         "schoolName":  "대광중학교",
         "phoneLast4":  "3455",
         "seatCount":  4
     },
     {
-        "sequence":  556,
+        "sequence":  636,
         "name":  "신채오",
         "schoolName":  "수서중학교",
         "phoneLast4":  "9254",
         "seatCount":  5
     },
     {
-        "sequence":  557,
+        "sequence":  637,
         "name":  "조수연",
         "schoolName":  "난우중학교",
         "phoneLast4":  "5766",
         "seatCount":  3
     },
     {
-        "sequence":  558,
+        "sequence":  638,
         "name":  "이서은",
         "schoolName":  "세곡중학교",
         "phoneLast4":  "2199",
         "seatCount":  3
     },
     {
-        "sequence":  559,
+        "sequence":  639,
         "name":  "정지원",
         "schoolName":  "노일중학교",
         "phoneLast4":  "1489",
         "seatCount":  2
     },
     {
-        "sequence":  560,
+        "sequence":  640,
         "name":  "김유신",
         "schoolName":  "청운중학교",
         "phoneLast4":  "0235",
         "seatCount":  2
     },
     {
-        "sequence":  561,
+        "sequence":  641,
         "name":  "주현율",
         "schoolName":  "인헌중학교",
         "phoneLast4":  "8884",
         "seatCount":  2
     },
     {
-        "sequence":  562,
+        "sequence":  642,
         "name":  "김민지",
         "schoolName":  "위례솔중",
         "phoneLast4":  "0454",
         "seatCount":  2
     },
     {
-        "sequence":  563,
+        "sequence":  643,
         "name":  "이윤서",
         "schoolName":  "등원중학교",
         "phoneLast4":  "8901",
         "seatCount":  2
     },
     {
-        "sequence":  564,
+        "sequence":  644,
         "name":  "황의찬",
         "schoolName":  "을지중학교",
         "phoneLast4":  "7611",
         "seatCount":  3
     },
     {
-        "sequence":  565,
+        "sequence":  645,
         "name":  "박연우",
         "schoolName":  "구룡중학교",
         "phoneLast4":  "6647",
         "seatCount":  2
     },
     {
-        "sequence":  566,
+        "sequence":  646,
         "name":  "이재훈",
         "schoolName":  "신천중학교",
         "phoneLast4":  "0748",
         "seatCount":  4
     },
     {
-        "sequence":  567,
+        "sequence":  647,
         "name":  "정예진",
         "schoolName":  "경인중학교",
         "phoneLast4":  "2614",
         "seatCount":  3
     },
     {
-        "sequence":  568,
+        "sequence":  648,
         "name":  "이건우",
         "schoolName":  "청운중학교",
         "phoneLast4":  "3694",
         "seatCount":  3
     },
     {
-        "sequence":  569,
+        "sequence":  649,
         "name":  "진다희",
         "schoolName":  "봉원중학교",
         "phoneLast4":  "7995",
         "seatCount":  3
     },
     {
-        "sequence":  570,
+        "sequence":  650,
         "name":  "배서준",
         "schoolName":  "광장중학교",
         "phoneLast4":  "0279",
         "seatCount":  3
     },
     {
-        "sequence":  571,
+        "sequence":  651,
         "name":  "안수연",
         "schoolName":  "이화여자대학교사범대학부속이화금란중학교",
         "phoneLast4":  "1004",
         "seatCount":  3
     },
     {
-        "sequence":  572,
+        "sequence":  652,
         "name":  "허서준",
         "schoolName":  "청운중학교",
         "phoneLast4":  "7857",
         "seatCount":  2
     },
     {
-        "sequence":  573,
+        "sequence":  653,
         "name":  "강병호",
         "schoolName":  "동원중학교",
         "phoneLast4":  "3900",
         "seatCount":  3
     },
     {
-        "sequence":  574,
+        "sequence":  654,
         "name":  "이소율",
         "schoolName":  "수송중학교",
         "phoneLast4":  "1417",
         "seatCount":  2
     },
     {
-        "sequence":  575,
+        "sequence":  655,
         "name":  "한제아",
         "schoolName":  "윤중중학고",
         "phoneLast4":  "2252",
         "seatCount":  3
     },
     {
-        "sequence":  576,
+        "sequence":  656,
         "name":  "안채원",
         "schoolName":  "이화여자대학교사범대학부속이화금란중학교",
         "phoneLast4":  "6883",
         "seatCount":  2
     },
     {
-        "sequence":  577,
+        "sequence":  657,
         "name":  "이서준",
         "schoolName":  "영동중학교",
         "phoneLast4":  "9477",
         "seatCount":  2
     },
     {
-        "sequence":  578,
+        "sequence":  658,
         "name":  "서지오",
         "schoolName":  "신수중학교",
         "phoneLast4":  "1747",
         "seatCount":  4
     },
     {
-        "sequence":  579,
+        "sequence":  659,
         "name":  "안시언",
         "schoolName":  "상암중학교",
         "phoneLast4":  "2627",
         "seatCount":  2
     },
     {
-        "sequence":  580,
+        "sequence":  660,
         "name":  "김건호",
         "schoolName":  "역삼중학교",
         "phoneLast4":  "5226",
         "seatCount":  2
     },
     {
-        "sequence":  581,
+        "sequence":  661,
         "name":  "김휘윤",
         "schoolName":  "난곡중학교",
         "phoneLast4":  "7033",
         "seatCount":  3
     },
     {
-        "sequence":  582,
+        "sequence":  662,
         "name":  "김채은",
         "schoolName":  "동덕여자중학교",
         "phoneLast4":  "1063",
         "seatCount":  3
     },
     {
-        "sequence":  583,
+        "sequence":  663,
         "name":  "김호진",
         "schoolName":  "상현중학교",
         "phoneLast4":  "7616",
         "seatCount":  5
     },
     {
-        "sequence":  584,
+        "sequence":  664,
         "name":  "강전준",
         "schoolName":  "구암중학교",
         "phoneLast4":  "3187",
         "seatCount":  3
     },
     {
-        "sequence":  585,
+        "sequence":  665,
         "name":  "서훈",
         "schoolName":  "북서울중",
         "phoneLast4":  "5985",
         "seatCount":  2
     },
     {
-        "sequence":  586,
+        "sequence":  666,
         "name":  "설이안",
         "schoolName":  "신목중학교",
         "phoneLast4":  "7154",
         "seatCount":  2
     },
     {
-        "sequence":  587,
+        "sequence":  667,
         "name":  "유호연",
         "schoolName":  "언주중학교",
         "phoneLast4":  "1209",
         "seatCount":  2
     },
     {
-        "sequence":  588,
+        "sequence":  668,
         "name":  "김사랑",
         "schoolName":  "명덕여자중학교",
         "phoneLast4":  "3737",
         "seatCount":  4
     },
     {
-        "sequence":  589,
+        "sequence":  669,
         "name":  "이승빈",
         "schoolName":  "충암중학교",
         "phoneLast4":  "3628",
         "seatCount":  3
     },
     {
-        "sequence":  590,
+        "sequence":  670,
+        "name":  "정준모",
+        "schoolName":  "보인중학교",
+        "phoneLast4":  "8573",
+        "seatCount":  3
+    },
+    {
+        "sequence":  671,
+        "name":  "박시우",
+        "schoolName":  "선덕중학교",
+        "phoneLast4":  "1012",
+        "seatCount":  4
+    },
+    {
+        "sequence":  672,
+        "name":  "유진석",
+        "schoolName":  "이수중학교",
+        "phoneLast4":  "1627",
+        "seatCount":  3
+    },
+    {
+        "sequence":  673,
+        "name":  "주다혜",
+        "schoolName":  "봉원중학교",
+        "phoneLast4":  "9420",
+        "seatCount":  4
+    },
+    {
+        "sequence":  674,
+        "name":  "이해인",
+        "schoolName":  "동마중학교",
+        "phoneLast4":  "0839",
+        "seatCount":  4
+    },
+    {
+        "sequence":  675,
+        "name":  "윤병헌",
+        "schoolName":  "강현중학교",
+        "phoneLast4":  "9277",
+        "seatCount":  4
+    },
+    {
+        "sequence":  676,
+        "name":  "김지이",
+        "schoolName":  "중앙중학교",
+        "phoneLast4":  "4414",
+        "seatCount":  4
+    },
+    {
+        "sequence":  677,
+        "name":  "이택민",
+        "schoolName":  "영동중학교",
+        "phoneLast4":  "4190",
+        "seatCount":  4
+    },
+    {
+        "sequence":  678,
+        "name":  "정윤지",
+        "schoolName":  "옥정중학교",
+        "phoneLast4":  "3678",
+        "seatCount":  3
+    },
+    {
+        "sequence":  679,
+        "name":  "박주원",
+        "schoolName":  "염경중학교",
+        "phoneLast4":  "6939",
+        "seatCount":  2
+    },
+    {
+        "sequence":  680,
+        "name":  "조유은",
+        "schoolName":  "서문여자중학교",
+        "phoneLast4":  "7690",
+        "seatCount":  4
+    },
+    {
+        "sequence":  681,
+        "name":  "유채원",
+        "schoolName":  "항동중학교",
+        "phoneLast4":  "0683",
+        "seatCount":  2
+    },
+    {
+        "sequence":  682,
+        "name":  "김도윤",
+        "schoolName":  "연북중학교",
+        "phoneLast4":  "0432",
+        "seatCount":  3
+    },
+    {
+        "sequence":  683,
+        "name":  "박권",
+        "schoolName":  "서연중학교",
+        "phoneLast4":  "0972",
+        "seatCount":  2
+    },
+    {
+        "sequence":  684,
+        "name":  "이연재",
+        "schoolName":  "원묵중학교",
+        "phoneLast4":  "0029",
+        "seatCount":  2
+    },
+    {
+        "sequence":  685,
+        "name":  "박하은",
+        "schoolName":  "영동중학교",
+        "phoneLast4":  "8697",
+        "seatCount":  3
+    },
+    {
+        "sequence":  686,
+        "name":  "이승윤",
+        "schoolName":  "동북중학교",
+        "phoneLast4":  "2310",
+        "seatCount":  4
+    },
+    {
+        "sequence":  687,
+        "name":  "배지연",
+        "schoolName":  "이화여자대학교사범대학부속이화금란중학교",
+        "phoneLast4":  "8284",
+        "seatCount":  2
+    },
+    {
+        "sequence":  688,
         "name":  "신지수",
         "schoolName":  "성심여자중학교",
         "phoneLast4":  "3535",
         "seatCount":  4
     },
     {
-        "sequence":  591,
+        "sequence":  689,
         "name":  "신해아",
         "schoolName":  "용곡중학교",
         "phoneLast4":  "1230",
         "seatCount":  2
     },
     {
-        "sequence":  592,
+        "sequence":  690,
         "name":  "채호성",
         "schoolName":  "중평중학교",
         "phoneLast4":  "4192",
         "seatCount":  2
     },
     {
-        "sequence":  593,
+        "sequence":  691,
         "name":  "강규민",
         "schoolName":  "천왕중학교",
         "phoneLast4":  "0722",
         "seatCount":  3
     },
     {
-        "sequence":  594,
+        "sequence":  692,
         "name":  "채승연",
         "schoolName":  "중랑중학교",
         "phoneLast4":  "3393",
         "seatCount":  2
     },
     {
-        "sequence":  595,
+        "sequence":  693,
         "name":  "이시헌",
         "schoolName":  "상현중학교",
         "phoneLast4":  "4479",
         "seatCount":  2
     },
     {
-        "sequence":  596,
+        "sequence":  694,
         "name":  "이지윤",
         "schoolName":  "둔촌중학교",
         "phoneLast4":  "9477",
         "seatCount":  4
     },
     {
-        "sequence":  597,
+        "sequence":  695,
         "name":  "정유진",
         "schoolName":  "구룡중학교",
         "phoneLast4":  "7356",
         "seatCount":  4
     },
     {
-        "sequence":  598,
+        "sequence":  696,
         "name":  "권하준",
         "schoolName":  "숭인중학교",
         "phoneLast4":  "8420",
         "seatCount":  3
     },
     {
-        "sequence":  599,
+        "sequence":  697,
         "name":  "정주원",
         "schoolName":  "솔샘중학교",
         "phoneLast4":  "7202",
         "seatCount":  2
     },
     {
-        "sequence":  600,
+        "sequence":  698,
         "name":  "황예빈",
         "schoolName":  "명덕여자중학교",
         "phoneLast4":  "7983",
         "seatCount":  2
     },
     {
-        "sequence":  601,
+        "sequence":  699,
         "name":  "강나영",
         "schoolName":  "상현중학교",
         "phoneLast4":  "7964",
         "seatCount":  3
     },
     {
-        "sequence":  602,
+        "sequence":  700,
         "name":  "김민균",
         "schoolName":  "배재중학교",
         "phoneLast4":  "9260",
         "seatCount":  3
     },
     {
-        "sequence":  603,
+        "sequence":  701,
         "name":  "신유찬",
         "schoolName":  "세곡중학교",
         "phoneLast4":  "9214",
         "seatCount":  2
     },
     {
-        "sequence":  604,
+        "sequence":  702,
         "name":  "나지안",
         "schoolName":  "신길중학교",
         "phoneLast4":  "3780",
         "seatCount":  4
     },
     {
-        "sequence":  605,
+        "sequence":  703,
         "name":  "김주은",
         "schoolName":  "행당중학교",
         "phoneLast4":  "6515",
         "seatCount":  3
     },
     {
-        "sequence":  606,
+        "sequence":  704,
         "name":  "최유준",
         "schoolName":  "오남중학교",
         "phoneLast4":  "0730",
         "seatCount":  3
     },
     {
-        "sequence":  607,
+        "sequence":  705,
         "name":  "김지혁",
         "schoolName":  "광남중학교",
         "phoneLast4":  "9832",
         "seatCount":  2
     },
     {
-        "sequence":  608,
+        "sequence":  706,
         "name":  "양지윤",
         "schoolName":  "경희여자중학교",
         "phoneLast4":  "7927",
         "seatCount":  3
     },
     {
-        "sequence":  609,
+        "sequence":  707,
         "name":  "박찬형",
         "schoolName":  "신도림중학교",
         "phoneLast4":  "5104",
         "seatCount":  4
     },
     {
-        "sequence":  610,
+        "sequence":  708,
         "name":  "원우성",
         "schoolName":  "신일중학교",
         "phoneLast4":  "9870",
         "seatCount":  4
     },
     {
-        "sequence":  611,
+        "sequence":  709,
         "name":  "박시은",
         "schoolName":  "용곡중학교",
         "phoneLast4":  "4576",
         "seatCount":  2
     },
     {
-        "sequence":  612,
+        "sequence":  710,
         "name":  "김현중",
         "schoolName":  "역삼중학교",
         "phoneLast4":  "9949",
         "seatCount":  3
     },
     {
-        "sequence":  613,
+        "sequence":  711,
         "name":  "이의주",
         "schoolName":  "상명대학교사범대학부속여자중학교",
         "phoneLast4":  "3566",
         "seatCount":  2
     },
     {
-        "sequence":  614,
+        "sequence":  712,
         "name":  "신재훈",
         "schoolName":  "원묵중학교",
         "phoneLast4":  "4478",
         "seatCount":  2
     },
     {
-        "sequence":  615,
+        "sequence":  713,
         "name":  "김민서",
         "schoolName":  "강남중학교",
         "phoneLast4":  "0169",
         "seatCount":  2
     },
     {
-        "sequence":  616,
+        "sequence":  714,
         "name":  "조현준",
         "schoolName":  "상도중학교",
         "phoneLast4":  "4549",
         "seatCount":  2
     },
     {
-        "sequence":  617,
+        "sequence":  715,
         "name":  "허준혁",
         "schoolName":  "신일중학교",
         "phoneLast4":  "7142",
         "seatCount":  4
     },
     {
-        "sequence":  618,
+        "sequence":  716,
         "name":  "유재현",
         "schoolName":  "옥정중학교",
         "phoneLast4":  "0655",
         "seatCount":  4
     },
     {
-        "sequence":  619,
+        "sequence":  717,
         "name":  "이다은",
         "schoolName":  "한산중학교",
         "phoneLast4":  "1233",
         "seatCount":  3
     },
     {
-        "sequence":  620,
+        "sequence":  718,
         "name":  "우정안",
         "schoolName":  "덕원중학교",
         "phoneLast4":  "5869",
         "seatCount":  3
     },
     {
-        "sequence":  621,
+        "sequence":  719,
         "name":  "서연서",
         "schoolName":  "한천중학교",
         "phoneLast4":  "0076",
         "seatCount":  3
     },
     {
-        "sequence":  622,
+        "sequence":  720,
         "name":  "현아림",
         "schoolName":  "명덕여자중학교",
         "phoneLast4":  "6230",
         "seatCount":  2
     },
     {
-        "sequence":  623,
+        "sequence":  721,
         "name":  "이정우",
         "schoolName":  "상계중학교",
         "phoneLast4":  "0559",
         "seatCount":  2
     },
     {
-        "sequence":  624,
+        "sequence":  722,
         "name":  "김시율",
         "schoolName":  "고명중학교",
         "phoneLast4":  "8252",
         "seatCount":  2
     },
     {
-        "sequence":  625,
+        "sequence":  723,
         "name":  "류예나",
         "schoolName":  "풍납중학교",
         "phoneLast4":  "1491",
         "seatCount":  3
     },
     {
-        "sequence":  626,
+        "sequence":  724,
         "name":  "홍지이",
         "schoolName":  "정의여자중학교",
         "phoneLast4":  "0596",
         "seatCount":  3
     },
     {
-        "sequence":  627,
+        "sequence":  725,
         "name":  "이래음",
         "schoolName":  "염창중학교",
         "phoneLast4":  "2258",
         "seatCount":  2
     },
     {
-        "sequence":  628,
+        "sequence":  726,
         "name":  "김공율",
         "schoolName":  "성사중학교",
         "phoneLast4":  "1765",
         "seatCount":  4
     },
     {
-        "sequence":  629,
+        "sequence":  727,
         "name":  "박채완",
         "schoolName":  "대명중학교",
         "phoneLast4":  "7780",
         "seatCount":  3
     },
     {
-        "sequence":  630,
+        "sequence":  728,
         "name":  "서우진",
         "schoolName":  "언주중학교",
         "phoneLast4":  "2130",
         "seatCount":  2
     },
     {
-        "sequence":  631,
+        "sequence":  729,
         "name":  "홍지우",
         "schoolName":  "진선여자중학교",
         "phoneLast4":  "5425",
         "seatCount":  2
     },
     {
-        "sequence":  632,
+        "sequence":  730,
         "name":  "정다인",
         "schoolName":  "정의여자중학교",
         "phoneLast4":  "1004",
         "seatCount":  2
     },
     {
-        "sequence":  633,
+        "sequence":  731,
         "name":  "김래훈",
         "schoolName":  "대명중학교",
         "phoneLast4":  "4721",
         "seatCount":  4
     },
     {
-        "sequence":  634,
+        "sequence":  732,
         "name":  "천시우",
         "schoolName":  "남서울중학교",
         "phoneLast4":  "0201",
         "seatCount":  4
     },
     {
-        "sequence":  635,
+        "sequence":  733,
         "name":  "고승호",
         "schoolName":  "역삼중학교",
         "phoneLast4":  "8086",
         "seatCount":  2
     },
     {
-        "sequence":  636,
+        "sequence":  734,
         "name":  "김지은",
         "schoolName":  "한국육영학교",
         "phoneLast4":  "0469",
         "seatCount":  2
     },
     {
-        "sequence":  637,
+        "sequence":  735,
         "name":  "박소현",
         "schoolName":  "영동중학교",
         "phoneLast4":  "0131",
         "seatCount":  3
     },
     {
-        "sequence":  638,
+        "sequence":  736,
         "name":  "김문호",
         "schoolName":  "청운중학교",
         "phoneLast4":  "7023",
         "seatCount":  3
     },
     {
-        "sequence":  639,
+        "sequence":  737,
         "name":  "이민서",
         "schoolName":  "당산중학교",
         "phoneLast4":  "2319",
         "seatCount":  2
     },
     {
-        "sequence":  640,
+        "sequence":  738,
         "name":  "정서준",
         "schoolName":  "이수중학교",
         "phoneLast4":  "7779",
         "seatCount":  2
     },
     {
-        "sequence":  641,
+        "sequence":  739,
         "name":  "조유진",
         "schoolName":  "광남중학교",
         "phoneLast4":  "7595",
         "seatCount":  5
     },
     {
-        "sequence":  642,
+        "sequence":  740,
+        "name":  "박현석",
+        "schoolName":  "오남중학교",
+        "phoneLast4":  "2799",
+        "seatCount":  2
+    },
+    {
+        "sequence":  741,
+        "name":  "김윤후",
+        "schoolName":  "신관중학교",
+        "phoneLast4":  "9677",
+        "seatCount":  4
+    },
+    {
+        "sequence":  742,
+        "name":  "주시원",
+        "schoolName":  "단국대학교사범대학부속중학교",
+        "phoneLast4":  "4865",
+        "seatCount":  3
+    },
+    {
+        "sequence":  743,
         "name":  "김혜성",
         "schoolName":  "이화여자고등학교",
         "phoneLast4":  "1378",
         "seatCount":  3
     },
     {
-        "sequence":  643,
+        "sequence":  744,
         "name":  "하재윤",
         "schoolName":  "선일여자고등학교",
         "phoneLast4":  "9271",
         "seatCount":  2
     },
     {
-        "sequence":  644,
+        "sequence":  745,
         "name":  "이지원",
         "schoolName":  "서울웹툰애니고등학교",
         "phoneLast4":  "9398",
         "seatCount":  2
     },
     {
-        "sequence":  645,
+        "sequence":  746,
         "name":  "김은우",
         "schoolName":  "서울웹툰애니메이션고등학교",
         "phoneLast4":  "7421",
         "seatCount":  2
     },
     {
-        "sequence":  646,
+        "sequence":  747,
         "name":  "김명진",
         "schoolName":  "고척고등학교",
         "phoneLast4":  "8610",
         "seatCount":  2
     },
     {
-        "sequence":  647,
+        "sequence":  748,
         "name":  "엄유경",
         "schoolName":  "이화여대병설미디어고등학교",
         "phoneLast4":  "4600",
         "seatCount":  2
     },
     {
-        "sequence":  648,
+        "sequence":  749,
         "name":  "어성윤",
         "schoolName":  "성동고등학교",
         "phoneLast4":  "0410",
         "seatCount":  3
     },
     {
-        "sequence":  649,
+        "sequence":  750,
         "name":  "고재원",
         "schoolName":  "경복고등학교",
         "phoneLast4":  "0325",
         "seatCount":  3
     },
     {
-        "sequence":  650,
+        "sequence":  751,
         "name":  "박성욱",
         "schoolName":  "한영고등학교",
         "phoneLast4":  "3970",
         "seatCount":  4
     },
     {
-        "sequence":  651,
+        "sequence":  752,
         "name":  "노하늘",
         "schoolName":  "문정고등학교",
         "phoneLast4":  "6505",
         "seatCount":  2
     },
     {
-        "sequence":  652,
+        "sequence":  753,
         "name":  "노하음",
         "schoolName":  "가락고등학교",
         "phoneLast4":  "1756",
         "seatCount":  2
     },
     {
-        "sequence":  653,
+        "sequence":  754,
         "name":  "배현진",
         "schoolName":  "경기여자고등학교",
         "phoneLast4":  "2046",
         "seatCount":  2
     },
     {
-        "sequence":  654,
+        "sequence":  755,
         "name":  "김태윤",
         "schoolName":  "단국대학교사범대학부속고등학교",
         "phoneLast4":  "3097",
         "seatCount":  3
     },
     {
-        "sequence":  655,
+        "sequence":  756,
         "name":  "박진성",
         "schoolName":  "청원고등학교",
         "phoneLast4":  "5385",
         "seatCount":  3
     },
     {
-        "sequence":  656,
+        "sequence":  757,
         "name":  "배은샘",
         "schoolName":  "은평대영학교",
         "phoneLast4":  "5150",
         "seatCount":  2
     },
     {
-        "sequence":  657,
+        "sequence":  758,
         "name":  "황창일",
         "schoolName":  "중앙고등학교",
         "phoneLast4":  "3580",
         "seatCount":  2
     },
     {
-        "sequence":  658,
+        "sequence":  759,
         "name":  "이승훈",
         "schoolName":  "숭문고등학교",
         "phoneLast4":  "3332",
         "seatCount":  4
     },
     {
-        "sequence":  659,
+        "sequence":  760,
         "name":  "지송현",
         "schoolName":  "동명여자고등학교",
         "phoneLast4":  "3593",
         "seatCount":  3
     },
     {
-        "sequence":  660,
+        "sequence":  761,
         "name":  "정서하",
         "schoolName":  "홍익대학교사범대학부속여자고등학교",
         "phoneLast4":  "3865",
         "seatCount":  2
     },
     {
-        "sequence":  661,
+        "sequence":  762,
         "name":  "조민경",
         "schoolName":  "청원여자고등학교",
         "phoneLast4":  "7716",
         "seatCount":  3
     },
     {
-        "sequence":  662,
+        "sequence":  763,
         "name":  "배이현",
         "schoolName":  "신목고등학교",
         "phoneLast4":  "1029",
         "seatCount":  4
     },
     {
-        "sequence":  663,
+        "sequence":  764,
         "name":  "박세현",
         "schoolName":  "광영여자고등학교",
         "phoneLast4":  "3955",
         "seatCount":  2
     },
     {
-        "sequence":  664,
+        "sequence":  765,
         "name":  "김강희",
         "schoolName":  "영등포여자고등학교",
         "phoneLast4":  "7193",
         "seatCount":  2
     },
     {
-        "sequence":  665,
+        "sequence":  766,
         "name":  "박규비",
         "schoolName":  "영상고등학교",
         "phoneLast4":  "2600",
         "seatCount":  3
     },
     {
-        "sequence":  666,
+        "sequence":  767,
         "name":  "구다은",
         "schoolName":  "성신여자고등학교",
         "phoneLast4":  "7472",
         "seatCount":  2
     },
     {
-        "sequence":  667,
+        "sequence":  768,
         "name":  "전주현",
         "schoolName":  "선정고등학교",
         "phoneLast4":  "1470",
         "seatCount":  3
     },
     {
-        "sequence":  668,
+        "sequence":  769,
         "name":  "조정원",
         "schoolName":  "압구정고등학교",
         "phoneLast4":  "3225",
         "seatCount":  2
     },
     {
-        "sequence":  669,
+        "sequence":  770,
         "name":  "최은찬",
         "schoolName":  "경문고등학교",
-        "phoneLast4":  "4119",
+        "phoneLast4":  "4199",
         "seatCount":  3
     },
     {
-        "sequence":  670,
+        "sequence":  771,
         "name":  "김홍준",
         "schoolName":  "경복비즈니즈고등학교",
         "phoneLast4":  "7409",
         "seatCount":  2
     },
     {
-        "sequence":  671,
+        "sequence":  772,
         "name":  "안석윤",
         "schoolName":  "이화여자대학병설미디어고등학교",
         "phoneLast4":  "5851",
         "seatCount":  2
     },
     {
-        "sequence":  672,
+        "sequence":  773,
         "name":  "송승민",
         "schoolName":  "건국대학교사범대학부속고등학교",
         "phoneLast4":  "1816",
         "seatCount":  4
     },
     {
-        "sequence":  673,
+        "sequence":  774,
         "name":  "고다희",
         "schoolName":  "서울금융고등학교",
         "phoneLast4":  "8052",
         "seatCount":  2
     },
     {
-        "sequence":  674,
+        "sequence":  775,
         "name":  "이현수",
         "schoolName":  "여의도고등학교",
         "phoneLast4":  "5362",
         "seatCount":  5
     },
     {
-        "sequence":  675,
+        "sequence":  776,
         "name":  "이하은",
         "schoolName":  "선사고등학교",
         "phoneLast4":  "3581",
         "seatCount":  3
     },
     {
-        "sequence":  676,
+        "sequence":  777,
         "name":  "유나연",
         "schoolName":  "서울디자인고등학교",
         "phoneLast4":  "7242",
         "seatCount":  2
     },
     {
-        "sequence":  677,
+        "sequence":  778,
         "name":  "심정원",
         "schoolName":  "자양고등학교",
         "phoneLast4":  "3108",
         "seatCount":  3
     },
     {
-        "sequence":  678,
+        "sequence":  779,
         "name":  "장우찬",
         "schoolName":  "세명컴퓨터고등학교",
         "phoneLast4":  "6186",
         "seatCount":  5
     },
     {
-        "sequence":  679,
+        "sequence":  780,
         "name":  "양해의",
         "schoolName":  "서울디자인고등학교",
         "phoneLast4":  "6609",
         "seatCount":  2
     },
     {
-        "sequence":  680,
+        "sequence":  781,
         "name":  "김유이",
         "schoolName":  "미림여자고등학교",
         "phoneLast4":  "4216",
         "seatCount":  3
     },
     {
-        "sequence":  681,
+        "sequence":  782,
         "name":  "박성일",
         "schoolName":  "방산고등학교",
         "phoneLast4":  "7561",
         "seatCount":  3
     },
     {
-        "sequence":  682,
+        "sequence":  783,
         "name":  "손진유",
         "schoolName":  "강동고등학교",
         "phoneLast4":  "0866",
         "seatCount":  4
     },
     {
-        "sequence":  683,
+        "sequence":  784,
         "name":  "이일권",
         "schoolName":  "강서고등학교",
         "phoneLast4":  "7813",
         "seatCount":  2
     },
     {
-        "sequence":  684,
+        "sequence":  785,
         "name":  "박윤서",
         "schoolName":  "덕원여자고등학교",
         "phoneLast4":  "7023",
         "seatCount":  2
     },
     {
-        "sequence":  685,
+        "sequence":  786,
         "name":  "민소영",
         "schoolName":  "원묵고등학교",
         "phoneLast4":  "6473",
         "seatCount":  2
     },
     {
-        "sequence":  686,
+        "sequence":  787,
         "name":  "김윤호",
         "schoolName":  "양천고등학교",
         "phoneLast4":  "4205",
         "seatCount":  3
     },
     {
-        "sequence":  687,
+        "sequence":  788,
         "name":  "이은지",
         "schoolName":  "동덕여자고등학교",
         "phoneLast4":  "5097",
         "seatCount":  2
     },
     {
-        "sequence":  688,
+        "sequence":  789,
         "name":  "김성현",
         "schoolName":  "화곡고등학교",
         "phoneLast4":  "9918",
         "seatCount":  2
     },
     {
-        "sequence":  689,
+        "sequence":  790,
         "name":  "박지현",
         "schoolName":  "서울의료보건고등학교",
         "phoneLast4":  "8776",
         "seatCount":  2
     },
     {
-        "sequence":  690,
+        "sequence":  791,
         "name":  "이예린",
         "schoolName":  "신도고등학교",
         "phoneLast4":  "0210",
         "seatCount":  5
     },
     {
-        "sequence":  691,
+        "sequence":  792,
         "name":  "신민경",
         "schoolName":  "수명고등학교",
         "phoneLast4":  "2975",
         "seatCount":  4
     },
     {
-        "sequence":  692,
+        "sequence":  793,
         "name":  "김소윤",
         "schoolName":  "미림여자고등학교",
         "phoneLast4":  "1292",
         "seatCount":  2
     },
     {
-        "sequence":  693,
+        "sequence":  794,
         "name":  "구현민",
         "schoolName":  "서울로봇고등학교",
         "phoneLast4":  "0216",
         "seatCount":  2
     },
     {
-        "sequence":  694,
+        "sequence":  795,
         "name":  "이채안",
         "schoolName":  "경기상업고등학교",
         "phoneLast4":  "4795",
         "seatCount":  2
     },
     {
-        "sequence":  695,
+        "sequence":  796,
         "name":  "안재희",
         "schoolName":  "경일고등학교",
         "phoneLast4":  "6743",
         "seatCount":  3
     },
     {
-        "sequence":  696,
+        "sequence":  797,
         "name":  "이채원",
         "schoolName":  "청담고둥학교",
         "phoneLast4":  "2347",
         "seatCount":  2
     },
     {
-        "sequence":  697,
+        "sequence":  798,
         "name":  "손찬우",
         "schoolName":  "경성고등학교",
         "phoneLast4":  "7518",
         "seatCount":  2
     },
     {
-        "sequence":  698,
+        "sequence":  799,
         "name":  "신예원",
         "schoolName":  "상명대학교사범대학부속여자고등학교",
         "phoneLast4":  "7512",
         "seatCount":  2
     },
     {
-        "sequence":  699,
+        "sequence":  800,
         "name":  "김보우",
         "schoolName":  "광신고등학교",
         "phoneLast4":  "8593",
         "seatCount":  2
     },
     {
-        "sequence":  700,
+        "sequence":  801,
         "name":  "홍준영",
         "schoolName":  "숭문고등학교",
         "phoneLast4":  "2431",
         "seatCount":  3
     },
     {
-        "sequence":  701,
+        "sequence":  802,
         "name":  "임승건",
         "schoolName":  "청원고등학교",
         "phoneLast4":  "3163",
         "seatCount":  2
     },
     {
-        "sequence":  702,
+        "sequence":  803,
         "name":  "윤지우",
         "schoolName":  "이화여자대학교사범대학부속이화금란고등학교",
         "phoneLast4":  "0897",
         "seatCount":  2
     },
     {
-        "sequence":  703,
+        "sequence":  804,
         "name":  "강미애",
         "schoolName":  "서울여자고등학교",
         "phoneLast4":  "8733",
         "seatCount":  3
     },
     {
-        "sequence":  704,
+        "sequence":  805,
         "name":  "이혜서",
         "schoolName":  "서울웹툰애니메이션고등학교",
         "phoneLast4":  "2023",
         "seatCount":  3
     },
     {
-        "sequence":  705,
+        "sequence":  806,
         "name":  "홍단우",
         "schoolName":  "동작고등학교",
         "phoneLast4":  "0522",
         "seatCount":  4
     },
     {
-        "sequence":  706,
+        "sequence":  807,
         "name":  "박재인",
         "schoolName":  "관악고등학교",
         "phoneLast4":  "8458",
         "seatCount":  2
     },
     {
-        "sequence":  707,
+        "sequence":  808,
         "name":  "황선경",
         "schoolName":  "동작고등학교",
         "phoneLast4":  "2963",
         "seatCount":  2
     },
     {
-        "sequence":  708,
+        "sequence":  809,
         "name":  "신재이",
         "schoolName":  "경복고등학교",
         "phoneLast4":  "8060",
         "seatCount":  3
     },
     {
-        "sequence":  709,
+        "sequence":  810,
         "name":  "이은호",
         "schoolName":  "대동세무고등학교",
         "phoneLast4":  "1673",
         "seatCount":  4
     },
     {
-        "sequence":  710,
+        "sequence":  811,
         "name":  "김완",
         "schoolName":  "서울고등학교",
         "phoneLast4":  "1997",
         "seatCount":  3
     },
     {
-        "sequence":  711,
+        "sequence":  812,
         "name":  "김지인",
         "schoolName":  "계성고등학교",
         "phoneLast4":  "1803",
         "seatCount":  2
     },
     {
-        "sequence":  712,
+        "sequence":  813,
         "name":  "한설아",
         "schoolName":  "서울둔촌초등학교",
         "phoneLast4":  "1814",

@@ -118,8 +118,11 @@ export async function getReservationGateSettings() {
   return callFunction<undefined, ReservationGateSettings>("getReservationGateSettings");
 }
 
-export async function adminUpdateReservationGate(input: { opensAt?: string | null }) {
-  return callFunction<{ opensAt?: string | null }, ReservationGateSettings>("adminUpdateReservationGate", input);
+export async function adminUpdateReservationGate(input: { opensAt?: string | null; closesAt?: string | null }) {
+  return callFunction<{ opensAt?: string | null; closesAt?: string | null }, ReservationGateSettings>(
+    "adminUpdateReservationGate",
+    input
+  );
 }
 
 export async function changeReservationSeat(input: LookupInput & { newSeatIds: string[] }) {

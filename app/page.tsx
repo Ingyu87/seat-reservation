@@ -38,6 +38,23 @@ function formatKoreanDateTime(value?: string | null) {
   });
 }
 
+function getReservationClosedMessage(gate: ReservationGateSettings | null) {
+  if (!gate) return "";
+  if (gate.phase === "ENDED") {
+    return `예약 가능 시간이 ${formatKoreanDateTime(gate.closesAt)}에 종료되었습니다.`;
+  }
+  if (gate.opensAt && gate.closesAt) {
+    return `예약은 ${formatKoreanDateTime(gate.opensAt)}부터 ${formatKoreanDateTime(gate.closesAt)}까지만 가능합니다.`;
+  }
+  if (gate.opensAt) {
+    return `예약은 ${formatKoreanDateTime(gate.opensAt)}부터 가능합니다.`;
+  }
+  if (gate.closesAt) {
+    return `예약은 ${formatKoreanDateTime(gate.closesAt)}까지만 가능합니다.`;
+  }
+  return "현재 예약할 수 없습니다.";
+}
+
 export default function HomePage() {
   const [data, setData] = useState<SeatMapResponse | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -120,6 +137,7 @@ export default function HomePage() {
   );
   const available = Math.max(0, total - reserved - disabledCount);
   const reservationClosed = Boolean(gate && !gate.isOpen);
+  const reservationClosedMessage = getReservationClosedMessage(gate);
 
   function validateForm() {
     if (!form.name.trim()) return "학생 이름을 입력해 주세요.";
@@ -150,7 +168,7 @@ export default function HomePage() {
     setCompleted(false);
     if (validation) return;
     if (reservationClosed) {
-      setError(`예약은 ${formatKoreanDateTime(gate?.opensAt)}부터 가능합니다.`);
+      setError(reservationClosedMessage);
       return;
     }
 
@@ -283,9 +301,9 @@ export default function HomePage() {
 
       {step === "form" && reservationClosed && (
         <section className="panel reservation-form">
-          <h1>예약 오픈 예정</h1>
-          <p className="hint">아직 좌석 예약이 열리지 않았습니다.</p>
-          <div className="notice">예약은 {formatKoreanDateTime(gate?.opensAt)}부터 가능합니다.</div>
+          <h1>{gate?.phase === "ENDED" ? "예약 종료" : "예약 오픈 예정"}</h1>
+          <p className="hint">현재 좌석 예약을 진행할 수 없습니다.</p>
+          <div className="notice">{reservationClosedMessage}</div>
           <Link className="btn btn-secondary" href="/lookup">
             예약 조회
           </Link>

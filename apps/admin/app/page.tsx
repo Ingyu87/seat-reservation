@@ -62,6 +62,7 @@ export default function AdminPage() {
   const [seatMapError, setSeatMapError] = useState("");
   const [gate, setGate] = useState<ReservationGateSettings | null>(null);
   const [gateForm, setGateForm] = useState("");
+  const [gateClosesAtForm, setGateClosesAtForm] = useState("");
   const [gateSaving, setGateSaving] = useState(false);
 
   const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
@@ -102,6 +103,7 @@ export default function AdminPage() {
       const result = await getReservationGateSettings();
       setGate(result);
       setGateForm(toDatetimeLocalValue(result.opensAt));
+      setGateClosesAtForm(toDatetimeLocalValue(result.closesAt));
     } catch {
       setError("예약 오픈 설정을 불러오지 못했습니다.");
     }
@@ -188,7 +190,7 @@ export default function AdminPage() {
     }
   }
 
-  async function saveReservationGate(opensAtValue = gateForm) {
+  async function saveReservationGate(opensAtValue = gateForm, closesAtValue = gateClosesAtForm) {
     setError("");
     setMessage("");
     setGateSaving(true);
@@ -199,10 +201,21 @@ export default function AdminPage() {
       }
 
       const opensAt = opensAtValue ? new Date(opensAtValue).toISOString() : null;
-      const result = await adminUpdateReservationGate({ opensAt });
+      const closesAt = closesAtValue ? new Date(closesAtValue).toISOString() : null;
+      if (opensAt && closesAt && new Date(closesAt).getTime() <= new Date(opensAt).getTime()) {
+        setError("예약 종료 시간은 시작 시간보다 늦어야 합니다.");
+        return;
+      }
+
+      const result = await adminUpdateReservationGate({ opensAt, closesAt });
       setGate(result);
       setGateForm(toDatetimeLocalValue(result.opensAt));
-      setMessage(result.isOpen ? "예약을 즉시 오픈했습니다." : `예약 오픈 시간을 ${formatKoreanDateTime(result.opensAt)}로 저장했습니다.`);
+      setGateClosesAtForm(toDatetimeLocalValue(result.closesAt));
+      setMessage(
+        result.isOpen
+          ? "예약 가능 시간이 저장되었고 현재 오픈 상태입니다."
+          : "예약 가능 시간이 저장되었습니다."
+      );
     } catch (err) {
       setError(getCallableErrorMessage(err, "예약 오픈 설정 저장에 실패했습니다."));
     } finally {
@@ -211,7 +224,7 @@ export default function AdminPage() {
   }
 
   function openReservationNow() {
-    saveReservationGate("").catch(() => undefined);
+    saveReservationGate("", "").catch(() => undefined);
   }
 
   async function removeReservation(item: AdminReservation) {
@@ -539,16 +552,20 @@ export default function AdminPage() {
       {activeTab === "schedule" && (
         <section className="panel">
           <h1>예약 오픈 설정</h1>
-          <p className="hint">지정한 날짜와 시간이 되기 전에는 사용자 예약 화면과 예약 함수가 닫힙니다.</p>
+          <p className="hint">지정한 시작 시간부터 종료 시간 전까지만 사용자 예약 화면과 예약 함수가 열립니다.</p>
 
           <div className="summary seat-status-summary">
             <div className="summary-card">
               <span>현재 상태</span>
-              <strong>{gate ? (gate.isOpen ? "오픈" : "대기") : "-"}</strong>
+              <strong>{gate ? (gate.phase === "OPEN" ? "오픈" : gate.phase === "ENDED" ? "종료" : "대기") : "-"}</strong>
             </div>
             <div className="summary-card">
               <span>오픈 시간</span>
               <strong>{gate ? formatKoreanDateTime(gate.opensAt) : "-"}</strong>
+            </div>
+            <div className="summary-card">
+              <span>종료 시간</span>
+              <strong>{gate ? formatKoreanDateTime(gate.closesAt) : "-"}</strong>
             </div>
             <div className="summary-card">
               <span>저장 일시</span>
@@ -557,14 +574,25 @@ export default function AdminPage() {
           </div>
 
           <div className="field" style={{ marginTop: 16 }}>
-            <label htmlFor="reservation-opens-at">예약 오픈 날짜/시간</label>
+            <label htmlFor="reservation-opens-at">예약 시작 날짜/시간</label>
             <input
               id="reservation-opens-at"
               type="datetime-local"
               value={gateForm}
               onChange={(e) => setGateForm(e.target.value)}
             />
-            <span className="hint">비워서 저장하면 즉시 오픈 상태가 됩니다.</span>
+            <span className="hint">비워두면 저장 즉시 시작된 것으로 처리합니다.</span>
+          </div>
+
+          <div className="field">
+            <label htmlFor="reservation-closes-at">예약 종료 날짜/시간</label>
+            <input
+              id="reservation-closes-at"
+              type="datetime-local"
+              value={gateClosesAtForm}
+              onChange={(e) => setGateClosesAtForm(e.target.value)}
+            />
+            <span className="hint">비워두면 종료 시간 없이 계속 오픈됩니다.</span>
           </div>
 
           {error && <div className="error">{error}</div>}
@@ -572,7 +600,7 @@ export default function AdminPage() {
 
           <div className="button-row">
             <button className="btn btn-primary" disabled={gateSaving} type="button" onClick={() => saveReservationGate()}>
-              {gateSaving ? "저장 중" : "오픈 시간 저장"}
+              {gateSaving ? "저장 중" : "예약 가능 시간 저장"}
             </button>
             <button className="btn btn-secondary" disabled={gateSaving} type="button" onClick={openReservationNow}>
               즉시 오픈

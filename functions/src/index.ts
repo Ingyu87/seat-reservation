@@ -215,15 +215,15 @@ function toDateString(value: unknown) {
   return undefined;
 }
 
-function parseOptionalOpensAt(value: unknown) {
+function parseOptionalGateDate(value: unknown, field: string) {
   if (value === null || value === undefined || value === "") return null;
   if (typeof value !== "string") {
-    throw new HttpsError("invalid-argument", "opensAt must be an ISO date string or null.");
+    throw new HttpsError("invalid-argument", `${field} must be an ISO date string or null.`);
   }
 
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
-    throw new HttpsError("invalid-argument", "opensAt must be a valid date.");
+    throw new HttpsError("invalid-argument", `${field} must be a valid date.`);
   }
 
   return Timestamp.fromDate(date);
@@ -232,10 +232,16 @@ function parseOptionalOpensAt(value: unknown) {
 function mapReservationGate(data: FirebaseFirestore.DocumentData | undefined) {
   const now = new Date();
   const opensAt = data?.opensAt instanceof Timestamp ? data.opensAt.toDate() : null;
+  const closesAt = data?.closesAt instanceof Timestamp ? data.closesAt.toDate() : null;
+  const hasStarted = !opensAt || opensAt.getTime() <= now.getTime();
+  const hasNotEnded = !closesAt || now.getTime() < closesAt.getTime();
+  const phase = !hasStarted ? "BEFORE_OPEN" : !hasNotEnded ? "ENDED" : "OPEN";
 
   return {
     opensAt: opensAt ? opensAt.toISOString() : null,
-    isOpen: !opensAt || opensAt.getTime() <= now.getTime(),
+    closesAt: closesAt ? closesAt.toISOString() : null,
+    isOpen: phase === "OPEN",
+    phase,
     now: now.toISOString(),
     updatedAt: toDateString(data?.updatedAt)
   };
@@ -249,7 +255,11 @@ async function getReservationGate() {
 async function assertReservationOpen() {
   const gate = await getReservationGate();
   if (!gate.isOpen) {
-    throw new HttpsError("failed-precondition", `Reservations open at ${gate.opensAt}.`);
+    const message =
+      gate.phase === "ENDED"
+        ? `Reservations closed at ${gate.closesAt}.`
+        : `Reservations open at ${gate.opensAt}.`;
+    throw new HttpsError("failed-precondition", message);
   }
 }
 
@@ -908,11 +918,17 @@ export const adminResetAllReservations = onCall(callableOptions, async (request)
 export const adminUpdateReservationGate = onCall(callableOptions, async (request) => {
   await assertAdmin(request.auth?.uid, adminFlag(request));
   const data = request.data as Record<string, unknown>;
-  const opensAt = parseOptionalOpensAt(data.opensAt);
+  const opensAt = parseOptionalGateDate(data.opensAt, "opensAt");
+  const closesAt = parseOptionalGateDate(data.closesAt, "closesAt");
+
+  if (opensAt && closesAt && closesAt.toMillis() <= opensAt.toMillis()) {
+    throw new HttpsError("invalid-argument", "closesAt must be later than opensAt.");
+  }
 
   await RESERVATION_GATE_REF.set(
     {
       opensAt,
+      closesAt,
       updatedAt: FieldValue.serverTimestamp()
     },
     { merge: true }

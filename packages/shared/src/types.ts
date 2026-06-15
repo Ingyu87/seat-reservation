@@ -46,7 +46,9 @@ export type ReservationEligibility = {
 
 export type ReservationGateSettings = {
   opensAt?: string | null;
+  closesAt?: string | null;
   isOpen: boolean;
+  phase: "BEFORE_OPEN" | "OPEN" | "ENDED";
   now: string;
   updatedAt?: string;
 };

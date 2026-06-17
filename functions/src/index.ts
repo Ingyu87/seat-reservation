@@ -25,7 +25,7 @@ const publicCallableOptions = {
   minInstances: 2,
   maxInstances: 20
 } as const;
-const MAX_SEATS_PER_RESERVATION = 5;
+const MAX_SEATS_PER_RESERVATION = 6;
 const DISABLED_SEAT_ID_SET = new Set<string>(DISABLED_SEAT_IDS);
 
 function assertSeatsSelectable(seatIds: string[]) {

@@ -14,7 +14,7 @@ export function isSeatDisabled(seatId: string) {
   return DISABLED_SEAT_ID_SET.has(seatId);
 }
 
-export const MAX_SEATS_PER_RESERVATION = 5;
+export const MAX_SEATS_PER_RESERVATION = 6;
 
 export const FLOORS = [
   { id: "F1", label: "1층" },
